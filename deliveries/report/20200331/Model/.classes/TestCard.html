@@ -1,0 +1,139 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TestCard</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TestCard (Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TestCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (4/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    78,6%
+  </span>
+  <span class="absValue">
+    (11/ 14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;public class TestCard extends GodCard {
+<i>4</i>&nbsp;    private String name;
+<i>5</i>&nbsp;    private String power;
+<i>6</i>&nbsp;    private String activePhase;
+<i>7</i>&nbsp;    private boolean chosen;
+<i>8</i>&nbsp;    private boolean picked;
+<i>9</i>&nbsp;
+<b class="fc"><i>10</i>&nbsp;    public TestCard(String name){</b>
+<b class="fc"><i>11</i>&nbsp;        this.name = name;</b>
+<b class="fc"><i>12</i>&nbsp;        this.power = null;</b>
+<b class="fc"><i>13</i>&nbsp;        this.activePhase = null;</b>
+<b class="fc"><i>14</i>&nbsp;        this.chosen = false;</b>
+<b class="fc"><i>15</i>&nbsp;        this.picked = false;</b>
+<b class="fc"><i>16</i>&nbsp;    }</b>
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * Setter of Chosen
+<i>19</i>&nbsp;     * @param state value to assign
+<i>20</i>&nbsp;     */
+<i>21</i>&nbsp;    public void setChosen(boolean state) {
+<b class="fc"><i>22</i>&nbsp;        this.chosen = state;</b>
+<b class="fc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Getter of chosen
+<i>27</i>&nbsp;     * @return true or false if it has been chosen or not
+<i>28</i>&nbsp;     */
+<i>29</i>&nbsp;    public boolean isChosen(){
+<b class="fc"><i>30</i>&nbsp;        return chosen;</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * Setter of Picked
+<i>35</i>&nbsp;     * @param state value to assign
+<i>36</i>&nbsp;     */
+<i>37</i>&nbsp;    public void setPicked(boolean state){
+<b class="nc"><i>38</i>&nbsp;        this.picked = state;</b>
+<b class="nc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * Getter of picked
+<i>43</i>&nbsp;     * @return true or false if it has been picked or not
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    public boolean isPicked(){
+<b class="nc"><i>46</i>&nbsp;        return picked;</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    /**
+<i>50</i>&nbsp;     * Getter of name
+<i>51</i>&nbsp;     * @return name of the card
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    public String getName(){
+<b class="fc"><i>54</i>&nbsp;        return name;</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-03-31 11:01</div>
+</div>
+</body>
+</html>

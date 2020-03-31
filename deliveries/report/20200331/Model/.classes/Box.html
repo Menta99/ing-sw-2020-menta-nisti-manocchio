@@ -1,0 +1,218 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Box</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Box (Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Box</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90,9%
+  </span>
+  <span class="absValue">
+    (10/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,9%
+  </span>
+  <span class="absValue">
+    (31/ 33)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.ArrayList;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/** Represents the box game */
+<i>6</i>&nbsp;public class Box {
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;    private int posX ;
+<i>9</i>&nbsp;    private int posY ;
+<i>10</i>&nbsp;    private ArrayList&lt;Pawn&gt; structure;
+<i>11</i>&nbsp;    private boolean border;
+<i>12</i>&nbsp;    private boolean occupied;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    /**
+<i>15</i>&nbsp;     * Constructor of Box Class
+<i>16</i>&nbsp;     * @param x the x coordinate
+<i>17</i>&nbsp;     * @param y the y coordinate
+<i>18</i>&nbsp;     */
+<b class="fc"><i>19</i>&nbsp;    public Box(int x, int y){</b>
+<b class="fc"><i>20</i>&nbsp;        this.posX = x;</b>
+<b class="fc"><i>21</i>&nbsp;        this.posY = y;</b>
+<b class="fc"><i>22</i>&nbsp;        this.structure = new ArrayList&lt;Pawn&gt;();</b>
+<b class="fc"><i>23</i>&nbsp;        this.structure.add(new Building(PawnType.GROUND_LEVEL, this));</b>
+<b class="fc"><i>24</i>&nbsp;        if((x == 0)||(x == 4)||(y == 0)||(y == 4)){</b>
+<b class="fc"><i>25</i>&nbsp;            this.border = true;</b>
+<i>26</i>&nbsp;        }
+<i>27</i>&nbsp;        else{
+<b class="fc"><i>28</i>&nbsp;            this.border = false;</b>
+<i>29</i>&nbsp;        }
+<b class="fc"><i>30</i>&nbsp;        this.occupied = false;</b>
+<b class="fc"><i>31</i>&nbsp;    }</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * Getter of posX
+<i>35</i>&nbsp;     * @return posX the x coordinate
+<i>36</i>&nbsp;     */
+<i>37</i>&nbsp;    public int getPosX() {
+<b class="fc"><i>38</i>&nbsp;        return posX;</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * Getter of posY
+<i>43</i>&nbsp;     * @return posY the y coordinate
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    public int getPosY() {
+<b class="fc"><i>46</i>&nbsp;        return posY;</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    /**
+<i>50</i>&nbsp;     * Getter of structure
+<i>51</i>&nbsp;     * @return structure the Pawn Array on the Box
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    public ArrayList&lt;Pawn&gt; getStructure() {
+<b class="fc"><i>54</i>&nbsp;        return structure;</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /**
+<i>58</i>&nbsp;     * Getter of occupied
+<i>59</i>&nbsp;     * @return occupied the boolean that indicates if there is a Worker on the Box
+<i>60</i>&nbsp;     */
+<i>61</i>&nbsp;    public boolean isOccupied() {
+<b class="fc"><i>62</i>&nbsp;        return occupied;</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    /**
+<i>66</i>&nbsp;     * Getter of border
+<i>67</i>&nbsp;     * @return border the boolean that indicated if the Box is a Border-Box
+<i>68</i>&nbsp;     */
+<i>69</i>&nbsp;    public boolean isBorder() {
+<b class="nc"><i>70</i>&nbsp;        return border;</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /**
+<i>74</i>&nbsp;     * Getter of the upper Pawn on this Box
+<i>75</i>&nbsp;     * @return PawnType the upper Pawn on this Box
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;    public PawnType getUpperLevel(){
+<b class="fc"><i>78</i>&nbsp;        return(structure.get(structure.size()-1).getType());</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    /**
+<i>82</i>&nbsp;     * Says if you can Move or Build on this Box
+<i>83</i>&nbsp;     * @return true or false
+<i>84</i>&nbsp;     */
+<i>85</i>&nbsp;    public boolean Playable(){
+<b class="fc"><i>86</i>&nbsp;          if((getUpperLevel() == PawnType.DOME ) || (getUpperLevel() == PawnType.WORKER))</b>
+<b class="fc"><i>87</i>&nbsp;              return false;</b>
+<i>88</i>&nbsp;          else
+<b class="fc"><i>89</i>&nbsp;              return true;</b>
+<i>90</i>&nbsp;    }
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    /**
+<i>93</i>&nbsp;     * Find the neighboring boxes
+<i>94</i>&nbsp;     * @return an ArrayList of the neighboring boxes of this Box
+<i>95</i>&nbsp;     */
+<i>96</i>&nbsp;    public ArrayList&lt;Box&gt; BorderBoxes(){
+<b class="fc"><i>97</i>&nbsp;        ArrayList&lt;Box&gt; neighbors = new ArrayList&lt;Box&gt;();</b>
+<b class="fc"><i>98</i>&nbsp;        for (int i = -1; i &lt; 2; i++){</b>
+<b class="fc"><i>99</i>&nbsp;            for (int j = -1; j &lt; 2; j++) {</b>
+<b class="fc"><i>100</i>&nbsp;                if (!(i == 0 &amp;&amp; j == 0) &amp;&amp; (posX + i &gt; -1) &amp;&amp; (posX + i &lt; 5) &amp;&amp; (posY + j &gt; 0) &amp;&amp; (posY + j &lt; 5)){</b>
+<b class="fc"><i>101</i>&nbsp;                    neighbors.add(PlayGround.getInstance().getBox(posX + i, posY + j));</b>
+<i>102</i>&nbsp;                }
+<i>103</i>&nbsp;            }
+<i>104</i>&nbsp;        }
+<b class="fc"><i>105</i>&nbsp;        return neighbors;</b>
+<i>106</i>&nbsp;    }
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    /**
+<i>109</i>&nbsp;     * You can build a new level in a playable box
+<i>110</i>&nbsp;     * @return true or false if the Building is created or not
+<i>111</i>&nbsp;     */
+<i>112</i>&nbsp;    public boolean Build(){
+<b class="fc"><i>113</i>&nbsp;        if (Playable()){</b>
+<b class="fc"><i>114</i>&nbsp;            structure.add(new Building(PawnType.values()[getUpperLevel().getValue() + 1],this));</b>
+<b class="fc"><i>115</i>&nbsp;            return true;</b>
+<i>116</i>&nbsp;        }
+<i>117</i>&nbsp;        else {
+<b class="nc"><i>118</i>&nbsp;            return false;</b>
+<i>119</i>&nbsp;        }
+<i>120</i>&nbsp;    }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    /**
+<i>123</i>&nbsp;     * Destroy the upper level level
+<i>124</i>&nbsp;     * @return true or false if the Building is eliminated or not
+<i>125</i>&nbsp;     */
+<i>126</i>&nbsp;    public boolean Destroy(){
+<b class="fc"><i>127</i>&nbsp;        if ((getUpperLevel() != PawnType.GROUND_LEVEL) &amp;&amp; (getUpperLevel() != PawnType.WORKER)){</b>
+<b class="fc"><i>128</i>&nbsp;            structure.remove(structure.size() - 1);</b>
+<b class="fc"><i>129</i>&nbsp;            return true;</b>
+<i>130</i>&nbsp;        }
+<i>131</i>&nbsp;        else {
+<b class="fc"><i>132</i>&nbsp;            return false;</b>
+<i>133</i>&nbsp;        }
+<i>134</i>&nbsp;    }
+<i>135</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-03-31 11:01</div>
+</div>
+</body>
+</html>
