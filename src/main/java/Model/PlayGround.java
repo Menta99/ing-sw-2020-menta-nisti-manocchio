@@ -48,8 +48,32 @@ public class PlayGround {
      * @param x the x coordinate of the Box requested
      * @param y the y coordinate of the Box requested
      * @return Box requested
+     * @throws ArrayIndexOutOfBoundsException if asking an invalid position
      */
     public Box getBox(int x, int y) {
-        return grid[x][y];
+        try {
+            return grid[x][y];
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Box[][] getGrid() {
+        return grid;
+    }
+
+    /**
+     * Delete all the playground (support method for testing)
+     */
+    public void Delete(){
+        instance = null;
+    }
+
+
+
+    public int getSIZE() {
+        return SIZE;
     }
 }
