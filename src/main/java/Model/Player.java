@@ -78,6 +78,8 @@ public class Player {
         this.workers = new ArrayList<Worker>();
         this.workers.add(new Worker());//aggiunge i due worker, da modificare per divinità strane
         this.workers.add(new Worker());
+        this.workers.get(0).setOwner(this);
+        this.workers.get(1).setOwner(this);
         Game.getInstance().getPlayer().add(this);
         if (Game.getInstance().getPlayer().size() == 1) {
             this.challenger = true;
@@ -176,7 +178,7 @@ public class Player {
     /**
      * Initialize workers
      */
-    private void initializeWorkers(){
+    private void initializeWorkers(){//da rifare
         Box box = new Box(0,0); // TO CHANGE (quando faremo la view e gli i/o)
         Worker worker;
         while (workers.size() < 2 /* + Gods Special effects */){
@@ -184,7 +186,6 @@ public class Player {
             worker= new Worker();
             if (worker.setInitialPosition(box)){
                 workers.add(worker);
-                worker.setOwner(this);
                 worker.setState(true);
             }
         }

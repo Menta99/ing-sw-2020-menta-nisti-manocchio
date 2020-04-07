@@ -1,6 +1,7 @@
 package Model;
 
     public enum PawnType {
+
         GROUND_LEVEL(0),
         Level_1(1),
         Level_2(2),

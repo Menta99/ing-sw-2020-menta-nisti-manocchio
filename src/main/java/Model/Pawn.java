@@ -3,6 +3,7 @@ package Model;
 
 /**Represents the type of a single piece of the game */
 public abstract class Pawn {
+
     private Box position;
     private PawnType type;
 
