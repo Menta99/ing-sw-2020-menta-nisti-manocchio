@@ -2,6 +2,7 @@ package Model;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
@@ -34,5 +35,9 @@ public class TestCardTest {
     public void tearDown() throws Exception {
         field.Delete();
         match.Delete();
+    }
+
+    @Test
+    public void Exemplum() throws Exception{
     }
 }

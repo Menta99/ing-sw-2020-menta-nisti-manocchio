@@ -6,7 +6,6 @@ public class Artemis extends GodCard {
 
     public Artemis(){
         this.setName("Artemis");
-        this.setPower("");
     }
 
     /**
