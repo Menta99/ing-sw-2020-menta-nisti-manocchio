@@ -1,4 +1,7 @@
-package Model;
+package Model.Godcards;
+
+import Model.Box;
+import Model.Worker;
 
 import java.util.ArrayList;
 
@@ -6,6 +9,8 @@ public class Hestia extends GodCard {
 
     public Hestia(){
         this.setName("Hestia");
+        this.setPower("You can build twice, but the second building must not be on a Border position");
+        setActivePower(true);
     }
 
     /**
@@ -23,16 +28,19 @@ public class Hestia extends GodCard {
             canDoSomething = false;
         }
         else {
-            //player loses
+            getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){
             getOwner().buildPhase();
         }
         else {
-            //player loses
+            getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){ //Costruisce una seconda volta
             getOwner().buildPhase();
+        }
+        else {
+            getOwner().lose();
         }
         return true;
     }

@@ -1,11 +1,9 @@
 package Model;
 
-import org.junit.After;
+import Model.Godcards.GodCard;
+import Model.Godcards.GodDeck;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class GodDeckTest {
     /*

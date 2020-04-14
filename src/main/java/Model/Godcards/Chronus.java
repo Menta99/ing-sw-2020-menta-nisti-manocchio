@@ -1,9 +1,14 @@
-package Model;
+package Model.Godcards;
+
+import Model.Game;
+import Model.PawnType;
+import Model.PlayGround;
 
 public class Chronus extends GodCard {
 
     public Chronus() {
         this.setName("Chronus");
+        this.setPower("You win even if there are 5 Completed Building on the map (1,2,3 floor and a Dome on top)");
     }
 
     @Override
@@ -19,6 +24,7 @@ public class Chronus extends GodCard {
         }
         if (counter >= 5){
             getOwner().setWinner(true);
+            Game.getInstance().CheckGameFinished();
         }
     return false;
     }

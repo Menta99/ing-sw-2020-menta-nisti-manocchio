@@ -1,4 +1,7 @@
-package Model;
+package Model.Godcards;
+
+import Model.Box;
+import Model.Worker;
 
 import java.util.ArrayList;
 
@@ -6,6 +9,8 @@ public class Artemis extends GodCard {
 
     public Artemis(){
         this.setName("Artemis");
+        this.setPower("Your worker can move twice a turn, but can't go back to the first position");
+        setActivePower(true);
     }
 
     /**
@@ -24,8 +29,10 @@ public class Artemis extends GodCard {
      */
     @Override
     public ArrayList<Box> specialMovement(ArrayList <Box> adjacentBoxes){
-        if(getOwner().getSelectedWorker().isMoved()){
-            adjacentBoxes.remove(getOwner().getSelectedWorker().getLastPosition());
+        if (getOwner().getSelectedWorker()!=null) {
+            if (getOwner().getSelectedWorker().isMoved()) {
+                adjacentBoxes.remove(getOwner().getSelectedWorker().getLastPosition());
+            }
         }
         return adjacentBoxes;
     }
@@ -41,21 +48,26 @@ public class Artemis extends GodCard {
             canDoSomething = canDoSomething || worker.CanMove();
         }
         if (canDoSomething) {
+            getOwner().selectWorkerPhase();
             getOwner().movePhase();
             canDoSomething = false;
         }
         else {
-            //player loses
+            getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanMove()){ //Secondo movimento, se non riesce non perde
             getOwner().movePhase();
+        }
+        else {
+            getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){
             getOwner().buildPhase();
         }
         else {
-            //player loses
+            getOwner().lose();
         }
         return true;
     }
+
 }

@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Godcards.GodCard;
+
 public class TestCard extends GodCard {
     private String name;
     private String power;

@@ -1,4 +1,8 @@
-package Model;
+package Model.Godcards;
+
+import Model.Box;
+import Model.PlayGround;
+import Model.Worker;
 
 import java.util.ArrayList;
 
@@ -6,6 +10,8 @@ public class Prometeo extends GodCard {
 
     public Prometeo(){
         this.setName("Prometeo");
+        this.setPower("You can build before and after moving, but, if you do so, you can't climb");
+        setActivePower(true);
     }
 
     @Override
@@ -15,24 +21,24 @@ public class Prometeo extends GodCard {
         canDoSomething = canDoSomething || worker.CanBuild();
         }
         if (canDoSomething) {
-            getOwner().selectWorker(/*Input da mettere nella view*/null);
+            getOwner().selectWorkerPhase();                 //Da fare per lui!
             getOwner().buildPhase();
             canDoSomething = false;
         }
         else {
-        //player loses
+            getOwner().lose();
         }
-        if (getOwner().getSelectedWorker().CanMove()){ //Secondo movimento, se non riesce non perde
-        getOwner().movePhase();
+        if (getOwner().getSelectedWorker().CanMove()){
+            getOwner().movePhase();
         }
         else{
-            //Player loses
+            getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){
-        getOwner().buildPhase();
+            getOwner().buildPhase();
         }
         else {
-        //player loses
+            getOwner().lose();
         }
         return true;
     }

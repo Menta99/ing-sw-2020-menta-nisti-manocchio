@@ -1,16 +1,25 @@
 package Model;
 
+import Controller.Controller;
+import Model.Godcards.GodCard;
+import Model.Godcards.GodDeck;
+import View.cli.Cli;
+
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Player {
     private String nickName;
     private int turn;
-    private boolean challenger;
+    private boolean challenger; // Possibile rimozione
     private GodCard card;
     private boolean winner;
+    private boolean loser;
     private boolean usePower;
     private ArrayList <Worker> workers;
     private Worker selectedWorker;
+    private Scanner in; //INPUT
+    private String msg = null;  //INPUT
 
     /**
      * Draws the GodCards of the Game, made by the Challenger
@@ -56,6 +65,7 @@ public class Player {
                 if (!pick.isPicked()) {
                     pick.setPicked(true);
                     this.card = pick;
+                    pick.setOwner(this);
                     return true;
                 }
             }
@@ -71,12 +81,14 @@ public class Player {
      * Constructor of Player
      */
     public Player(String nickName) {
+        this.in = new Scanner(System.in);
         this.nickName = nickName;
         this.winner = false;
+        this.loser = false;
         this.usePower = false;
-        this.turn = 0;//Game.getInstance().getPlayer().size();
+        this.turn = 0;
         this.workers = new ArrayList<Worker>();
-        this.workers.add(new Worker());//aggiunge i due worker, da modificare per divinità strane
+        this.workers.add(new Worker());
         this.workers.add(new Worker());
         this.workers.get(0).setOwner(this);
         this.workers.get(1).setOwner(this);
@@ -95,13 +107,15 @@ public class Player {
      * @return worker o null if no Worker is present on the Box selected
      * @throws NullPointerException if requested invalid action on a box
      */
-    public Pawn selectWorker(Box box){
+    public Worker selectWorker(Box box){
         try {
             if (box.getUpperLevel() == PawnType.WORKER) {
-                return box.getStructure().get(box.getStructure().size() - 1);
-            } else {
-                return null;
+                Worker toReturn = (Worker)box.getStructure().get(box.getStructure().size()-1);
+                if(toReturn.getOwner().equals(this)){
+                    return (Worker) box.getStructure().get(box.getStructure().size() - 1);
+                }
             }
+            return null;
         }
         catch (NullPointerException e){
             e.printStackTrace();
@@ -118,75 +132,162 @@ public class Player {
     }
 
     /**
+     * You must Select a valid worker
+     */
+    public void selectWorkerPhase(){
+        Box box; //Ask for input valid Box
+        System.out.println("\nSelect one of your workers");
+        box = Controller.askForCoordinates();
+        Worker candidate = selectWorker(box);
+        if (candidate==null){
+            System.out.println("\nNot a valid worker");
+            selectWorkerPhase();
+            return;
+        }
+        if (candidate.CanMove()){
+            selectedWorker=candidate;
+            return;
+        }
+        else {
+            System.out.println("\nThat guy can't move!");
+            selectWorkerPhase();
+            return;
+        }
+    }
+
+    /**
      * Start of the movement phase, you must move the selected worker
      */
     public void movePhase(){
-        //selectedWorker = this.selectWorker() da aggiustare con view
+        Box box = null; //Ask for input valid box
+        System.out.println("\nWhere do you want to move your worker?");
+        box = Controller.askForCoordinates();
+        if (selectedWorker.LegalMovement(box)){
+            selectedWorker.Move(box);
+        }
+        else{
+            System.out.println("\nNot a valid destination");
+            movePhase();
+            return;
+        }
     }
 
     /**
      * Start of the Build phase, you must build with the selected worker
      */
-    public void buildPhase(){}
+    public void buildPhase(){
+        Box box = null; //Ask for input valid box
+        System.out.println("\nWhere do you want to Build?");
+        box = Controller.askForCoordinates();
+        if (card.getName().equals("Atlas")){
+            System.out.println("\nDo you wish to build a Dome? \n yes / no");
+            while (msg == null || !msg.equals("yes") && !msg.equals("no")) {
+                msg = in.nextLine();
+            }
+            if (msg.equals("yes")){
+                if (selectedWorker.LegalBuild(box)){
+                    selectedWorker.BuildDome(box);
+                }
+            }
+        }
+        if (selectedWorker.LegalBuild(box)){
+            selectedWorker.Build(box);
+        }
+        else{
+            System.out.println("\nIl comune non ti dà il consenso");
+            buildPhase();
+            return;
+        }
+    }
 
     /**
      * Pass your Turn if you made the mandatory actions
      */
     public void endTurn(){
-        /* Resetta ciò che va resettato */
-        selectedWorker=null;
         for (Player players : Game.getInstance().getPlayer()){
             players.getCard().myVictoryCondition();
         }
+        Game.getInstance().CheckGameFinished();
+        Game.getInstance().NextTurn();
     }
 
     /**
      * Start your Turn, you can make your actions; if you can't, you lose
      */
     public void turnStart(){
+        //new Cli().ShowMap();
         Boolean canDoSomething = false;
-        if (usePower){  //Implementare con la view il modo di scegliere se usare o meno il potere
-            card.activeSubroutine();
-            usePower=false;
+        selectedWorker=null;
+        if (loser){
             endTurn();
         }
         if ((Game.getInstance().getActualTurn() / Game.getInstance().getPlayer().size()) == 0) {
             this.initializeWorkers();
             this.endTurn();
         }
-        else {
-            for (Worker worker : workers) {
+        if (card.isActivePower()){  //Implementare con la view il modo di scegliere se usare o meno il potere
+            System.out.println("\n Would you like to use " + card.getName() + "Power? \n yes / no");
+            while (msg == null || !msg.equals("yes") && !msg.equals("no")) {
+                msg = in.nextLine();
+            }
+            if (msg.equals("yes")) {
+                card.activeSubroutine();
+                usePower = false;
+                msg = null;
+                endTurn();
+            }
+            if (msg.equals("no")){
+                msg=null;
+            }
+        }
+        for (Worker worker : workers) {
                 canDoSomething = canDoSomething || worker.CanMove();
             }
-                if (canDoSomething) {
-                    selectWorker(/*input box view*/ null);
-                    this.movePhase();
-                    canDoSomething = false;
-                }
-                else {
-                    //player loses
-                }
-            }
-            if (selectedWorker.CanBuild()){
-                this.buildPhase();
-            }
-            else {//player loses
-            }
-            this.endTurn();
+        if (canDoSomething) {
+            this.selectWorkerPhase();
+            this.movePhase();
+            canDoSomething = false;
         }
+        else {
+            lose();
+        }
+        if (selectedWorker.CanBuild()){
+            this.buildPhase();
+        }
+        else {
+            lose();
+        }
+        this.endTurn();
+    }
 
     /**
      * Initialize workers
      */
-    private void initializeWorkers(){//da rifare
-        Box box = new Box(0,0); // TO CHANGE (quando faremo la view e gli i/o)
-        Worker worker;
-        while (workers.size() < 2 /* + Gods Special effects */){
-            //wait input box
-            worker= new Worker();
+    private void initializeWorkers(){
+        Box box = null; // TO CHANGE (quando faremo la view e gli i/o)
+        System.out.println("\nWhere do you want to place your first Worker?");
+        box = Controller.askForCoordinates();
+        Worker worker = workers.get(0);
+        while (worker.getPosition() == null){
             if (worker.setInitialPosition(box)){
-                workers.add(worker);
                 worker.setState(true);
+            }
+            else {
+                System.out.println("Not a valid position, try again");
+                box = Controller.askForCoordinates();
+            }
+
+        }
+        System.out.println("Where do you want to place your second Worker?");
+        box = Controller.askForCoordinates();
+        worker = workers.get(1);
+        while (worker.getPosition() == null){
+            if (worker.setInitialPosition(box)){
+                worker.setState(true);
+            }
+            else {
+                System.out.println("\n Not a valid position, try again");
+                box = Controller.askForCoordinates();
             }
         }
     }
@@ -205,6 +306,16 @@ public class Player {
         this.winner = winner;
     }
 
+    /**
+     * The player loses and he's removed from the game
+     */
+    public void lose(){
+        System.out.println("\n You lost!\n Dumbo's!");
+        loser=true;
+        Game.getInstance().CheckGameFinished();
+        endTurn();
+    }
+
     /** Getter method of card
      *
      */
@@ -212,7 +323,16 @@ public class Player {
         return card;
     }
 
-    public boolean isUsePower() {
-        return usePower;
+    public String getNickName(){
+        return this.nickName;
     }
+
+    public boolean isLoser() {
+        return loser;
+    }
+
+    public boolean isWinner() {
+        return winner;
+    }
+
 }

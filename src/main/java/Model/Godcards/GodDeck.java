@@ -1,4 +1,4 @@
-package Model;
+package Model.Godcards;
 
 import java.util.ArrayList;
 
@@ -10,6 +10,10 @@ public class GodDeck {
      */
     public GodDeck(){
         cardList = new ArrayList<GodCard>();
+        GodFactory factory = new GodFactory();
+        for (GodsEnum god : GodsEnum.values()){
+            cardList.add(factory.create(god));
+        }
     }
 
     /**

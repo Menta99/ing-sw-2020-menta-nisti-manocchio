@@ -1,9 +1,12 @@
-package Model;
+package Model.Godcards;
+
+import Model.Box;
 
 public class Hera extends GodCard {
 
     public Hera(){
         this.setName("Hera");
+        this.setPower("Enemy players can't win moving on a Border position");
     }
 
     @Override

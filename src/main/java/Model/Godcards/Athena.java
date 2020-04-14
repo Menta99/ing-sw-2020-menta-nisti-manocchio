@@ -1,4 +1,7 @@
-package Model;
+package Model.Godcards;
+
+import Model.Box;
+import Model.Game;
 
 import java.util.ArrayList;
 
@@ -6,6 +9,7 @@ public class Athena extends GodCard{
 
     public Athena() {
         this.setName("Athena");
+        this.setPower("If in your last turn you did climb with one of your workers, in this turn enemy workers can't climb");
     }
 
     @Override

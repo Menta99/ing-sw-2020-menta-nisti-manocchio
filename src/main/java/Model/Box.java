@@ -95,6 +95,7 @@ public class Box {
         try {
             return (structure.get(structure.size() - 1).getType());
         } catch (NullPointerException e) {
+            System.err.println("Void box");
             e.printStackTrace();
             return null;
         }
@@ -131,6 +132,7 @@ public class Box {
         } catch (NullPointerException e1) {
             e1.printStackTrace();
         } catch (ArrayIndexOutOfBoundsException e2) {
+            System.err.println("Index not valid");
             e2.printStackTrace();
         } finally {
             return neighbors;
@@ -158,37 +160,16 @@ public class Box {
      * @throws NullPointerException if you try to build from a non-initialized structure
      */
     public boolean Build() {
-        try {
-            if (Playable()) {
-                structure.add(new Building(PawnType.values()[getUpperLevel().getValue() + 1], this));
-                return true;
-            } else {
-                return false;
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            return false;
+
+        if (isOccupied()) {
+            Worker worker = (Worker) structure.remove(structure.size() - 1);
+            structure.add(new Building(PawnType.values()[getUpperLevel().getValue() + 1], this));
+            structure.add(worker);
+            return true;
+        }
+        else{
+            structure.add(new Building(PawnType.values()[getUpperLevel().getValue() + 1], this));
+            return true;
         }
     }
-
-    /**
-     * Destroy the upper level level
-     *
-     * @return true or false if the Building is eliminated or not
-     * @throws NullPointerException if you try to remove from a void structure
-     */
-    public boolean Destroy() {
-        try {
-            if ((getUpperLevel() != PawnType.GROUND_LEVEL) && (getUpperLevel() != PawnType.WORKER)) {
-                structure.remove(structure.size() - 1);
-                return true;
-            } else {
-                return false;
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
 }

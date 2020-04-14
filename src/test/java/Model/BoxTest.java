@@ -103,38 +103,4 @@ public class BoxTest {
         myPawn = myBox.getUpperLevel();
         Assert.assertEquals(PawnType.DOME,myPawn);
     }
-
-    @Test
-    public void destroy() {
-        Box myBox = new Box(0,0);
-        PawnType myPawn = null;
-        Boolean myBool = false;
-        myBox.Build();
-        myBox.Build();
-        myBox.Build();
-        myPawn = myBox.getUpperLevel();
-        Assert.assertEquals(PawnType.Level_3,myPawn);
-        myBool = myBox.Destroy();
-        myPawn = myBox.getUpperLevel();
-        Assert.assertEquals(PawnType.Level_2,myPawn);
-        Assert.assertEquals(true,myBool);
-        myBool = myBox.Destroy();
-        myPawn = myBox.getUpperLevel();
-        Assert.assertEquals(PawnType.Level_1,myPawn);
-        Assert.assertEquals(true,myBool);
-        myBool = myBox.Destroy();
-        myPawn = myBox.getUpperLevel();
-        Assert.assertEquals(PawnType.GROUND_LEVEL,myPawn);
-        Assert.assertEquals(true,myBool);
-        myBool = myBox.Destroy();
-        myPawn = myBox.getUpperLevel();
-        Assert.assertEquals(PawnType.GROUND_LEVEL,myPawn);
-        Assert.assertEquals(false,myBool);
-        Worker myWorker = new Worker();
-        myWorker.setInitialPosition(myBox);
-        myBool = myBox.Destroy();
-        myPawn = myBox.getUpperLevel();
-        Assert.assertEquals(PawnType.WORKER,myPawn);
-        Assert.assertEquals(false,myBool);
-    }
 }

@@ -1,9 +1,13 @@
-package Model;
+package Model.Godcards;
+
+import Model.Box;
+import Model.Player;
 
 import java.util.ArrayList;
 
 public abstract class GodCard {
     private String name;
+    private String power;
     private boolean activePower = false;
     private Player owner;
     private boolean chosen; //indica se la carta è stat scelta per il Game, default false
@@ -136,4 +140,20 @@ public abstract class GodCard {
      * @return
      */
     public ArrayList<Box> specialBuilding(ArrayList<Box> legalBuilding){return legalBuilding;};
+
+    public void setActivePower(boolean activePower) {
+        this.activePower = activePower;
+    }
+
+    public boolean isActivePower() {
+        return activePower;
+    }
+
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
+    }
 }

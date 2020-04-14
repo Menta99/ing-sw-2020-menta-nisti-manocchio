@@ -1,17 +1,17 @@
-package Model;
+package Model.Godcards;
+
+import Model.Box;
+import Model.Worker;
 
 import java.util.ArrayList;
 
-public class Demeter extends GodCard {
+public class Hephaestus extends GodCard {
 
-    public Demeter(){
-        this.setName("Demeter");
+    public Hephaestus(){
+        this.setName("Hephaestus");
+        this.setPower("You can build again on the same position, but not a Dome");
+        setActivePower(true);
     }
-
-    /**
-     * Implementa la funzione di Demeter
-     * @return
-     */
     @Override
     public boolean activeSubroutine() {
         boolean canDoSomething=false;
@@ -23,13 +23,13 @@ public class Demeter extends GodCard {
             canDoSomething = false;
         }
         else {
-            //player loses
+            getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){
             getOwner().buildPhase();
         }
         else {
-            //player loses
+            getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){ //Costruisce una seconda volta
             getOwner().buildPhase();
@@ -41,14 +41,16 @@ public class Demeter extends GodCard {
     public boolean myBuild(){ return true; }
 
     /**
-     * Se ha già costruito rimuove la casella dove già ha costruito
+     * Se ha già costruito dà la possibilità di costruire nuovamente, a meno che non si voglia costruire un DOME
      * @param adjacentBoxes
      * @return
      */
     @Override
     public ArrayList<Box> specialBuilding(ArrayList<Box> adjacentBoxes){
         if(getOwner().getSelectedWorker().isDidBuild()){
-            adjacentBoxes.remove(getOwner().getSelectedWorker().getLastBuilding());
+            adjacentBoxes.removeAll(adjacentBoxes);
+            if(getOwner().getSelectedWorker().getLastBuilding().getUpperLevel().getValue() < 3 ) //Costruisce nuovamente nella stessa Box a meno che non ci sia la possibilità di creare un DOME
+            adjacentBoxes.add(getOwner().getSelectedWorker().getLastBuilding());
         }
         return adjacentBoxes;
     }

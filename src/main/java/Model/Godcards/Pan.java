@@ -1,9 +1,12 @@
-package Model;
+package Model.Godcards;
+
+import Model.Worker;
 
 public class Pan extends GodCard {
 
     public Pan(){
         this.setName("Pan");
+        this.setPower("You win even if you go down of at least 2 levels");
     }
 
     @Override

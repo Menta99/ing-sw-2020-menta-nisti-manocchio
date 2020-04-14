@@ -3,9 +3,6 @@ package Model;
 import java.util.ArrayList;
 
 public class Worker extends Pawn{
-    private PawnType type = PawnType.WORKER;
-    private Box position;
-    private boolean gender;
     private boolean state;
     private boolean moved;
     private boolean didBuild;
@@ -14,6 +11,17 @@ public class Worker extends Pawn{
     private Box lastPosition;
     private Box lastBuilding;
 
+
+    /**
+     * Worker Constructor
+     */
+    public Worker(){
+        this.setType(PawnType.WORKER);
+        moved=false;
+        didBuild=false;
+        didClimb=false;
+        state=false;
+    }
 
     /**
      * Moves a worker if able to
@@ -25,17 +33,17 @@ public class Worker extends Pawn{
                 owner.getCard().moveOthers(dest); //IMPLEMENTA FUNZIONALITA DELLE DIVINITA CHE POSSONO MUOVERE I NEMICI
                 return;
             }
-            if (dest.getStructure().size()>=position.getStructure().size()){
+            if (dest.getStructure().size()>=getPosition().getStructure().size()){
                 didClimb=true;
             }
-            lastPosition=position;
-            position.getStructure().remove(this);
-            position.setOccupied(false);
-            position = dest;
-            position.getStructure().add(this);
+            lastPosition=getPosition();
+            getPosition().getStructure().remove(this);
+            getPosition().setOccupied(false);
+            setPosition(dest);
+            getPosition().getStructure().add(this);
             dest.setOccupied(true);
             setMoved(true);
-            if(((this.lastPosition.getStructure().size()<=4 && position.getStructure().size()>=4) || owner.getCard().myVictoryCondition())){//Parto da un qualsiasi piano minore del terzo e arrivo in un terzo piano non occupato oppure occupato ma posso spingere l'avversario
+            if(((this.lastPosition.getStructure().size()<=4 && getPosition().getStructure().size()>=4) || owner.getCard().myVictoryCondition())){//Parto da un qualsiasi piano minore del terzo e arrivo in un terzo piano non occupato oppure occupato ma posso spingere l'avversario
                 boolean enemyWinCondition = false;
                 for (Player enemy : Game.getInstance().getPlayer()) {
                     if (!enemy.equals(owner)) {
@@ -53,10 +61,21 @@ public class Worker extends Pawn{
      * Builds a structure if able to
      * @param dest Box where to build
      */
-    public void Build(Box dest){  //VA CAMBIATO BUILD IN BOX, CASO COSTRUIRE SOTTO A UN OPERAIO
+    public void Build(Box dest){
         if (LegalBuild(dest)){
             lastBuilding=dest;
             dest.Build();
+            setDidBuild(true);
+        }
+    }
+
+    /**
+     * Builds a Dome
+     */
+    public void BuildDome(Box dest){
+        if(LegalBuild(dest)){
+            lastBuilding=dest;
+            dest.BuildDome();
             setDidBuild(true);
         }
     }
@@ -66,7 +85,7 @@ public class Worker extends Pawn{
      * @return true or false if is possible to move
      */
     public boolean CanMove(){
-        ArrayList <Box> adjacentBoxes = this.position.BorderBoxes();
+        ArrayList <Box> adjacentBoxes = this.getPosition().BorderBoxes();
         for (Box box : adjacentBoxes){
             if (this.LegalMovement(box)) {return true;}
         }
@@ -78,7 +97,7 @@ public class Worker extends Pawn{
      * @return true or false if is possible to build
      */
     public boolean CanBuild(){
-        ArrayList <Box> adjacentBoxes = this.position.BorderBoxes();
+        ArrayList <Box> adjacentBoxes = this.getPosition().BorderBoxes();
         for (Box box : adjacentBoxes){
             if (this.LegalBuild(box)) {return true;}
         }
@@ -92,7 +111,7 @@ public class Worker extends Pawn{
      * @return true or false if the movement is legal
      */
     public boolean LegalMovement(Box destination) {
-        ArrayList<Box> adjacentBoxes = this.position.BorderBoxes();
+        ArrayList<Box> adjacentBoxes = this.getPosition().BorderBoxes();
         if (owner.getCard().myMovement()) {
             adjacentBoxes = owner.getCard().specialMovement(adjacentBoxes);
         }
@@ -104,7 +123,7 @@ public class Worker extends Pawn{
             }
         }
         if (adjacentBoxes.contains(destination)) {
-            if (!destination.isOccupied() && ((destination.getStructure().size() - position.getStructure().size()) <= 0) && (destination.getUpperLevel() != PawnType.DOME)) {
+            if (!destination.isOccupied() && ((destination.getStructure().size() - getPosition().getStructure().size()) <= 0) && (destination.getUpperLevel() != PawnType.DOME)) {
                 return true;
             }
             if (destination.isOccupied()) {
@@ -114,7 +133,7 @@ public class Worker extends Pawn{
                         enemyPiece = false;
                     }
                 }
-                if (owner.getCard().canMoveOthers(destination) && enemyPiece && ((destination.getStructure().size() - position.getStructure().size()) <= 1)) {
+                if (owner.getCard().canMoveOthers(destination) && enemyPiece && ((destination.getStructure().size() - getPosition().getStructure().size()) <= 1)) {
                     return true;
                 }
             }
@@ -128,12 +147,12 @@ public class Worker extends Pawn{
      * @return true or false if is the building is legal
      */
     public boolean LegalBuild(Box destination){
-        ArrayList<Box> adjacentBoxes = this.position.BorderBoxes();
+        ArrayList<Box> adjacentBoxes = this.getPosition().BorderBoxes();
         if (owner.getCard().myBuild()){
             adjacentBoxes = owner.getCard().specialBuilding(adjacentBoxes);
         }
         if(adjacentBoxes.contains(destination)){
-            if (destination.equals(position)){
+            if (destination.equals(getPosition())){
                 return true;
             }
             if (!destination.isOccupied()){
@@ -163,37 +182,13 @@ public class Worker extends Pawn{
      */
     public boolean setInitialPosition(Box startingPoint){
         if (!startingPoint.isOccupied()) {
-            position = startingPoint;
+            setPosition(startingPoint);
             setState(true);
             startingPoint.getStructure().add(this);
             startingPoint.setOccupied(true);
             return true;
         }
         return false;
-    }
-
-    /**
-     * Getter of the Worker's type
-     * @return type
-     */
-    public PawnType getType(){
-        return type;
-    }
-
-    /**
-     * Getter of Worker's position
-     * @return position of the Worker
-     */
-    public Box getPosition(){
-        return this.position;
-    }
-
-    /**
-     * Setter of the Worker's Position
-     * @param position
-     */
-    public void setPosition(Box position) {
-        this.position = position;
     }
 
     /**

@@ -89,7 +89,7 @@
 <i>15</i>&nbsp;     * @param deck ArrayList of GodCard
 <i>16</i>&nbsp;     * @return ArrayList of chosen GodCard or null if the player isn&#39;t the Challenger
 <i>17</i>&nbsp;     */
-<i>18</i>&nbsp;    public ArrayList&lt;GodCard&gt; Draw(GodDeck deck, int[] index){//da modificare con la view
+<i>18</i>&nbsp;    public ArrayList&lt;GodCard&gt; Draw(GodDeck deck, int[] index){//da modificare con la View
 <b class="fc"><i>19</i>&nbsp;        if (challenger) {</b>
 <b class="fc"><i>20</i>&nbsp;            ArrayList&lt;GodCard&gt; gods = new ArrayList&lt;GodCard&gt;();</b>
 <b class="fc"><i>21</i>&nbsp;            GodCard chosen = null;</b>
@@ -114,7 +114,7 @@
 <i>40</i>&nbsp;     * @param pool ArrayList of the active GodCards
 <i>41</i>&nbsp;     * @return true or false if the action succeed
 <i>42</i>&nbsp;     */
-<i>43</i>&nbsp;    public boolean ChooseGod(ArrayList&lt;GodCard&gt; pool, int index){//sistemare con la view
+<i>43</i>&nbsp;    public boolean ChooseGod(ArrayList&lt;GodCard&gt; pool, int index){//sistemare con la View
 <b class="nc"><i>44</i>&nbsp;        if (card == null) {</b>
 <b class="nc"><i>45</i>&nbsp;            GodCard pick = Game.getInstance().getActiveCards().get(index);</b>
 <b class="nc"><i>46</i>&nbsp;            if (!pick.isPicked()) {</b>
@@ -133,7 +133,7 @@
 <b class="fc"><i>59</i>&nbsp;        this.nickName = nickName;</b>
 <b class="fc"><i>60</i>&nbsp;        this.turn = 0;//Game.getInstance().getPlayer().size();</b>
 <b class="fc"><i>61</i>&nbsp;        this.workers = new ArrayList&lt;Worker&gt;();</b>
-<b class="fc"><i>62</i>&nbsp;        this.workers.add(new Worker());//aggiunge i due worker, da modificare per divinità strane</b>
+<b class="fc"><i>62</i>&nbsp;        this.workers.add(new Worker());//aggiunge i due worker, da modificare per divinitï¿½ strane</b>
 <b class="fc"><i>63</i>&nbsp;        this.workers.add(new Worker());</b>
 <b class="fc"><i>64</i>&nbsp;        Game.getInstance().getPlayer().add(this);</b>
 <b class="fc"><i>65</i>&nbsp;        if (Game.getInstance().getPlayer().size() == 1) {</b>
@@ -211,7 +211,7 @@
 <i>137</i>&nbsp;     * Initialize workers
 <i>138</i>&nbsp;     */
 <i>139</i>&nbsp;    private void initializeWorkers(){
-<b class="nc"><i>140</i>&nbsp;        Box box = new Box(0,0); // TO CHANGE (quando faremo la view e gli i/o)</b>
+<b class="nc"><i>140</i>&nbsp;        Box box = new Box(0,0); // TO CHANGE (quando faremo la View e gli i/o)</b>
 <i>141</i>&nbsp;        Worker worker;
 <b class="nc"><i>142</i>&nbsp;        while (workers.size() &lt; 2 /* + Gods Special effects */){</b>
 <i>143</i>&nbsp;            //wait input box

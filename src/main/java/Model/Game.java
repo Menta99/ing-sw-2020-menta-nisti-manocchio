@@ -1,10 +1,14 @@
 package Model;
 
+import Model.Godcards.GodCard;
+import Model.Godcards.GodDeck;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game {
     private static Game instance = null;
-    private String id;
+    private int id;
     private ArrayList<Player> players;
     private Player actualPlayer;
     private PlayGround map;
@@ -18,7 +22,7 @@ public class Game {
      * Private Constructor of Game (Singleton)
      */
     private Game() {
-        this.id = null;
+        this.id = -1;
         this.players = new ArrayList<Player>();
         this.actualPlayer = null;
         this.map = PlayGround.getInstance();
@@ -64,17 +68,17 @@ public class Game {
      * @throws NullPointerException if requested invalid action on the players
      */
     public void StartGame(){
-        //this.players = people;
-        this.map = PlayGround.getInstance();
         try {
             this.actualPlayer = players.get(0);
         }
         catch (NullPointerException e){
+            System.err.println("No one in game");
             e.printStackTrace();
         }
-        this.id = "0000"; // TO CHANGE
+        this.id = new Random().nextInt(10000);
         this.winner = null;
         this.gameFinished = false;
+        actualPlayer.turnStart();
     }
     /**
      * Goes to the next round
@@ -88,6 +92,10 @@ public class Game {
         catch (NullPointerException e){
             e.printStackTrace();
         }
+        if (gameFinished){
+            return;
+        }
+        actualPlayer.turnStart();
     }
     /**
      * Extracts the active cards
@@ -151,7 +159,7 @@ public class Game {
      *
      * @return id
      */
-    public String getId() {
+    public int getId() {
         return this.id;
     }
 
@@ -171,4 +179,31 @@ public class Game {
         instance = null;
     }
 
+    /**
+     * Checks if the game is finished
+     */
+    public void CheckGameFinished() {
+        int counter = 0;
+        for (Player player : players){
+            if (player.isLoser()){
+                counter++;
+            }
+            if (player.isWinner()){
+                gameFinished = true;
+                winner = player;
+            }
+        }
+        if (counter == players.size() - 1){
+            gameFinished = true;
+            for (Player player : players){
+                if (!player.isLoser()){
+                    winner = player;
+                    player.setWinner(true);
+                }
+            }
+        }
+        if (gameFinished){
+            System.out.println("\nCongratulation" + winner.getNickName() + "won the Game !");
+        }
+    }
 }

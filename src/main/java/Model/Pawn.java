@@ -16,10 +16,26 @@ public abstract class Pawn {
     }
 
     /**
+     * Setter of piece's type
+     * @param type
+     */
+    public void setType(PawnType type) {
+        this.type = type;
+    }
+
+    /**
      * Getter of the piece's Box
      * @return position
-     */
-    public Box getPosition() {
+     */public Box getPosition() {
         return position;
+    }
+
+
+    /**
+     * Setter of position
+     * @param position
+     */
+    public void setPosition(Box position) {
+        this.position = position;
     }
 }

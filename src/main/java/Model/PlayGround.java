@@ -55,13 +55,10 @@ public class PlayGround {
             return grid[x][y];
         }
         catch (ArrayIndexOutOfBoundsException e){
+            System.err.println("Index not valid");
             e.printStackTrace();
             return null;
         }
-    }
-
-    public Box[][] getGrid() {
-        return grid;
     }
 
     /**
@@ -72,7 +69,10 @@ public class PlayGround {
     }
 
 
-
+    /**
+     * Getter of the Board Size
+     * @return
+     */
     public int getSIZE() {
         return SIZE;
     }

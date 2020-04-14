@@ -1,12 +1,22 @@
-package Model;
+package Model.Godcards;
+
+import Model.Box;
+import Model.Worker;
 
 import java.util.ArrayList;
 
-public class Hephaestus extends GodCard {
+public class Demeter extends GodCard {
 
-    public Hephaestus(){
-        this.setName("Hephaestus");
+    public Demeter(){
+        this.setName("Demeter");
+        this.setPower("You can build twice, but not on the same position");
+        setActivePower(true);
     }
+
+    /**
+     * Implementa la funzione di Demeter
+     * @return
+     */
     @Override
     public boolean activeSubroutine() {
         boolean canDoSomething=false;
@@ -36,16 +46,14 @@ public class Hephaestus extends GodCard {
     public boolean myBuild(){ return true; }
 
     /**
-     * Se ha già costruito dà la possibilità di costruire nuovamente, a meno che non si voglia costruire un DOME
+     * Se ha già costruito rimuove la casella dove già ha costruito
      * @param adjacentBoxes
      * @return
      */
     @Override
     public ArrayList<Box> specialBuilding(ArrayList<Box> adjacentBoxes){
         if(getOwner().getSelectedWorker().isDidBuild()){
-            adjacentBoxes.removeAll(adjacentBoxes);
-            if(getOwner().getSelectedWorker().getLastBuilding().getUpperLevel().getValue() < 3 ) //Costruisce nuovamente nella stessa Box a meno che non ci sia la possibilità di creare un DOME
-            adjacentBoxes.add(getOwner().getSelectedWorker().getLastBuilding());
+            adjacentBoxes.remove(getOwner().getSelectedWorker().getLastBuilding());
         }
         return adjacentBoxes;
     }
