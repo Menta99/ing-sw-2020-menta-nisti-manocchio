@@ -47,7 +47,7 @@ public class PlayerTest {
         Assert.assertEquals("Era",partita.getActiveCards().get(1).getName());
 
     }
-
+/*
     @Test
     public void chooseGod() {
         int[] indici = {1,3};
@@ -69,7 +69,7 @@ public class PlayerTest {
 
 
 
-    }
+    }*/
 
     @Test
     public void selectWorker() {

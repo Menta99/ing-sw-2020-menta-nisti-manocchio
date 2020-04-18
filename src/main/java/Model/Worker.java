@@ -43,10 +43,10 @@ public class Worker extends Pawn{
             getPosition().getStructure().add(this);
             dest.setOccupied(true);
             setMoved(true);
-            if(((this.lastPosition.getStructure().size()<=4 && getPosition().getStructure().size()>=4) || owner.getCard().myVictoryCondition())){//Parto da un qualsiasi piano minore del terzo e arrivo in un terzo piano non occupato oppure occupato ma posso spingere l'avversario
+            if(((this.lastPosition.getStructure().size()<4 && getPosition().getStructure().size()>4) || owner.getCard().myVictoryCondition())){//Parto da un qualsiasi piano minore del terzo e arrivo in un terzo piano non occupato oppure occupato ma posso spingere l'avversario
                 boolean enemyWinCondition = false;
                 for (Player enemy : Game.getInstance().getPlayer()) {
-                    if (!enemy.equals(owner)) {
+                    if (!enemy.equals(owner) && !enemy.isLoser()) {
                         enemyWinCondition = enemyWinCondition || enemy.getCard().enemyVictoryCondition(dest); //CHECKS RESTRIZIONI GODS NEMICI
                         if(!enemyWinCondition){
                             this.owner.setWinner(true);
@@ -86,6 +86,16 @@ public class Worker extends Pawn{
      */
     public boolean CanMove(){
         ArrayList <Box> adjacentBoxes = this.getPosition().BorderBoxes();
+        if (owner.getCard().myMovement()) {
+            adjacentBoxes = owner.getCard().specialMovement(adjacentBoxes);
+        }
+        for (Player enemy : Game.getInstance().getPlayer()) {
+            if (!enemy.equals(owner) && !enemy.isLoser()) {
+                if (enemy.getCard().enemyMovement()) {
+                    adjacentBoxes = enemy.getCard().specialMovement(adjacentBoxes);
+                }
+            }
+        }
         for (Box box : adjacentBoxes){
             if (this.LegalMovement(box)) {return true;}
         }
@@ -98,6 +108,9 @@ public class Worker extends Pawn{
      */
     public boolean CanBuild(){
         ArrayList <Box> adjacentBoxes = this.getPosition().BorderBoxes();
+        if (owner.getCard().myBuild()){
+            adjacentBoxes = owner.getCard().specialBuilding(adjacentBoxes);
+        }
         for (Box box : adjacentBoxes){
             if (this.LegalBuild(box)) {return true;}
         }
@@ -116,7 +129,7 @@ public class Worker extends Pawn{
             adjacentBoxes = owner.getCard().specialMovement(adjacentBoxes);
         }
         for (Player enemy : Game.getInstance().getPlayer()) {
-            if (!enemy.equals(owner)) {
+            if (!enemy.equals(owner) && !enemy.isLoser()) {
                 if (enemy.getCard().enemyMovement()) {
                     adjacentBoxes = enemy.getCard().specialMovement(adjacentBoxes);
                 }

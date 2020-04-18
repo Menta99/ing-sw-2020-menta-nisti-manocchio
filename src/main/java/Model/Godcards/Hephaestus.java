@@ -34,11 +34,22 @@ public class Hephaestus extends GodCard {
         if (getOwner().getSelectedWorker().CanBuild()){ //Costruisce una seconda volta
             getOwner().buildPhase();
         }
+        else {
+            getOwner().lose();
+        }
         return true;
     }
 
     @Override
-    public boolean myBuild(){ return true; }
+    public boolean myBuild(){
+        if(getOwner().getSelectedWorker()==null){
+            return false;
+        }
+        if (getOwner().getSelectedWorker().isDidBuild()) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Se ha già costruito dà la possibilità di costruire nuovamente, a meno che non si voglia costruire un DOME

@@ -1,5 +1,6 @@
 package Model;
 
+import Controller.Controller;
 import Model.Godcards.GodCard;
 import Model.Godcards.GodDeck;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
+    private Controller controller;
     private static Game instance = null;
     private int id;
     private ArrayList<Player> players;
@@ -22,6 +24,7 @@ public class Game {
      * Private Constructor of Game (Singleton)
      */
     private Game() {
+        controller = new Controller();
         this.id = -1;
         this.players = new ArrayList<Player>();
         this.actualPlayer = null;
@@ -85,6 +88,9 @@ public class Game {
      * @throws NullPointerException if requested invalid action on the players
      */
     public void NextTurn(){
+        if (gameFinished){
+            return;
+        }
         this.actualTurn++;
         try{
             this.actualPlayer = this.players.get(this.actualTurn % this.players.size());
@@ -203,7 +209,7 @@ public class Game {
             }
         }
         if (gameFinished){
-            System.out.println("\nCongratulation" + winner.getNickName() + "won the Game !");
-        }
+            controller.gameFinished();
+         }
     }
 }

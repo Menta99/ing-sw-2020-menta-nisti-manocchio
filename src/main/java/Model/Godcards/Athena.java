@@ -19,12 +19,29 @@ public class Athena extends GodCard{
 
     @Override
     public ArrayList<Box> specialMovement(ArrayList<Box> legalMovs){
+        ArrayList<Box> toRemove = new ArrayList<>();
+        if (getOwner().getSelectedWorker()==null){
+            return legalMovs;
+        }
         if (getOwner().getSelectedWorker().getDidClimb()){
+            if (Game.getInstance().getActualPlayer().getSelectedWorker() == null){
+                return legalMovs;
+            }
             Box position = Game.getInstance().getActualPlayer().getSelectedWorker().getPosition();
             for (Box box : legalMovs){
-                if (position.getStructure().size()<=box.getStructure().size()){
-                    legalMovs.remove(box);
+                if (box.isOccupied()){
+                    if(position.getStructure().size()<box.getStructure().size()){ // Se è occupato c'è comunque la possibilità che alcune divinità muovano le altre
+                        toRemove.add(box);
+                    }
                 }
+                else if (position.getStructure().size()<=box.getStructure().size()){
+                    toRemove.add(box);
+                }
+            }
+        }
+        for (Box box : toRemove){
+            if (legalMovs.contains(box)){
+                legalMovs.remove(box);
             }
         }
         return legalMovs;

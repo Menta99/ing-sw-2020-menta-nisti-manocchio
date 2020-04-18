@@ -15,9 +15,15 @@ public class Minotaur extends GodCard {
         Worker enemyWorker = null;
         Box enemyDestination = PlayGround.getInstance().getBox((2*dest.getPosX())-worker.getPosition().getPosX(), (2*dest.getPosY())-worker.getPosition().getPosY());
         for(Player enemy : Game.getInstance().getPlayer()){
-            for(Worker workers : enemy.getWorkers()){
-                if (workers.getPosition().equals(dest)){  //Trova l'operaio nemico nella casella di destinazione
-                    enemyWorker = workers;
+            if(!enemy.equals(getOwner()) && !enemy.isLoser()) {
+                for (Worker workers : enemy.getWorkers()) {
+                    if (workers.getPosition().equals(dest)) {  //Trova l'operaio nemico nella casella di destinazione
+                        enemyWorker = workers;
+                        dest.getStructure().remove(enemyWorker);
+                        enemyDestination.getStructure().add(enemyWorker);
+                        enemyWorker.setPosition(enemyDestination);
+                        enemyDestination.setOccupied(true);
+                    }
                 }
             }
         }
@@ -28,14 +34,12 @@ public class Minotaur extends GodCard {
         worker.setPosition(dest);
         worker.setMoved(true);
         position.getStructure().remove(worker);
-        dest.getStructure().remove(enemyWorker);
+        position.setOccupied(false);
         dest.getStructure().add(worker);
-        enemyDestination.getStructure().add(enemyWorker);
-        enemyWorker.setPosition(enemyDestination);
         if((position.getStructure().size()<=4 && dest.getStructure().size()>=5) || worker.getOwner().getCard().myVictoryCondition()){//Parto da un qualsiasi piano minore del terzo e arrivo in un terzo piano non occupato oppure occupato ma posso spingere l'avversario
             boolean enemyWinCondition = false;
             for (Player enemy : Game.getInstance().getPlayer()) {
-                if (!enemy.equals(worker.getOwner())) {
+                if (!enemy.equals(worker.getOwner()) && !enemy.isLoser()) {
                     enemyWinCondition = enemyWinCondition || enemy.getCard().enemyVictoryCondition(dest); //CHECKS RESTRIZIONI GODS NEMICI
                     if(!enemyWinCondition){
                         this.getOwner().setWinner(true);
@@ -48,6 +52,9 @@ public class Minotaur extends GodCard {
 
     @Override
     public boolean canMoveOthers(Box dest){
+        if (getOwner().getSelectedWorker()==null){
+            return false;
+        }
         Box myWorkerPosition = getOwner().getSelectedWorker().getPosition();
         int pushX = dest.getPosX() - myWorkerPosition.getPosX();
         int pushY = dest.getPosY() - myWorkerPosition.getPosY();

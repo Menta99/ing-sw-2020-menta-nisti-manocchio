@@ -46,7 +46,14 @@ public class Hestia extends GodCard {
     }
 
     @Override
-    public boolean myBuild(){ return true; }
+    public boolean myBuild(){
+        if(getOwner().getSelectedWorker()!=null){
+            if (getOwner().getSelectedWorker().isDidBuild()){
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Se ha già costruito rimuove le caselle perimetrali
@@ -55,11 +62,17 @@ public class Hestia extends GodCard {
      */
     @Override
     public ArrayList<Box> specialBuilding(ArrayList<Box> adjacentBoxes){
+        ArrayList<Box> toRemove = new ArrayList<>();
         if (getOwner().getSelectedWorker().isDidBuild()){
             for(Box box : adjacentBoxes){
                 if(box.isBorder()) {
-                    adjacentBoxes.remove(box);
+                    toRemove.add(box);
                 }
+            }
+        }
+        for (Box box : toRemove){
+            if (adjacentBoxes.contains(box)){
+                adjacentBoxes.remove(box);
             }
         }
         return adjacentBoxes;

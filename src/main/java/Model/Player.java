@@ -3,12 +3,14 @@ package Model;
 import Controller.Controller;
 import Model.Godcards.GodCard;
 import Model.Godcards.GodDeck;
+import View.Colors;
 import View.cli.Cli;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Player {
+    private Controller controller;
+    private Colors color;
     private String nickName;
     private int turn;
     private boolean challenger; // Possibile rimozione
@@ -18,8 +20,6 @@ public class Player {
     private boolean usePower;
     private ArrayList <Worker> workers;
     private Worker selectedWorker;
-    private Scanner in; //INPUT
-    private String msg = null;  //INPUT
 
     /**
      * Draws the GodCards of the Game, made by the Challenger
@@ -54,11 +54,10 @@ public class Player {
     }
     /**
      * Choose the GodCard of the Player
-     * @param pool ArrayList of the active GodCards
      * @return true or false if the action succeed
      * @throws NullPointerException if requested invalid action on the cards
      */
-    public boolean ChooseGod(ArrayList<GodCard> pool, int index){//sistemare con la view
+    public boolean ChooseGod(int index){//sistemare con la view
         try {
             if (card == null) {
                 GodCard pick = Game.getInstance().getActiveCards().get(index);
@@ -81,7 +80,7 @@ public class Player {
      * Constructor of Player
      */
     public Player(String nickName) {
-        this.in = new Scanner(System.in);
+        this.controller = new Controller();
         this.nickName = nickName;
         this.winner = false;
         this.loser = false;
@@ -98,6 +97,15 @@ public class Player {
         }
         else {
             this.challenger = false;
+        }
+        if (Game.getInstance().getPlayer().size()==1){
+            this.color = Colors.GREEN;
+        }
+        if (Game.getInstance().getPlayer().size()==2){
+            this.color = Colors.BLUE;
+        }
+        if (Game.getInstance().getPlayer().size()==3){
+            this.color = Colors.RED;
         }
     }
 
@@ -135,23 +143,14 @@ public class Player {
      * You must Select a valid worker
      */
     public void selectWorkerPhase(){
-        Box box; //Ask for input valid Box
-        System.out.println("\nSelect one of your workers");
-        box = Controller.askForCoordinates();
-        Worker candidate = selectWorker(box);
-        if (candidate==null){
-            System.out.println("\nNot a valid worker");
-            selectWorkerPhase();
-            return;
-        }
+        controller.ShowMapRequest();
+        Worker candidate;
+        candidate = controller.askForWorker();
         if (candidate.CanMove()){
-            selectedWorker=candidate;
-            return;
+            selectedWorker = candidate;
         }
         else {
-            System.out.println("\nThat guy can't move!");
             selectWorkerPhase();
-            return;
         }
     }
 
@@ -159,34 +158,30 @@ public class Player {
      * Start of the movement phase, you must move the selected worker
      */
     public void movePhase(){
-        Box box = null; //Ask for input valid box
-        System.out.println("\nWhere do you want to move your worker?");
-        box = Controller.askForCoordinates();
+        controller.ShowLegalMovementRequest();
+        Box box = controller.askForMovement();
         if (selectedWorker.LegalMovement(box)){
             selectedWorker.Move(box);
         }
         else{
-            System.out.println("\nNot a valid destination");
+            controller.notValidDestination();
             movePhase();
             return;
         }
+        Game.getInstance().CheckGameFinished();
     }
 
     /**
      * Start of the Build phase, you must build with the selected worker
      */
     public void buildPhase(){
-        Box box = null; //Ask for input valid box
-        System.out.println("\nWhere do you want to Build?");
-        box = Controller.askForCoordinates();
+        controller.ShowLegalBuildingRequest();
+        Box box = controller.askForBuilding();
         if (card.getName().equals("Atlas")){
-            System.out.println("\nDo you wish to build a Dome? \n yes / no");
-            while (msg == null || !msg.equals("yes") && !msg.equals("no")) {
-                msg = in.nextLine();
-            }
-            if (msg.equals("yes")){
+            if (controller.askForPower()){
                 if (selectedWorker.LegalBuild(box)){
                     selectedWorker.BuildDome(box);
+                    return;
                 }
             }
         }
@@ -194,7 +189,7 @@ public class Player {
             selectedWorker.Build(box);
         }
         else{
-            System.out.println("\nIl comune non ti dà il consenso");
+            controller.notValidDestination();
             buildPhase();
             return;
         }
@@ -205,7 +200,9 @@ public class Player {
      */
     public void endTurn(){
         for (Player players : Game.getInstance().getPlayer()){
-            players.getCard().myVictoryCondition();
+            if(!players.isLoser()) {
+                players.getCard().myVictoryCondition();
+            }
         }
         Game.getInstance().CheckGameFinished();
         Game.getInstance().NextTurn();
@@ -215,29 +212,28 @@ public class Player {
      * Start your Turn, you can make your actions; if you can't, you lose
      */
     public void turnStart(){
-        //new Cli().ShowMap();
-        Boolean canDoSomething = false;
         selectedWorker=null;
         if (loser){
             endTurn();
+        }
+        controller.TurnStart();
+        Boolean canDoSomething = false;
+        for (Worker worker : workers){
+            worker.setDidBuild(false);
+            worker.setMoved(false);
+            worker.setDidClimb(false);
+            worker.setLastPosition(worker.getPosition());
         }
         if ((Game.getInstance().getActualTurn() / Game.getInstance().getPlayer().size()) == 0) {
             this.initializeWorkers();
             this.endTurn();
         }
-        if (card.isActivePower()){  //Implementare con la view il modo di scegliere se usare o meno il potere
-            System.out.println("\n Would you like to use " + card.getName() + "Power? \n yes / no");
-            while (msg == null || !msg.equals("yes") && !msg.equals("no")) {
-                msg = in.nextLine();
-            }
-            if (msg.equals("yes")) {
+        if (card.isActivePower()){
+            usePower = controller.askForPower();
+            if (usePower) {
                 card.activeSubroutine();
                 usePower = false;
-                msg = null;
                 endTurn();
-            }
-            if (msg.equals("no")){
-                msg=null;
             }
         }
         for (Worker worker : workers) {
@@ -264,30 +260,28 @@ public class Player {
      * Initialize workers
      */
     private void initializeWorkers(){
-        Box box = null; // TO CHANGE (quando faremo la view e gli i/o)
-        System.out.println("\nWhere do you want to place your first Worker?");
-        box = Controller.askForCoordinates();
+        controller.ShowMapRequest();
+        Box box = controller.askForPlacement(1);
         Worker worker = workers.get(0);
         while (worker.getPosition() == null){
             if (worker.setInitialPosition(box)){
                 worker.setState(true);
             }
             else {
-                System.out.println("Not a valid position, try again");
-                box = Controller.askForCoordinates();
+                controller.notValidDestination();
+                box = controller.askForPlacement(1);
             }
-
         }
-        System.out.println("Where do you want to place your second Worker?");
-        box = Controller.askForCoordinates();
+        controller.ShowMapRequest();
+        box = controller.askForPlacement(2);
         worker = workers.get(1);
         while (worker.getPosition() == null){
             if (worker.setInitialPosition(box)){
                 worker.setState(true);
             }
             else {
-                System.out.println("\n Not a valid position, try again");
-                box = Controller.askForCoordinates();
+                controller.notValidDestination();
+                box = controller.askForCoordinates();
             }
         }
     }
@@ -310,9 +304,15 @@ public class Player {
      * The player loses and he's removed from the game
      */
     public void lose(){
-        System.out.println("\n You lost!\n Dumbo's!");
+        controller.lose();
         loser=true;
         Game.getInstance().CheckGameFinished();
+        for (Worker worker : workers){
+            worker.getPosition().setOccupied(false);
+            worker.getPosition().getStructure().remove(worker.getPosition().getStructure().size()-1);
+            selectedWorker=null;
+            workers = null;
+        }
         endTurn();
     }
 
@@ -335,4 +335,19 @@ public class Player {
         return winner;
     }
 
+    public Colors getColor() {
+        return color;
+    }
+
+    public Controller getController() {
+        return controller;
+    }
+
+    public void setSelectedWorker(Worker selectedWorker) {
+        this.selectedWorker = selectedWorker;
+    }
+
+    public boolean isUsePower() {
+        return usePower;
+    }
 }

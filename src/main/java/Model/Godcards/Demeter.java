@@ -28,22 +28,33 @@ public class Demeter extends GodCard {
             canDoSomething = false;
         }
         else {
-            //player loses
+            getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){
             getOwner().buildPhase();
         }
         else {
-            //player loses
+            getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){ //Costruisce una seconda volta
             getOwner().buildPhase();
+        }
+        else {
+            getOwner().lose();
         }
         return true;
     }
 
     @Override
-    public boolean myBuild(){ return true; }
+    public boolean myBuild(){
+        if(getOwner().getSelectedWorker()==null){
+            return false;
+        }
+        if (getOwner().getSelectedWorker().isDidBuild()) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Se ha già costruito rimuove la casella dove già ha costruito

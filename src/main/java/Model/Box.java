@@ -124,7 +124,7 @@ public class Box {
         try {
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
-                    if (!(i == 0 && j == 0) && (posX + i > -1) && (posX + i < 5) && (posY + j > 0) && (posY + j < 5)) {
+                    if (!(i == 0 && j == 0) && (posX + i > -1) && (posX + i < 5) && (posY + j > -1) && (posY + j < 5)) {
                         neighbors.add(PlayGround.getInstance().getBox(posX + i, posY + j));
                     }
                 }

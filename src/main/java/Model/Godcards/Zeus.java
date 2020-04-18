@@ -20,6 +20,9 @@ public class Zeus extends GodCard {
 
     @Override
     public ArrayList<Box> specialBuilding(ArrayList<Box> legalBoxes) {
+        if (getOwner().getSelectedWorker()==null){
+            return legalBoxes;
+        }
         ArrayList<Pawn> actualStructure = getOwner().getSelectedWorker().getPosition().getStructure();
         if (actualStructure.get(actualStructure.size() - 2).getType() != PawnType.Level_3) {
             legalBoxes.add(getOwner().getSelectedWorker().getPosition());

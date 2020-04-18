@@ -18,9 +18,12 @@ public class Apollo extends  GodCard{
         Worker worker = getOwner().getSelectedWorker();
         Worker enemyWorker = null;
         for(Player enemy : Game.getInstance().getPlayer()){
-            for(Worker workers : enemy.getWorkers()){
-                if (workers.getPosition().equals(dest)){  //Trova l'operaio nemico nella casella di destinazione
-                    enemyWorker = workers;
+            if (!enemy.isLoser()) {
+                for (Worker workers : enemy.getWorkers()) {
+                    if (workers.getPosition().equals(dest)) {  //Trova l'operaio nemico nella casella di destinazione
+                        enemyWorker = workers;
+                        dest.getStructure().remove(enemyWorker);
+                    }
                 }
             }
         }
@@ -29,12 +32,15 @@ public class Apollo extends  GodCard{
         }
         worker.setLastPosition(position);
         worker.setPosition(dest);
+        position.getStructure().remove(worker);
+        dest.getStructure().add(worker);
         worker.setMoved(true);
         enemyWorker.setPosition(position);
+        position.getStructure().add(enemyWorker);
         if((position.getStructure().size()<=4 && dest.getStructure().size()>=5) || worker.getOwner().getCard().myVictoryCondition()){//Parto da un qualsiasi piano minore del terzo e arrivo in un terzo piano non occupato oppure occupato ma posso spingere l'avversario
             boolean enemyWinCondition = false;
             for (Player enemy : Game.getInstance().getPlayer()) {
-                if (!enemy.equals(worker.getOwner())) {
+                if (!enemy.equals(worker.getOwner()) && !enemy.isLoser()) {
                     enemyWinCondition = enemyWinCondition || enemy.getCard().enemyVictoryCondition(dest); //CHECKS RESTRIZIONI GODS NEMICI
                     if(!enemyWinCondition){
                         this.getOwner().setWinner(true);

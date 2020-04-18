@@ -20,6 +20,7 @@ public class Triton extends GodCard {
      */
     @Override
     public boolean activeSubroutine(){
+        boolean powerUse=false;
         boolean canDoSomething=false;
         for (Worker worker : getOwner().getWorkers()) {
             canDoSomething = canDoSomething || worker.CanMove();
@@ -34,17 +35,14 @@ public class Triton extends GodCard {
         }
 
         do {
-            if (getOwner().getSelectedWorker().CanMove() && getOwner().getSelectedWorker().getPosition().isBorder()) {
-                System.out.println("\n Would you like to use " + getName() + "Power? \n yes / no");
-                while (msg == null || !msg.equals("yes") && !msg.equals("no")) {
-                    msg = scanner.nextLine();
-                }
-                if (msg.equals("yes")){
+            powerUse = false;
+            if (getOwner().getSelectedWorker().getPosition().isBorder()) {
+                powerUse = getOwner().getController().askForPower();
+                if (powerUse){
                     getOwner().movePhase();
-                    msg = null;
                 }
             }
-        }while (getOwner().getSelectedWorker().CanMove() && getOwner().getSelectedWorker().getPosition().isBorder() && msg.equals("yes"));
+        }while (getOwner().getSelectedWorker().CanMove() && getOwner().getSelectedWorker().getPosition().isBorder() && powerUse);
 
         if (getOwner().getSelectedWorker().CanBuild()){
             getOwner().buildPhase();
