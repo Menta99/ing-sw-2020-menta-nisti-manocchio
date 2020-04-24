@@ -1,7 +1,5 @@
 package Model.Godcards;
 
-import java.util.zip.CheckedInputStream;
-
 public class GodFactory {
     public GodCard create(GodsEnum god){
         GodCard toReturn;

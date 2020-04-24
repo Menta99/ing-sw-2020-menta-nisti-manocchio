@@ -1,6 +1,7 @@
 package Model.Godcards;
 
 import Model.Box;
+import Model.Game;
 import Model.Worker;
 
 import java.util.ArrayList;
@@ -48,24 +49,43 @@ public class Artemis extends GodCard {
             canDoSomething = canDoSomething || worker.CanMove();
         }
         if (canDoSomething) {
-            getOwner().selectWorkerPhase();
-            getOwner().movePhase();
+            Game.getInstance().getController().SelectWorkerPhase(getOwner());
+            Game.getInstance().getController().MovePhase(getOwner());
+            if(!Game.getInstance().getController().getActive().get()){
+                return false;
+            }
+            //getOwner().selectWorkerPhase();
+            //getOwner().movePhase();
             canDoSomething = false;
         }
         else {
-            getOwner().lose();
+            Game.getInstance().getController().Lose(getOwner());
+            return false;
+            //getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanMove()){ //Secondo movimento, se non riesce non perde
-            getOwner().movePhase();
+            Game.getInstance().getController().MovePhase(getOwner());
+            if(!Game.getInstance().getController().getActive().get()){
+                return false;
+            }
+            //getOwner().movePhase();
         }
         else {
-            getOwner().lose();
+            Game.getInstance().getController().Lose(getOwner());
+            return false;
+            //getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){
-            getOwner().buildPhase();
+            Game.getInstance().getController().BuildPhase(getOwner());
+            if(!Game.getInstance().getController().getActive().get()){
+                return false;
+            }
+            //getOwner().buildPhase();
         }
         else {
-            getOwner().lose();
+            Game.getInstance().getController().Lose(getOwner());
+            return false;
+            //getOwner().lose();
         }
         return true;
     }

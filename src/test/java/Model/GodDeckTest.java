@@ -2,44 +2,39 @@ package Model;
 
 import Model.Godcards.GodCard;
 import Model.Godcards.GodDeck;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class GodDeckTest {
-    /*
+    private GodDeck myDeck;
+    private GodCard myCard;
     @Before
     public void setUp() throws Exception {
+        myDeck = new GodDeck();
     }
 
     @After
     public void tearDown() throws Exception {
     }
-    */
+
     @Test
     public void draw() {
-        GodDeck myDeck = new GodDeck();
-        GodCard myCard;
-        myDeck.getCardList().add(new TestCard("Apollo"));
-        myDeck.getCardList().add(new TestCard("Zeus"));
-        myDeck.getCardList().add(new TestCard("Ade"));
-        myDeck.getCardList().add(new TestCard("Era"));
         myCard = myDeck.Draw(0);
-        Assert.assertEquals("Apollo",myCard.getName());
+        Assert.assertEquals("APOLLO",myCard.getName().toUpperCase());
         myCard = myDeck.Draw(1);
-        Assert.assertEquals("Zeus",myCard.getName());
+        Assert.assertEquals("ARTEMIS",myCard.getName().toUpperCase());
         myCard = myDeck.Draw(2);
-        Assert.assertEquals("Ade",myCard.getName());
+        Assert.assertEquals("ATHENA",myCard.getName().toUpperCase());
         myCard = myDeck.Draw(3);
-        Assert.assertEquals("Era",myCard.getName());
+        Assert.assertEquals("ATLAS",myCard.getName().toUpperCase());
     }
 
     @Test
     public void invalidDraw() {
-        GodDeck myDeck = new GodDeck();
-        GodCard myCard;
-        myDeck.getCardList().add(new TestCard("Apollo"));
         myCard = myDeck.Draw(0);
-        Assert.assertEquals("Apollo",myCard.getName());
+        Assert.assertEquals("APOLLO",myCard.getName().toUpperCase());
         myCard = myDeck.Draw(0);
         Assert.assertEquals(null ,myCard);
     }

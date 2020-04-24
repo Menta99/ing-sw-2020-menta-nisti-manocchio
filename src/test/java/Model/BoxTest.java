@@ -56,8 +56,6 @@ public class BoxTest {
 
     @Test
     public void playableWorker(){
-        //PlayGround myBoard = PlayGround.getInstance();
-        //Box myBox = myBoard.getBox(0,0);
         Box myBox = new Box(0,0);
         Boolean myBool = false;
         myBool = myBox.Playable();

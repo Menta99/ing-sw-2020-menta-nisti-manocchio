@@ -1,6 +1,7 @@
 package Model.Godcards;
 
 import Model.Box;
+import Model.Game;
 import Model.Worker;
 
 import java.util.ArrayList;
@@ -19,23 +20,32 @@ public class Hephaestus extends GodCard {
             canDoSomething = canDoSomething || worker.CanMove();
         }
         if (canDoSomething) {
-            getOwner().movePhase();
+            Game.getInstance().getController().SelectWorkerPhase(getOwner());
+            Game.getInstance().getController().MovePhase(getOwner());
+            if(!Game.getInstance().getController().getActive().get()){
+                return false;
+            }
+            //getOwner().selectWorkerPhase();
+            //getOwner().movePhase();
             canDoSomething = false;
         }
         else {
-            getOwner().lose();
+            Game.getInstance().getController().Lose(getOwner());
+            return false;
+            //getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){
-            getOwner().buildPhase();
+            Game.getInstance().getController().BuildPhase(getOwner());
+            if(!Game.getInstance().getController().getActive().get()){
+                return false;
+            }
+            //getOwner().buildPhase();
+            getOwner().getSelectedWorker().Build(getOwner().getSelectedWorker().getLastBuilding());
         }
         else {
-            getOwner().lose();
-        }
-        if (getOwner().getSelectedWorker().CanBuild()){ //Costruisce una seconda volta
-            getOwner().buildPhase();
-        }
-        else {
-            getOwner().lose();
+            Game.getInstance().getController().Lose(getOwner());
+            return false;
+            //getOwner().lose();
         }
         return true;
     }
@@ -58,9 +68,17 @@ public class Hephaestus extends GodCard {
      */
     @Override
     public ArrayList<Box> specialBuilding(ArrayList<Box> adjacentBoxes){
-        if(getOwner().getSelectedWorker().isDidBuild()){
+        ArrayList<Box> toRemove = new ArrayList<>();
+        if(!getOwner().getSelectedWorker().isDidBuild()){ //Costruisce nuovamente nella stessa Box a meno che non ci sia la possibilità di creare un DOME
+            for (Box box : adjacentBoxes){
+                if (box.getUpperLevel().getValue()>1){
+                    toRemove.add(box);
+                }
+            }
+            adjacentBoxes.removeAll(toRemove);
+        }
+        else{
             adjacentBoxes.removeAll(adjacentBoxes);
-            if(getOwner().getSelectedWorker().getLastBuilding().getUpperLevel().getValue() < 3 ) //Costruisce nuovamente nella stessa Box a meno che non ci sia la possibilità di creare un DOME
             adjacentBoxes.add(getOwner().getSelectedWorker().getLastBuilding());
         }
         return adjacentBoxes;

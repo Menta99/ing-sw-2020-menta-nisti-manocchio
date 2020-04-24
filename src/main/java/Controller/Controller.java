@@ -1,130 +1,406 @@
 package Controller;
 
-import Model.Box;
-import Model.Game;
-import Model.PlayGround;
-import Model.Worker;
-import View.cli.Cli;
+import ComunicationProtocol.CliCommandMsg;
+import Model.*;
+import Server.ClientHandler;
+import Server.Server;
+import View.Colors;
+import VirtualView.VirtualView;
 
-import java.util.Scanner;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Controller {
-    private boolean iscli=true;
-    private boolean isgui;
-    private Cli cli;
+public class Controller implements Runnable{
+    private VirtualView virtual;
+    private Game match;
+    private int playerNum = 2;
+    private ArrayList<ClientHandler> handlers;
+    private AtomicBoolean active;
 
     public Controller(){
-        iscli=true; //scelta gui
-        cli = new Cli();
+        this.match = Game.getInstance();
+        this.virtual = new VirtualView(match);
+        this.handlers = new ArrayList<>();
+        this.active = new AtomicBoolean(true);
     }
 
-    public boolean legalCoordinates(int i, int j){
-        if (iscli){
-           return MessageHandlerCLI.legalCoordinates(i, j);
+    @Override
+    public void run() {
+        Clean();
+        LobbyCreation();
+        VirtualWelcome();
+        VirtualGodPhase(handlers.get(0));
+        StartGame();
+        while (active.get()){
+            TurnStart(match.getActualPlayer());
+        }
+        Server.UpdateServer();
+    }
+
+    public void LobbyCreation(){
+        int counter = 0;
+        System.out.println("[3] - Start Lobby Creation");
+        InitializePlayer(counter);
+        counter++;
+        for(; counter < playerNum; counter++){
+            InitializePlayer(counter);
+        }
+        System.out.println("[4] - Lobby Completed");
+    }
+
+    public void InitializePlayer(int position){
+        try {
+            Socket client = Server.getServer().accept();
+            ClientHandler handler = new ClientHandler(client, position);
+            handlers.add(handler);
+            new Thread(handler).start();
+        } catch (IOException e) {
+            System.err.println("Problem initializing a new Player");
+        }
+    }
+
+    public void VirtualWelcome(){
+        System.out.println("[5] - Game start");
+        for(ClientHandler handler : handlers){
+            if(!match.getPlayer().get(handlers.indexOf(handler)).isView()) {
+                virtual.CliWelcomeScreen(handler);
+            }
+            else{
+                //gui
+            }
+        }
+    }
+
+    public void VirtualGodPhase(ClientHandler challenger){
+        if (!challenger.getPlayer().isView()){
+            virtual.CliChooseGodPhase(challenger);
+        }
+        else {
+            //gui
+        }
+    }
+
+    /**
+     * Set Up a new Game, generating a random ID
+     */
+    public void StartGame(){
+        match.setActualPlayer(handlers.get(0).getPlayer());
+        match.setId(new Random().nextInt(10000));
+    }
+
+    public void Clean(){
+        match.CleanGame();
+        match.setController(this);
+    }
+
+    /**
+     * Start your Turn, you can make your actions; if you can't, you lose
+     */
+    public void TurnStart(Player player){
+        player.setSelectedWorker(null);
+        if (player.isLoser()){
+            EndTurn();
+            return;
+        }
+        VirtualTurnStart(player.isView());
+        Boolean canDoSomething = false;
+        player.SetUpWorkers();
+        if ((match.getActualTurn() / handlers.size()) == 0) {
+            InitializeWorkers(player);
+            EndTurn();
+            return;
+        }
+        if (player.getCard().isActivePower()){
+            player.setUsePower(VirtualAskPower(player.isView()));
+            if (player.isUsePower()) {
+                player.getCard().activeSubroutine();
+                player.setUsePower(false);
+                EndTurn();
+                return;
+            }
+        }
+        for (Worker worker : player.getWorkers()) {
+            canDoSomething = canDoSomething || worker.CanMove();
+        }
+        if (canDoSomething) {
+            SelectWorkerPhase(player);
+            MovePhase(player);
+            if(!active.get()){
+                return;
+            }
+        }
+        else {
+            Lose(player);
+            return;
+        }
+        if (player.getSelectedWorker().CanBuild()){
+            BuildPhase(player);
+        }
+        else {
+            Lose(player);
+            return;
+        }
+        EndTurn();
+    }
+
+    /**
+     * Initialize workers
+     */
+    public void InitializeWorkers(Player player){
+        Box box;
+        for(Worker worker : player.getWorkers()){
+            box = VirtualAskPlace(player.getWorkers().indexOf(worker) + 1, player.isView());
+            while (worker.getPosition() == null){
+                if (worker.setInitialPosition(box)){
+                    worker.setState(true);
+                }
+                else {
+                    VirtualNotValidDest(player.isView());
+                    box = VirtualAskPlace(1, player.isView());
+                }
+            }
+            if(player.getWorkers().indexOf(worker) == 0) {
+                UpdateAll(true, false);
+            }
+        }
+    }
+
+    /**
+     * You must Select a valid worker
+     */
+    public void SelectWorkerPhase(Player player){
+        Worker candidate;
+        candidate = VirtualAskWorker(player.isView());
+        if (candidate.CanMove()){
+            player.setSelectedWorker(candidate);
+        }
+        else {
+            SelectWorkerPhase(player);
+        }
+    }
+
+    /**
+     * Start of the movement phase, you must move the selected worker
+     */
+    public void MovePhase(Player player){
+        Update(false, false);
+        Box box = VirtualAskMovement(player.isView());
+        if (player.getSelectedWorker().LegalMovement(box)){
+            player.getSelectedWorker().Move(box);
+        }
+        else{
+            VirtualNotValidDest(player.isView());
+            MovePhase(player);
+            return;
+        }
+        CheckGameFinished();
+    }
+
+    /**
+     * Start of the Build phase, you must build with the selected worker
+     */
+    public void BuildPhase(Player player){
+        UpdateAll(false, true);
+        Box box = VirtualAskBuilding(player.isView());
+        if (player.getCard().getName().equals("Atlas")){
+            if (VirtualAskPower(player.isView())){
+                if (player.getSelectedWorker().LegalBuild(box)){
+                    player.getSelectedWorker().BuildDome(box);
+                    return;
+                }
+            }
+        }
+        if (player.getSelectedWorker().LegalBuild(box)){
+            player.getSelectedWorker().Build(box);
+        }
+        else{
+            VirtualNotValidDest(player.isView());
+            BuildPhase(player);
+            return;
+        }
+    }
+
+    /**
+     * Pass your Turn if you made the mandatory actions
+     */
+    public void EndTurn(){
+        for (Player player : match.getPlayer()){
+            if(!player.isLoser()) {
+                player.getCard().myVictoryCondition();
+            }
+        }
+        CheckGameFinished();
+        NextTurn();
+    }
+
+    /**
+     * Goes to the next round
+     * @throws NullPointerException if requested invalid action on the players
+     */
+    public void NextTurn(){
+        if(match.isGameFinished()){
+            active.set(false);
+            return;
+        }
+        else {
+            match.IncrementActualTurn();
+            match.setActualPlayer(match.getPlayer().get(match.getActualTurn() % match.getPlayer().size()));
+        }
+    }
+
+    /**
+     * The player loses and he's removed from the game
+     */
+    public void Lose(Player player){
+        VirtualLose(player.isView());
+        player.setLoser(true);
+        CheckGameFinished();
+        for (Worker worker : player.getWorkers()){
+            worker.getPosition().setOccupied(false);
+            worker.getPosition().getStructure().remove(worker.getPosition().getStructure().size()-1);
+            player.setSelectedWorker(null);
+            player.setWorkers(null);
+        }
+        EndTurn();
+    }
+
+    /**
+     * Checks if the game is finished
+     */
+    public void CheckGameFinished() {
+        int counter = 0;
+        for (Player player : match.getPlayer()){
+            if (player.isLoser()){
+                counter++;
+            }
+            if (player.isWinner()){
+                match.setGameFinished(true);
+                match.setWinner(player);
+            }
+        }
+        if (counter == match.getPlayer().size() - 1){
+            match.setGameFinished(true);
+            for (Player player : match.getPlayer()){
+                if (!player.isLoser()){
+                    match.setWinner(player);
+                    player.setWinner(true);
+                }
+            }
+        }
+        if (match.isGameFinished()){
+            VirtualGameFinished();
+            active.set(false);
+        }
+    }
+
+    public void VirtualTurnStart(boolean view){
+        if (!view){
+            virtual.CliTurnStartMessage();
+        }
+        else{
+
+        }
+    }
+
+    public boolean VirtualAskPower(boolean view){
+        if (!view){
+            return virtual.CliAskForPower(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
         }
         return true; //else gui
     }
 
-    public Box askForCoordinates() {
-        if (iscli){
-            return MessageHandlerCLI.askForCoordinates();
+    public Worker VirtualAskWorker(boolean view){
+        if (!view){
+            return virtual.CliAskForWorker(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
         }
         return null; //else gui
     }
 
-    public boolean askForPower(){
-        if (iscli){
-            return MessageHandlerCLI.askForPower();
-        }
-        return true; //else gui
-    }
-
-    public Worker askForWorker(){
-        if (iscli){
-            return MessageHandlerCLI.askForWorker();
+    public Box VirtualAskMovement(boolean view){
+        if (!view){
+            return virtual.CliAskForMovement(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
         }
         return null; //else gui
     }
 
-    public Box askForMovement(){
-        if (iscli){
-            return MessageHandlerCLI.askForMovement();
+    public Box VirtualAskBuilding(boolean view){
+        if (!view){
+            return virtual.CliAskForBuilding(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
         }
         return null; //else gui
     }
 
-
-    public Box askForBuilding(){
-        if (iscli){
-            return MessageHandlerCLI.askForBuilding();
-        }
-        return null; //else gui
-    }
-
-    public void notValidDestination(){
-        if (iscli){
-            MessageHandlerCLI.notValidDestination();
+    public void VirtualNotValidDest(boolean view){
+        if (!view){
+            virtual.CliNotValidDestination(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
             return;
         }
         return; //else gui
     }
 
-    public Box askForPlacement(int workerNumber){
-        if (iscli){
-            return MessageHandlerCLI.askForPlacement(workerNumber);
+    public Box VirtualAskPlace(int workerNumber, boolean view){
+        if (!view){
+            return virtual.CliAskForPlacement(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())), workerNumber);
         }
         return null; //else gui
     }
 
-    public void lose(){
-        if (iscli){
-            MessageHandlerCLI.lose();
+    public void VirtualLose(boolean view){
+        if (!view){
+            virtual.CliLose(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
         }
         //else gui
     }
 
-    public void gameFinished(){
-        if (iscli){
-            MessageHandlerCLI.gameFinished();
+    public void VirtualGameFinished(){
+        System.out.println("[F] - Game finished");
+        for(ClientHandler handler : handlers){
+            if(!match.getPlayer().get(handlers.indexOf(handler)).isView()) {
+                virtual.CliGameFinished(handler);
+            }
+            else{
+                //gui
+            }
         }
+        //Server.GameClose();//supposed common part
     }
 
-    public void Hall(Cli cli){
-        MessageHandlerCLI.Hall(cli);
+    public void UpdateAll(boolean generic, boolean phase){
+        ClientHandler actual = handlers.get(match.getPlayer().indexOf(match.getActualPlayer()));
+        CliCommandMsg msg1 = virtual.MapInfo(generic, phase, "");
+        CliCommandMsg msg2 = virtual.MapInfo(true, false, "Look at " + match.getActualPlayer().getColor() + match.getActualPlayer().getNickName() + Colors.RESET + "'s move");
+        virtual.Echo(actual, msg1, msg2);
     }
 
-    public static void main(String[] args) {
-        Game myGame = Game.getInstance();
-        Controller controller = new Controller();
-        controller.Hall(controller.getCli());
+    public void Update(boolean generic, boolean phase){
+        ClientHandler actual = handlers.get(match.getPlayer().indexOf(match.getActualPlayer()));
+        virtual.UpdateMap(actual, generic, phase);
     }
 
-
-    public void ShowMapRequest(){
-        if (iscli){
-            cli.ShowMap();
-        }
+    public VirtualView getVirtual() {
+        return virtual;
     }
 
-    public void ShowLegalMovementRequest(){
-        if (iscli){
-            cli.ShowAvailableMovement();
-        }
+    public int getPlayerNum() {
+        return playerNum;
     }
 
-    public void ShowLegalBuildingRequest(){
-        if (iscli){
-            cli.ShowAvailableBuilding();
-        }
+    public void setPlayerNum(int playerNum) {
+        this.playerNum = playerNum;
     }
 
-    public void TurnStart(){
-        if (iscli){
-            MessageHandlerCLI.TurnStartMessage();
-        }
+    public ArrayList<ClientHandler> getHandlers() {
+        return handlers;
     }
 
-    public Cli getCli() {
-        return cli;
+    public AtomicBoolean getActive() {
+        return active;
+    }
+
+    public void setActive(AtomicBoolean active) {
+        this.active = active;
     }
 }

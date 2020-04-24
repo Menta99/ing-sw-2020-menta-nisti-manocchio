@@ -7,7 +7,6 @@ public class PlayGround {
     private Box[][] grid;
     private final int SIZE = 5;
 
-
     /**
      * Load the saved status of the map
      */
@@ -26,6 +25,18 @@ public class PlayGround {
      * Private constructor of the Playground (Singleton)
      */
     private PlayGround(){
+        this.grid = new Box[SIZE][SIZE];
+        for (int i = 0; i < SIZE; i++){
+            for (int j = 0; j < SIZE; j++){
+                this.grid[i][j] = new Box(i,j);
+            }
+        }
+    }
+
+    /**
+     * Clean the playground
+     */
+    public void Clean(){
         this.grid = new Box[SIZE][SIZE];
         for (int i = 0; i < SIZE; i++){
             for (int j = 0; j < SIZE; j++){
@@ -62,16 +73,7 @@ public class PlayGround {
     }
 
     /**
-     * Delete all the playground (support method for testing)
-     */
-    public void Delete(){
-        instance = null;
-    }
-
-
-    /**
      * Getter of the Board Size
-     * @return
      */
     public int getSIZE() {
         return SIZE;

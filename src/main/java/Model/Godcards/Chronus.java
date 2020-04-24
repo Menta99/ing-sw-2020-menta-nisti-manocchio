@@ -24,7 +24,7 @@ public class Chronus extends GodCard {
         }
         if (counter >= 5){
             getOwner().setWinner(true);
-            Game.getInstance().CheckGameFinished();
+            Game.getInstance().getController().CheckGameFinished();
         }
     return false;
     }

@@ -5,11 +5,10 @@ import Model.Godcards.GodCard;
 import Model.Godcards.GodDeck;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Game {
-    private Controller controller;
     private static Game instance = null;
+    private Controller controller;
     private int id;
     private ArrayList<Player> players;
     private Player actualPlayer;
@@ -24,9 +23,8 @@ public class Game {
      * Private Constructor of Game (Singleton)
      */
     private Game() {
-        controller = new Controller();
         this.id = -1;
-        this.players = new ArrayList<Player>();
+        this.players = new ArrayList<>();
         this.actualPlayer = null;
         this.map = PlayGround.getInstance();
         this.deck = new GodDeck();
@@ -49,66 +47,33 @@ public class Game {
     }
 
     /**
-     * Getter of the players' ArrayList
-     *
-     * @return player
+     * Cleans the Game and the Playground, preparing them for a new game
      */
-    public ArrayList<Player> getPlayer() {
-        return this.players;
-    }
-
-    /**
-     * Getter of the actual turn
-     *
-     * @return actual turn
-     */
-    public int getActualTurn() {
-        return this.actualTurn;
-    }
-
-    /**
-     * Starts a new game
-     * @throws NullPointerException if requested invalid action on the players
-     */
-    public void StartGame(){
-        try {
-            this.actualPlayer = players.get(0);
-        }
-        catch (NullPointerException e){
-            System.err.println("No one in game");
-            e.printStackTrace();
-        }
-        this.id = new Random().nextInt(10000);
+    public void CleanGame(){
+        this.id = -1;
+        this.players = new ArrayList<>();
+        this.actualPlayer = null;
+        this.deck = new GodDeck();
+        this.activeCards = null;
+        this.actualTurn = 0;
         this.winner = null;
         this.gameFinished = false;
-        actualPlayer.turnStart();
+        this.map.Clean();
     }
+
     /**
-     * Goes to the next round
-     * @throws NullPointerException if requested invalid action on the players
+     * Increments the actualTurn by 1
      */
-    public void NextTurn(){
-        if (gameFinished){
-            return;
-        }
+    public void IncrementActualTurn(){
         this.actualTurn++;
-        try{
-            this.actualPlayer = this.players.get(this.actualTurn % this.players.size());
-        }
-        catch (NullPointerException e){
-            e.printStackTrace();
-        }
-        if (gameFinished){
-            return;
-        }
-        actualPlayer.turnStart();
     }
+
     /**
      * Extracts the active cards
      * @return true or false if it succeed
      * @throws NullPointerException if requested invalid action on the cards
      */
-    public boolean ExtractCard(int[] index){
+    public boolean ExtractCard(ArrayList<Integer> index){
         if (activeCards == null) {
             try{
                 activeCards = this.getPlayer().get(0).Draw(this.getDeck(), index);
@@ -124,92 +89,86 @@ public class Game {
         return false;
     }
 
-    /**
-     * Getter of gameFinished
-     *
-     * @return true or false if the game finished of not
-     */
-    public boolean getGameFinished() {
-        return this.gameFinished;
+    public Controller getController() {
+        return controller;
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     /**
-     * Getter of winner Player
-     *
-     * @return Player who won the game
+     * Getter of id
      */
-    public Player getWinner() {
-        return this.winner;
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
-     * Getter of deck
-     *
-     * @return deck of GodCards
+     * Getter of the players' ArrayList
      */
-    public GodDeck getDeck() {
-        return this.deck;
+    public ArrayList<Player> getPlayer() {
+        return this.players;
     }
 
     /**
      * Getter of actualPlayer
-     *
-     * @return Player
      */
     public Player getActualPlayer() {
         return this.actualPlayer;
     }
 
     /**
-     * Getter of id
-     *
-     * @return id
+     * Setter of ActualPlayer
      */
-    public int getId() {
-        return this.id;
+    public void setActualPlayer(Player actualPlayer) {
+        this.actualPlayer = actualPlayer;
     }
 
     /**
-     * Getter of activeCard
-     *
-     * @return active GodCards
+     * Getter of deck
+     */
+    public GodDeck getDeck() {
+        return this.deck;
+    }
+
+    /**
+     * Getter of activeCards
      */
     public ArrayList<GodCard> getActiveCards() {
         return this.activeCards;
     }
 
     /**
-     * Delete all the game (support method for testing)
+     * Getter of the actual turn
      */
-    public void Delete() {
-        instance = null;
+    public int getActualTurn() {
+        return this.actualTurn;
     }
 
     /**
-     * Checks if the game is finished
+     * Getter of winner Player
      */
-    public void CheckGameFinished() {
-        int counter = 0;
-        for (Player player : players){
-            if (player.isLoser()){
-                counter++;
-            }
-            if (player.isWinner()){
-                gameFinished = true;
-                winner = player;
-            }
-        }
-        if (counter == players.size() - 1){
-            gameFinished = true;
-            for (Player player : players){
-                if (!player.isLoser()){
-                    winner = player;
-                    player.setWinner(true);
-                }
-            }
-        }
-        if (gameFinished){
-            controller.gameFinished();
-         }
+    public Player getWinner() {
+        return this.winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
+
+    /**
+     * Getter of gameFinished
+     */
+    public boolean isGameFinished() {
+        return this.gameFinished;
+    }
+
+    public void setGameFinished(boolean gameFinished) {
+        this.gameFinished = gameFinished;
     }
 }

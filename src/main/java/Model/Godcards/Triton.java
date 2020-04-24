@@ -1,13 +1,11 @@
 package Model.Godcards;
 
+import Model.Game;
 import Model.Worker;
 
 import java.util.Scanner;
 
 public class Triton extends GodCard {
-
-    Scanner scanner = new Scanner(System.in);
-    String msg;
 
     public Triton(){
         this.setName("Triton");
@@ -26,29 +24,47 @@ public class Triton extends GodCard {
             canDoSomething = canDoSomething || worker.CanMove();
         }
         if (canDoSomething) {
-            getOwner().selectWorkerPhase();
-            getOwner().movePhase();
+            Game.getInstance().getController().SelectWorkerPhase(getOwner());
+            Game.getInstance().getController().MovePhase(getOwner());
+            if(!Game.getInstance().getController().getActive().get()){
+                return false;
+            }
+            //getOwner().selectWorkerPhase();
+            //getOwner().movePhase();
             canDoSomething = false;
         }
         else {
-            getOwner().lose();
+            Game.getInstance().getController().Lose(getOwner());
+            return false;
+            //getOwner().lose();
         }
 
         do {
             powerUse = false;
             if (getOwner().getSelectedWorker().getPosition().isBorder()) {
-                powerUse = getOwner().getController().askForPower();
+                powerUse = Game.getInstance().getController().VirtualAskPower(getOwner().isView());
+                //powerUse = getOwner().getController().askForPower(getOwner().isView());
                 if (powerUse){
-                    getOwner().movePhase();
+                    Game.getInstance().getController().MovePhase(getOwner());
+                    if(!Game.getInstance().getController().getActive().get()){
+                        return false;
+                    }
+                    //getOwner().movePhase();
                 }
             }
         }while (getOwner().getSelectedWorker().CanMove() && getOwner().getSelectedWorker().getPosition().isBorder() && powerUse);
 
         if (getOwner().getSelectedWorker().CanBuild()){
-            getOwner().buildPhase();
+            Game.getInstance().getController().BuildPhase(getOwner());
+            if(!Game.getInstance().getController().getActive().get()){
+                return false;
+            }
+            //getOwner().buildPhase();
         }
         else {
-            getOwner().lose();
+            Game.getInstance().getController().Lose(getOwner());
+            return false;
+            //getOwner().lose();
         }
         return true;
     }

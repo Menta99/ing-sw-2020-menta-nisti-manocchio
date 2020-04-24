@@ -1,6 +1,7 @@
 package Model.Godcards;
 
 import Model.Box;
+import Model.Game;
 import Model.PlayGround;
 import Model.Worker;
 
@@ -23,28 +24,47 @@ public class Prometeo extends GodCard {
         if (canDoSomething) {
             Worker candidate;
             while(getOwner().getSelectedWorker()==null) {  //Select Phase with condition canBuild instead of canMove
-                candidate = getOwner().getController().askForWorker();
+                candidate = Game.getInstance().getController().VirtualAskWorker(getOwner().isView());
+                //candidate = getOwner().getController().askForWorker(getOwner().isView());
                 if (candidate.CanBuild()) {
                     getOwner().setSelectedWorker(candidate);
                 }
             }
-            getOwner().buildPhase();
+            Game.getInstance().getController().BuildPhase(getOwner());
+            if(!Game.getInstance().getController().getActive().get()){
+                return false;
+            }
+            //getOwner().buildPhase();
             canDoSomething = false;
         }
         else {
-            getOwner().lose();
+            Game.getInstance().getController().Lose(getOwner());
+            return false;
+            //getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanMove()){
-            getOwner().movePhase();
+            Game.getInstance().getController().MovePhase(getOwner());
+            if(!Game.getInstance().getController().getActive().get()){
+                return false;
+            }
+            //getOwner().movePhase();
         }
         else{
-            getOwner().lose();
+            Game.getInstance().getController().Lose(getOwner());
+            return false;
+            //getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){
-            getOwner().buildPhase();
+            Game.getInstance().getController().BuildPhase(getOwner());
+            if(!Game.getInstance().getController().getActive().get()){
+                return false;
+            }
+            //getOwner().buildPhase();
         }
         else {
-            getOwner().lose();
+            Game.getInstance().getController().Lose(getOwner());
+            return false;
+            //getOwner().lose();
         }
         return true;
     }
