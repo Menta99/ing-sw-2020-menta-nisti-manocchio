@@ -2,6 +2,9 @@ package Model;
 
 import java.util.ArrayList;
 
+/**
+ * Class representing a game's worker
+ */
 public class Worker extends Pawn{
     private boolean state;
     private boolean moved;

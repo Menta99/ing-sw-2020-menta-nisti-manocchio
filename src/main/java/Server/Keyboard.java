@@ -2,6 +2,9 @@ package Server;
 
 import java.util.Scanner;
 
+/**
+ * Class for reading keyboard messages
+ */
 public class Keyboard implements Runnable{
 
     @Override

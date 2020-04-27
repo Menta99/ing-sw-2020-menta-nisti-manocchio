@@ -38,4 +38,14 @@ public class GodDeckTest {
         myCard = myDeck.Draw(0);
         Assert.assertEquals(null ,myCard);
     }
+
+    @Test
+    public void nonSpecialGod(){
+        myCard=myDeck.getCardList().get(3);
+        Assert.assertEquals(false,myCard.activeSubroutine());
+        Assert.assertEquals(false,myCard.moveOthers(null));
+        Assert.assertNull(myCard.specialMovement(null));
+        Assert.assertNull(myCard.specialBuilding(null));
+
+    }
 }

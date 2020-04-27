@@ -2,6 +2,9 @@ package ComunicationProtocol;
 
 import java.io.Serializable;
 
+/**
+ * Abstract class for communication messages
+ */
 public abstract class Message implements Serializable {
     private CommandType commandType = CommandType.COMMUNICATION;
 

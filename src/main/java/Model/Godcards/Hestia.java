@@ -6,6 +6,9 @@ import Model.Worker;
 
 import java.util.ArrayList;
 
+/**
+ * Class of GodCard Hestia
+ */
 public class Hestia extends GodCard {
 
     public Hestia(){
@@ -15,8 +18,8 @@ public class Hestia extends GodCard {
     }
 
     /**
-     * Implementa la funzione di Hestia
-     * @return
+     * Implement Hestia's power
+     * @return true or false
      */
     @Override
     public boolean activeSubroutine() {
@@ -77,7 +80,7 @@ public class Hestia extends GodCard {
     }
 
     /**
-     * Se ha già costruito rimuove le caselle perimetrali
+     * If built remove the border boxes
      * @param adjacentBoxes
      * @return
      */

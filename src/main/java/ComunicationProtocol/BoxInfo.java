@@ -5,12 +5,22 @@ import View.Colors;
 
 import java.io.Serializable;
 
+/**
+ * Class representing a box in an update map
+ */
 public class BoxInfo implements Serializable {
     private int height;
     private PawnType lastBuilding;
     private Colors workerColor;
     private Colors boxColor;
 
+    /**
+     * Constructor of the class
+     * @param height
+     * @param lastBuilding
+     * @param workerColor
+     * @param boxColor
+     */
     public BoxInfo(int height, PawnType lastBuilding, Colors workerColor, Colors boxColor){
         this.height = height;
         this.lastBuilding = lastBuilding;

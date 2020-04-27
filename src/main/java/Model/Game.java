@@ -6,6 +6,9 @@ import Model.Godcards.GodDeck;
 
 import java.util.ArrayList;
 
+/**
+ * Class representing the game
+ */
 public class Game {
     private static Game instance = null;
     private Controller controller;

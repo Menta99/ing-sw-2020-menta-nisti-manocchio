@@ -66,7 +66,7 @@ public class RandomMapGenerator {
 
     @Test
     public void Exe(){
-        for (int i = 0; i < 500; i++){
+        for (int i = 0; i < 50; i++){
             GenerateRandomField();
             System.out.println("PLAYING WITH: \n" + match.getActiveCards().get(0).getName() + "\n" + match.getActiveCards().get(1).getName() + "\n" + match.getActiveCards().get(2).getName());
             msg = virtual.MapInfo(true, false, "");

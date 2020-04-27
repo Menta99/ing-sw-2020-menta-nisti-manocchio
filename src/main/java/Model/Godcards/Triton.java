@@ -5,15 +5,21 @@ import Model.Worker;
 
 import java.util.Scanner;
 
+/**
+ * Class of GodCard Triton
+ */
 public class Triton extends GodCard {
 
+    /**
+     * Constructor of the god
+     */
     public Triton(){
         this.setName("Triton");
         this.setPower("You can move once more every time you end up your movement in a Border position");
         setActivePower(true);
     }
     /**
-     * Implementa il potere speciale di Triton
+     * Implement Triton's power
      * @return
      */
     @Override

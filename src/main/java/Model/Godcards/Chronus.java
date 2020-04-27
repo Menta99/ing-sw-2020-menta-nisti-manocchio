@@ -4,13 +4,23 @@ import Model.Game;
 import Model.PawnType;
 import Model.PlayGround;
 
+/**
+ * Class of GodCard Chronus
+ */
 public class Chronus extends GodCard {
 
+    /**
+     * Constructor of the god
+     */
     public Chronus() {
         this.setName("Chronus");
         this.setPower("You win even if there are 5 Completed Building on the map (1,2,3 floor and a Dome on top)");
     }
 
+    /**
+     * Implement Chronus' special power
+     * @return true or false
+     */
     @Override
     public boolean myVictoryCondition() {
         int counter = 0;

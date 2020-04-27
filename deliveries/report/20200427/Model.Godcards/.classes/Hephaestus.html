@@ -1,0 +1,176 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Hephaestus</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Model.Godcards</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Hephaestus (Model.Godcards)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Hephaestus</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    68,4%
+  </span>
+  <span class="absValue">
+    (26/ 38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Model.Godcards;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Model.Box;
+<i>4</i>&nbsp;import Model.Game;
+<i>5</i>&nbsp;import Model.Worker;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.ArrayList;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Class of GodCard Hephaestus
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class Hephaestus extends GodCard {
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    /**
+<i>15</i>&nbsp;     * God&#39;s constructor
+<i>16</i>&nbsp;     */
+<b class="fc"><i>17</i>&nbsp;    public Hephaestus(){</b>
+<b class="fc"><i>18</i>&nbsp;        this.setName(&quot;Hephaestus&quot;);</b>
+<b class="fc"><i>19</i>&nbsp;        this.setPower(&quot;You can build again on the same position, but not a Dome&quot;);</b>
+<b class="fc"><i>20</i>&nbsp;        setActivePower(true);</b>
+<b class="fc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * Implement God&#39;s function
+<i>25</i>&nbsp;     * @return true or false
+<i>26</i>&nbsp;     */
+<i>27</i>&nbsp;    @Override
+<i>28</i>&nbsp;    public boolean activeSubroutine() {
+<b class="fc"><i>29</i>&nbsp;        boolean canDoSomething=false;</b>
+<b class="fc"><i>30</i>&nbsp;        for (Worker worker : getOwner().getWorkers()) {</b>
+<b class="fc"><i>31</i>&nbsp;            canDoSomething = canDoSomething || worker.CanMove();</b>
+<b class="fc"><i>32</i>&nbsp;        }</b>
+<b class="fc"><i>33</i>&nbsp;        if (canDoSomething) {</b>
+<b class="fc"><i>34</i>&nbsp;            Game.getInstance().getController().SelectWorkerPhase(getOwner());</b>
+<b class="fc"><i>35</i>&nbsp;            Game.getInstance().getController().MovePhase(getOwner());</b>
+<b class="fc"><i>36</i>&nbsp;            if(!Game.getInstance().getController().getActive().get()){</b>
+<b class="nc"><i>37</i>&nbsp;                return false;</b>
+<i>38</i>&nbsp;            }
+<i>39</i>&nbsp;            //getOwner().selectWorkerPhase();
+<i>40</i>&nbsp;            //getOwner().movePhase();
+<b class="fc"><i>41</i>&nbsp;            canDoSomething = false;</b>
+<i>42</i>&nbsp;        }
+<i>43</i>&nbsp;        else {
+<b class="nc"><i>44</i>&nbsp;            Game.getInstance().getController().Lose(getOwner());</b>
+<b class="nc"><i>45</i>&nbsp;            return false;</b>
+<i>46</i>&nbsp;            //getOwner().lose();
+<i>47</i>&nbsp;        }
+<b class="fc"><i>48</i>&nbsp;        if (getOwner().getSelectedWorker().CanBuild()){</b>
+<b class="fc"><i>49</i>&nbsp;            Game.getInstance().getController().BuildPhase(getOwner());</b>
+<b class="fc"><i>50</i>&nbsp;            if(!Game.getInstance().getController().getActive().get()){</b>
+<b class="nc"><i>51</i>&nbsp;                return false;</b>
+<i>52</i>&nbsp;            }
+<i>53</i>&nbsp;            //getOwner().buildPhase();
+<b class="fc"><i>54</i>&nbsp;            getOwner().getSelectedWorker().Build(getOwner().getSelectedWorker().getLastBuilding());</b>
+<i>55</i>&nbsp;        }
+<i>56</i>&nbsp;        else {
+<b class="nc"><i>57</i>&nbsp;            Game.getInstance().getController().Lose(getOwner());</b>
+<b class="nc"><i>58</i>&nbsp;            return false;</b>
+<i>59</i>&nbsp;            //getOwner().lose();
+<i>60</i>&nbsp;        }
+<b class="fc"><i>61</i>&nbsp;        return true;</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    @Override
+<i>65</i>&nbsp;    public boolean myBuild(){
+<b class="fc"><i>66</i>&nbsp;        if(getOwner().getSelectedWorker()==null){</b>
+<b class="nc"><i>67</i>&nbsp;            return false;</b>
+<i>68</i>&nbsp;        }
+<b class="fc"><i>69</i>&nbsp;        if (getOwner().getSelectedWorker().isDidBuild()) {</b>
+<b class="fc"><i>70</i>&nbsp;            return true;</b>
+<i>71</i>&nbsp;        }
+<b class="fc"><i>72</i>&nbsp;        return false;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    /**
+<i>76</i>&nbsp;     * If you built you can rebuild but not a Dome
+<i>77</i>&nbsp;     * @param adjacentBoxes
+<i>78</i>&nbsp;     * @return
+<i>79</i>&nbsp;     */
+<i>80</i>&nbsp;    @Override
+<i>81</i>&nbsp;    public ArrayList&lt;Box&gt; specialBuilding(ArrayList&lt;Box&gt; adjacentBoxes){
+<b class="fc"><i>82</i>&nbsp;        ArrayList&lt;Box&gt; toRemove = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>83</i>&nbsp;        if(!getOwner().getSelectedWorker().isDidBuild()){ //Costruisce nuovamente nella stessa Box a meno che non ci sia la possibilità di creare un DOME</b>
+<b class="nc"><i>84</i>&nbsp;            for (Box box : adjacentBoxes){</b>
+<b class="nc"><i>85</i>&nbsp;                if (box.getUpperLevel().getValue()&gt;1){</b>
+<b class="nc"><i>86</i>&nbsp;                    toRemove.add(box);</b>
+<i>87</i>&nbsp;                }
+<b class="nc"><i>88</i>&nbsp;            }</b>
+<b class="nc"><i>89</i>&nbsp;            adjacentBoxes.removeAll(toRemove);</b>
+<i>90</i>&nbsp;        }
+<b class="fc"><i>91</i>&nbsp;        return adjacentBoxes;</b>
+<i>92</i>&nbsp;    }
+<i>93</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-27 23:23</div>
+</div>
+</body>
+</html>

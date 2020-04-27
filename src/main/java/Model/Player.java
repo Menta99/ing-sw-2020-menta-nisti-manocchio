@@ -7,6 +7,9 @@ import View.Colors;
 
 import java.util.ArrayList;
 
+/**
+ * Class representing a player
+ */
 public class Player {
     private Controller controller;
     private boolean view; //false = cli -- true = gui
@@ -143,9 +146,6 @@ public class Player {
         }
     }
 
-    public Controller getController() {
-        return controller;
-    }
 
     public boolean isView() {
         return view;

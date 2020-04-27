@@ -1,0 +1,256 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Cli</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">View.CLI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Cli (View.CLI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Cli</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    18,2%
+  </span>
+  <span class="absValue">
+    (2/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    39,2%
+  </span>
+  <span class="absValue">
+    (29/ 74)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package View.CLI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Client.ConnectionHandler;
+<i>4</i>&nbsp;import ComunicationProtocol.BoxInfo;
+<i>5</i>&nbsp;import ComunicationProtocol.CliCommandMsg;
+<i>6</i>&nbsp;import ComunicationProtocol.ServerMsg;
+<i>7</i>&nbsp;import Model.PawnType;
+<i>8</i>&nbsp;import View.*;
+<i>9</i>&nbsp;import java.util.ArrayList;
+<i>10</i>&nbsp;import java.util.Scanner;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/**
+<i>13</i>&nbsp; * Class representing the command line interface
+<i>14</i>&nbsp; */
+<i>15</i>&nbsp;public class Cli extends View {
+<i>16</i>&nbsp;    private Scanner scanner;
+<i>17</i>&nbsp;    private BoxInfo[][] map;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * Constructor of the class
+<i>21</i>&nbsp;     */
+<b class="fc"><i>22</i>&nbsp;    public Cli(){</b>
+<b class="fc"><i>23</i>&nbsp;        this.scanner = new Scanner(System.in);</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Handler for CommandType Name
+<i>28</i>&nbsp;     * @param command
+<i>29</i>&nbsp;     * @param client
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    public void NameHandler(CliCommandMsg command, ConnectionHandler client){
+<b class="nc"><i>32</i>&nbsp;        Display(command.getMsg());</b>
+<b class="nc"><i>33</i>&nbsp;        String msg = scanner.nextLine();</b>
+<b class="nc"><i>34</i>&nbsp;        client.WriteMessage(new ServerMsg(msg, client.Layout()));</b>
+<b class="nc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * Handler for CommandType Number
+<i>39</i>&nbsp;     * @param command
+<i>40</i>&nbsp;     * @param client
+<i>41</i>&nbsp;     */
+<i>42</i>&nbsp;    public void NumberHandler(CliCommandMsg command, ConnectionHandler client){
+<b class="nc"><i>43</i>&nbsp;        Display(command.getMsg());</b>
+<b class="nc"><i>44</i>&nbsp;        ArrayList&lt;Integer&gt; output = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>45</i>&nbsp;        output.add(scanner.nextInt());</b>
+<b class="nc"><i>46</i>&nbsp;        client.WriteMessage(new ServerMsg(output));</b>
+<b class="nc"><i>47</i>&nbsp;    }</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    /**
+<i>50</i>&nbsp;     * Handler for CommandType Coordinates
+<i>51</i>&nbsp;     * @param command
+<i>52</i>&nbsp;     * @param client
+<i>53</i>&nbsp;     */
+<i>54</i>&nbsp;    public void CoordinatesHandler(CliCommandMsg command, ConnectionHandler client){
+<b class="nc"><i>55</i>&nbsp;        Display(command.getMsg());</b>
+<b class="nc"><i>56</i>&nbsp;        ArrayList&lt;Integer&gt; coord = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>57</i>&nbsp;        coord.add(scanner.nextInt());</b>
+<b class="nc"><i>58</i>&nbsp;        coord.add(scanner.nextInt());</b>
+<b class="nc"><i>59</i>&nbsp;        client.WriteMessage(new ServerMsg(coord));</b>
+<b class="nc"><i>60</i>&nbsp;    }</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    /**
+<i>63</i>&nbsp;     * Handler for CommandType Answer
+<i>64</i>&nbsp;     * @param command
+<i>65</i>&nbsp;     * @param client
+<i>66</i>&nbsp;     */
+<i>67</i>&nbsp;    public void AnswerHandler(CliCommandMsg command, ConnectionHandler client){
+<b class="nc"><i>68</i>&nbsp;        Display(command.getMsg());</b>
+<b class="nc"><i>69</i>&nbsp;        String msg = null;</b>
+<b class="nc"><i>70</i>&nbsp;        msg = scanner.nextLine();</b>
+<b class="nc"><i>71</i>&nbsp;        while (msg == null || (!msg.equalsIgnoreCase(&quot;yes&quot;) &amp;&amp; !msg.equalsIgnoreCase(&quot;no&quot;))){</b>
+<b class="nc"><i>72</i>&nbsp;            msg = scanner.nextLine();</b>
+<i>73</i>&nbsp;        }
+<b class="nc"><i>74</i>&nbsp;        client.WriteMessage(new ServerMsg(msg));</b>
+<b class="nc"><i>75</i>&nbsp;    }</b>
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    /**
+<i>78</i>&nbsp;     * Handler for CommandType God
+<i>79</i>&nbsp;     * @param command
+<i>80</i>&nbsp;     * @param client
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;    public void GodHandler(CliCommandMsg command, ConnectionHandler client){
+<b class="nc"><i>83</i>&nbsp;        Display(command.getMsg());</b>
+<b class="nc"><i>84</i>&nbsp;        ArrayList&lt;Integer&gt; index = new ArrayList&lt;&gt;();</b>
+<i>85</i>&nbsp;        int number;
+<b class="nc"><i>86</i>&nbsp;        while (index.size() &lt; command.getInfo()){</b>
+<b class="nc"><i>87</i>&nbsp;            number = scanner.nextInt();</b>
+<b class="nc"><i>88</i>&nbsp;            if (number &gt; -1 &amp;&amp; number &lt; 14){</b>
+<b class="nc"><i>89</i>&nbsp;                if (!index.contains(number)){</b>
+<b class="nc"><i>90</i>&nbsp;                    index.add(number);</b>
+<b class="nc"><i>91</i>&nbsp;                    System.out.println(&quot;God n°&quot; + number + &quot; added&quot;);</b>
+<i>92</i>&nbsp;                }
+<i>93</i>&nbsp;            }
+<i>94</i>&nbsp;        }
+<b class="nc"><i>95</i>&nbsp;        client.WriteMessage(new ServerMsg(index));</b>
+<b class="nc"><i>96</i>&nbsp;    }</b>
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;    /**
+<i>99</i>&nbsp;     * Print a communication message
+<i>100</i>&nbsp;     * @param command
+<i>101</i>&nbsp;     */
+<i>102</i>&nbsp;    public void CommunicationHandler(CliCommandMsg command){
+<b class="nc"><i>103</i>&nbsp;        Display(command.getMsg());</b>
+<b class="nc"><i>104</i>&nbsp;    }</b>
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    /**
+<i>107</i>&nbsp;     * Print a updating message
+<i>108</i>&nbsp;     * @param command
+<i>109</i>&nbsp;     */
+<i>110</i>&nbsp;    public void UpdateHandler(CliCommandMsg command){
+<b class="nc"><i>111</i>&nbsp;        map = command.getMap();</b>
+<b class="nc"><i>112</i>&nbsp;        ShowMap(map);</b>
+<b class="nc"><i>113</i>&nbsp;        Display(command.getMsg());</b>
+<b class="nc"><i>114</i>&nbsp;    }</b>
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    /**
+<i>117</i>&nbsp;     * Closing a ClientHandler...
+<i>118</i>&nbsp;     * @param command
+<i>119</i>&nbsp;     * @param client
+<i>120</i>&nbsp;     */
+<i>121</i>&nbsp;    public void CloseHandler(CliCommandMsg command, ConnectionHandler client){
+<b class="nc"><i>122</i>&nbsp;        Display(command.getMsg());</b>
+<b class="nc"><i>123</i>&nbsp;        client.setActive(false);</b>
+<b class="nc"><i>124</i>&nbsp;    }</b>
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;    /**
+<i>127</i>&nbsp;     * Print the msg messages
+<i>128</i>&nbsp;     * @param msg
+<i>129</i>&nbsp;     */
+<i>130</i>&nbsp;    public void Display(ArrayList&lt;String&gt; msg){
+<b class="nc"><i>131</i>&nbsp;        for(String str : msg){</b>
+<b class="nc"><i>132</i>&nbsp;            System.out.println(str);</b>
+<b class="nc"><i>133</i>&nbsp;        }</b>
+<b class="nc"><i>134</i>&nbsp;    }</b>
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    /**
+<i>137</i>&nbsp;     * Print the game&#39;s map
+<i>138</i>&nbsp;     * @param map
+<i>139</i>&nbsp;     */
+<i>140</i>&nbsp;    public void ShowMap(BoxInfo[][] map){
+<b class="fc"><i>141</i>&nbsp;        String line = &quot;&quot;;</b>
+<b class="fc"><i>142</i>&nbsp;        ArrayList&lt;String&gt; output = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>143</i>&nbsp;        output.add(&quot;          X: ⇉     Y: ⇊     \n&quot;);</b>
+<b class="fc"><i>144</i>&nbsp;        output.add(&quot;  ╔═════════════════════════════╗&quot;);</b>
+<b class="fc"><i>145</i>&nbsp;        for(int i = 4; i &gt;= 0; i--){</b>
+<b class="fc"><i>146</i>&nbsp;            line = line.concat(i + &quot; ║&quot;);</b>
+<b class="fc"><i>147</i>&nbsp;            for(int j = 0; j &lt;= 4; j++){</b>
+<b class="fc"><i>148</i>&nbsp;                if (map[j][i].getLastBuilding() == PawnType.DOME) {</b>
+<b class="fc"><i>149</i>&nbsp;                    line = line.concat(&quot;  D  &quot;);</b>
+<b class="fc"><i>150</i>&nbsp;                } else if (map[j][i].getLastBuilding() == PawnType.WORKER) {</b>
+<b class="fc"><i>151</i>&nbsp;                    line = line.concat(map[j][i].getWorkerColor() + &quot; ☻&quot; + Colors.RESET + &quot;:&quot;);</b>
+<b class="fc"><i>152</i>&nbsp;                    line = line.concat(map[j][i].getBoxColor() + &quot;&quot; + (map[j][i].getHeight() - 2) + Colors.RESET + &quot; &quot;);</b>
+<i>153</i>&nbsp;                } else{
+<b class="fc"><i>154</i>&nbsp;                    line = line.concat(&quot;  &quot; + map[j][i].getBoxColor() + &quot;&quot; + (map[j][i].getHeight() - 1) + Colors.RESET + &quot;  &quot;);</b>
+<i>155</i>&nbsp;                }
+<b class="fc"><i>156</i>&nbsp;                if (j != 4) {</b>
+<b class="fc"><i>157</i>&nbsp;                    line = line.concat(&quot; &quot;);</b>
+<i>158</i>&nbsp;                }
+<i>159</i>&nbsp;            }
+<b class="fc"><i>160</i>&nbsp;            line = line.concat(&quot;║&quot;);</b>
+<b class="fc"><i>161</i>&nbsp;            output.add(line);</b>
+<b class="fc"><i>162</i>&nbsp;            line = &quot;&quot;;</b>
+<b class="fc"><i>163</i>&nbsp;            if (i != 0) {</b>
+<b class="fc"><i>164</i>&nbsp;                output.add(&quot;  ║     ┼     ┼     ┼     ┼     ║&quot;);</b>
+<i>165</i>&nbsp;            }
+<i>166</i>&nbsp;        }
+<b class="fc"><i>167</i>&nbsp;        output.add(&quot;  ╚═════════════════════════════╝&quot;);</b>
+<b class="fc"><i>168</i>&nbsp;        output.add(&quot;     0     1     2     3     4   &quot;);</b>
+<b class="fc"><i>169</i>&nbsp;        for(String string : output){</b>
+<b class="fc"><i>170</i>&nbsp;            System.out.println(string);</b>
+<b class="fc"><i>171</i>&nbsp;        }</b>
+<b class="fc"><i>172</i>&nbsp;    }</b>
+<i>173</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-27 23:23</div>
+</div>
+</body>
+</html>

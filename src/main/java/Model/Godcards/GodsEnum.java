@@ -1,5 +1,8 @@
 package Model.Godcards;
 
+/**
+ * Enumeration class of implemented godcards
+ */
 public enum GodsEnum {
         APOLLO (0),
         ARTEMIS (1),

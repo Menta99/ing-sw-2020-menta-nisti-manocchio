@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Athena</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Model.Godcards</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Athena (Model.Godcards)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Athena</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95,8%
+  </span>
+  <span class="absValue">
+    (23/ 24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Model.Godcards;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Model.Box;
+<i>4</i>&nbsp;import Model.Game;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.ArrayList;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Class of GodCard Athena
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public class Athena extends GodCard{
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    /**
+<i>14</i>&nbsp;     * Constructor of the god
+<i>15</i>&nbsp;     */
+<b class="fc"><i>16</i>&nbsp;    public Athena() {</b>
+<b class="fc"><i>17</i>&nbsp;        this.setName(&quot;Athena&quot;);</b>
+<b class="fc"><i>18</i>&nbsp;        this.setPower(&quot;If in your last turn you did climb with one of your workers, in this turn enemy workers can&#39;t climb&quot;);</b>
+<b class="fc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    @Override
+<i>22</i>&nbsp;    public boolean enemyMovement(){
+<b class="fc"><i>23</i>&nbsp;        return true;</b>
+<i>24</i>&nbsp;    }
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Implement Athena&#39;s special power
+<i>28</i>&nbsp;     * @param legalMoves  are the correct movements
+<i>29</i>&nbsp;     * @return all the legal position that you can get without climb
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    @Override
+<i>32</i>&nbsp;    public ArrayList&lt;Box&gt; specialMovement(ArrayList&lt;Box&gt; legalMoves){
+<b class="fc"><i>33</i>&nbsp;        ArrayList&lt;Box&gt; toRemove = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>34</i>&nbsp;        if (getOwner().getSelectedWorker()==null){</b>
+<b class="fc"><i>35</i>&nbsp;            return legalMoves;</b>
+<i>36</i>&nbsp;        }
+<b class="fc"><i>37</i>&nbsp;        if (getOwner().getSelectedWorker().getDidClimb()){</b>
+<b class="fc"><i>38</i>&nbsp;            if (Game.getInstance().getActualPlayer().getSelectedWorker() == null){</b>
+<b class="fc"><i>39</i>&nbsp;                return legalMoves;</b>
+<i>40</i>&nbsp;            }
+<b class="fc"><i>41</i>&nbsp;            Box position = Game.getInstance().getActualPlayer().getSelectedWorker().getPosition();</b>
+<b class="fc"><i>42</i>&nbsp;            for (Box box : legalMoves){</b>
+<b class="fc"><i>43</i>&nbsp;                if (box.isOccupied()){</b>
+<b class="fc"><i>44</i>&nbsp;                    if(position.getStructure().size()&lt;box.getStructure().size()){ // Se è occupato c&#39;è comunque la possibilità che alcune divinità muovano le altre</b>
+<b class="nc"><i>45</i>&nbsp;                        toRemove.add(box);</b>
+<i>46</i>&nbsp;                    }
+<i>47</i>&nbsp;                }
+<b class="fc"><i>48</i>&nbsp;                else if (position.getStructure().size()&lt;=box.getStructure().size()){</b>
+<b class="fc"><i>49</i>&nbsp;                    toRemove.add(box);</b>
+<i>50</i>&nbsp;                }
+<b class="fc"><i>51</i>&nbsp;            }</b>
+<i>52</i>&nbsp;        }
+<b class="fc"><i>53</i>&nbsp;        for (Box box : toRemove){</b>
+<b class="fc"><i>54</i>&nbsp;            if (legalMoves.contains(box)){</b>
+<b class="fc"><i>55</i>&nbsp;                legalMoves.remove(box);</b>
+<i>56</i>&nbsp;            }
+<b class="fc"><i>57</i>&nbsp;        }</b>
+<b class="fc"><i>58</i>&nbsp;        return legalMoves;</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-27 23:23</div>
+</div>
+</body>
+</html>

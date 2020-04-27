@@ -10,6 +10,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Class for manage a client connection
+ */
 public class ClientHandler implements Runnable{
     private final Socket client;
     private ObjectInputStream in;
@@ -19,6 +22,11 @@ public class ClientHandler implements Runnable{
     private Player player;
     private AtomicBoolean active;
 
+    /**
+     * Constructor of the class
+     * @param client
+     * @param playerNum
+     */
     public ClientHandler(Socket client, int playerNum){
         this.client = client;
         this.playerNum = playerNum;
@@ -33,6 +41,11 @@ public class ClientHandler implements Runnable{
         }
     }
 
+    public ClientHandler(){
+        client=null;
+        playerNum=-1;
+    }
+
     @Override
     public void run() {
         while (active.get()){
@@ -40,6 +53,10 @@ public class ClientHandler implements Runnable{
         }
     }
 
+    /**
+     * Welcome to the challenger and ask for players' number
+     * @param playerNum
+     */
     public void FirstPlayer(int playerNum){
         if(playerNum == 0){
             CliCommandMsg msg = new CliCommandMsg(CommandType.NUMBER, "You are the challenger\nTell me how many Players will join the game");
@@ -54,6 +71,10 @@ public class ClientHandler implements Runnable{
         }
     }
 
+    /**
+     * Write a message at the OutputStream
+     * @param msg
+     */
     public void WriteMessage(CliCommandMsg msg){
         try {
             out.writeObject(msg);
@@ -70,6 +91,10 @@ public class ClientHandler implements Runnable{
         }
     }
 
+    /**
+     * Read a message at the InputStream
+     * @return
+     */
     public ServerMsg ReadMessage(){
         try {
             ServerMsg msg = (ServerMsg) in.readObject();
@@ -84,6 +109,9 @@ public class ClientHandler implements Runnable{
         return null;
     }
 
+    /**
+     * Ask for a nick when a new client is connected
+     */
     public void NickName(){
         CliCommandMsg msg = new CliCommandMsg(CommandType.NAME, "What's your NickName?");
         WriteMessage(msg);

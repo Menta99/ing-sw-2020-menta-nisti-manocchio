@@ -92,13 +92,7 @@ public class Box {
      * @throws NullPointerException if requested invalid action on a box
      */
     public PawnType getUpperLevel() {
-        try {
-            return (structure.get(structure.size() - 1).getType());
-        } catch (NullPointerException e) {
-            System.err.println("Void box");
-            e.printStackTrace();
-            return null;
-        }
+        return (structure.get(structure.size() - 1).getType());
     }
 
     /**

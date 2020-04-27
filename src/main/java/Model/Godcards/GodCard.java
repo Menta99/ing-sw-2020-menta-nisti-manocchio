@@ -5,6 +5,9 @@ import Model.Player;
 
 import java.util.ArrayList;
 
+/**
+ * Abstract class representing a God
+ */
 public abstract class GodCard {
     private String name;
     private String power;

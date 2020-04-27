@@ -6,8 +6,14 @@ import Model.Worker;
 
 import java.util.ArrayList;
 
+/**
+ * Class of GodCard Demeter
+ */
 public class Demeter extends GodCard {
 
+    /**
+     * God's constructor
+     */
     public Demeter(){
         this.setName("Demeter");
         this.setPower("You can build twice, but not on the same position");
@@ -15,8 +21,8 @@ public class Demeter extends GodCard {
     }
 
     /**
-     * Implementa la funzione di Demeter
-     * @return
+     * Implement Demeter's function
+     * @return true or false
      */
     @Override
     public boolean activeSubroutine() {
@@ -66,6 +72,7 @@ public class Demeter extends GodCard {
         return true;
     }
 
+
     @Override
     public boolean myBuild(){
         if(getOwner().getSelectedWorker()==null){
@@ -78,9 +85,9 @@ public class Demeter extends GodCard {
     }
 
     /**
-     * Se ha già costruito rimuove la casella dove già ha costruito
+     * If built, remove the box where did build
      * @param adjacentBoxes
-     * @return
+     * @return adjacentBoxes without box where he built
      */
     @Override
     public ArrayList<Box> specialBuilding(ArrayList<Box> adjacentBoxes){

@@ -1,0 +1,129 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BoxInfo</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">ComunicationProtocol</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BoxInfo (ComunicationProtocol)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BoxInfo</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package ComunicationProtocol;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Model.PawnType;
+<i>4</i>&nbsp;import View.Colors;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.io.Serializable;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Class representing a box in an update map
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public class BoxInfo implements Serializable {
+<i>12</i>&nbsp;    private int height;
+<i>13</i>&nbsp;    private PawnType lastBuilding;
+<i>14</i>&nbsp;    private Colors workerColor;
+<i>15</i>&nbsp;    private Colors boxColor;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * Constructor of the class
+<i>19</i>&nbsp;     * @param height
+<i>20</i>&nbsp;     * @param lastBuilding
+<i>21</i>&nbsp;     * @param workerColor
+<i>22</i>&nbsp;     * @param boxColor
+<i>23</i>&nbsp;     */
+<b class="fc"><i>24</i>&nbsp;    public BoxInfo(int height, PawnType lastBuilding, Colors workerColor, Colors boxColor){</b>
+<b class="fc"><i>25</i>&nbsp;        this.height = height;</b>
+<b class="fc"><i>26</i>&nbsp;        this.lastBuilding = lastBuilding;</b>
+<b class="fc"><i>27</i>&nbsp;        this.workerColor = workerColor;</b>
+<b class="fc"><i>28</i>&nbsp;        this.boxColor = boxColor;</b>
+<b class="fc"><i>29</i>&nbsp;    }</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    public int getHeight() {
+<b class="fc"><i>32</i>&nbsp;        return height;</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    public PawnType getLastBuilding() {
+<b class="fc"><i>36</i>&nbsp;        return lastBuilding;</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public Colors getWorkerColor() {
+<b class="fc"><i>40</i>&nbsp;        return workerColor;</b>
+<i>41</i>&nbsp;    }
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    public Colors getBoxColor() {
+<b class="fc"><i>44</i>&nbsp;        return boxColor;</b>
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-27 23:23</div>
+</div>
+</body>
+</html>

@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Class controller of MVC pattern
+ */
 public class Controller implements Runnable{
     private VirtualView virtual;
     private Game match;
@@ -20,6 +23,9 @@ public class Controller implements Runnable{
     private ArrayList<ClientHandler> handlers;
     private AtomicBoolean active;
 
+    /**
+     * Constructor of the class
+     */
     public Controller(){
         this.match = Game.getInstance();
         this.virtual = new VirtualView(match);
@@ -27,6 +33,9 @@ public class Controller implements Runnable{
         this.active = new AtomicBoolean(true);
     }
 
+    /**
+     * Override of run method in Runnable: setting and start of a new game;
+     */
     @Override
     public void run() {
         Clean();
@@ -40,6 +49,9 @@ public class Controller implements Runnable{
         Server.UpdateServer();
     }
 
+    /**
+     * Initializing phase for each player
+     */
     public void LobbyCreation(){
         int counter = 0;
         System.out.println("[3] - Start Lobby Creation");
@@ -51,6 +63,10 @@ public class Controller implements Runnable{
         System.out.println("[4] - Lobby Completed");
     }
 
+    /**
+     * Each client's connecting to server...
+     * @param position
+     */
     public void InitializePlayer(int position){
         try {
             Socket client = Server.getServer().accept();
@@ -62,6 +78,9 @@ public class Controller implements Runnable{
         }
     }
 
+    /**
+     * Print the welcome screen starting the game
+     */
     public void VirtualWelcome(){
         System.out.println("[5] - Game start");
         for(ClientHandler handler : handlers){
@@ -74,6 +93,10 @@ public class Controller implements Runnable{
         }
     }
 
+    /**
+     * Challenger's ChooseGodPhase is starting
+     * @param challenger
+     */
     public void VirtualGodPhase(ClientHandler challenger){
         if (!challenger.getPlayer().isView()){
             virtual.CliChooseGodPhase(challenger);
@@ -91,6 +114,9 @@ public class Controller implements Runnable{
         match.setId(new Random().nextInt(10000));
     }
 
+    /**
+     * Clean the game and prepare for a new one
+     */
     public void Clean(){
         match.CleanGame();
         match.setController(this);
@@ -257,7 +283,7 @@ public class Controller implements Runnable{
     public void Lose(Player player){
         VirtualLose(player.isView());
         player.setLoser(true);
-        CheckGameFinished();
+        //CheckGameFinished();
         for (Worker worker : player.getWorkers()){
             worker.getPosition().setOccupied(false);
             worker.getPosition().getStructure().remove(worker.getPosition().getStructure().size()-1);
@@ -296,6 +322,10 @@ public class Controller implements Runnable{
         }
     }
 
+    /**
+     * Call the corresponding method in the virtual view class
+     * @param view
+     */
     public void VirtualTurnStart(boolean view){
         if (!view){
             virtual.CliTurnStartMessage();
@@ -305,6 +335,10 @@ public class Controller implements Runnable{
         }
     }
 
+    /**
+     * Call the corresponding method in the virtual view class
+     * @param view
+     */
     public boolean VirtualAskPower(boolean view){
         if (!view){
             return virtual.CliAskForPower(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
@@ -312,6 +346,10 @@ public class Controller implements Runnable{
         return true; //else gui
     }
 
+    /**
+     * Call the corresponding method in the virtual view class
+     * @param view
+     */
     public Worker VirtualAskWorker(boolean view){
         if (!view){
             return virtual.CliAskForWorker(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
@@ -319,6 +357,10 @@ public class Controller implements Runnable{
         return null; //else gui
     }
 
+    /**
+     * Call the corresponding method in the virtual view class
+     * @param view
+     */
     public Box VirtualAskMovement(boolean view){
         if (!view){
             return virtual.CliAskForMovement(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
@@ -326,6 +368,10 @@ public class Controller implements Runnable{
         return null; //else gui
     }
 
+    /**
+     * Call the corresponding method in the virtual view class
+     * @param view
+     */
     public Box VirtualAskBuilding(boolean view){
         if (!view){
             return virtual.CliAskForBuilding(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
@@ -333,6 +379,10 @@ public class Controller implements Runnable{
         return null; //else gui
     }
 
+    /**
+     * Call the corresponding method in the virtual view class
+     * @param view
+     */
     public void VirtualNotValidDest(boolean view){
         if (!view){
             virtual.CliNotValidDestination(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
@@ -341,6 +391,12 @@ public class Controller implements Runnable{
         return; //else gui
     }
 
+    /**
+     * Call the corresponding method in the virtual view class
+     * @param workerNumber
+     * @param view
+     * @return
+     */
     public Box VirtualAskPlace(int workerNumber, boolean view){
         if (!view){
             return virtual.CliAskForPlacement(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())), workerNumber);
@@ -348,6 +404,10 @@ public class Controller implements Runnable{
         return null; //else gui
     }
 
+    /**
+     * Call the corresponding method in the virtual view class
+     * @param view
+     */
     public void VirtualLose(boolean view){
         if (!view){
             virtual.CliLose(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
@@ -355,6 +415,10 @@ public class Controller implements Runnable{
         //else gui
     }
 
+    /**
+     * Call the corresponding method in the virtual view class
+     * @param
+     */
     public void VirtualGameFinished(){
         System.out.println("[F] - Game finished");
         for(ClientHandler handler : handlers){
@@ -368,6 +432,11 @@ public class Controller implements Runnable{
         //Server.GameClose();//supposed common part
     }
 
+    /**
+     * Updating message for all players
+     * @param generic
+     * @param phase
+     */
     public void UpdateAll(boolean generic, boolean phase){
         ClientHandler actual = handlers.get(match.getPlayer().indexOf(match.getActualPlayer()));
         CliCommandMsg msg1 = virtual.MapInfo(generic, phase, "");
@@ -375,6 +444,11 @@ public class Controller implements Runnable{
         virtual.Echo(actual, msg1, msg2);
     }
 
+    /**
+     * Updating message for a player
+     * @param generic
+     * @param phase
+     */
     public void Update(boolean generic, boolean phase){
         ClientHandler actual = handlers.get(match.getPlayer().indexOf(match.getActualPlayer()));
         virtual.UpdateMap(actual, generic, phase);

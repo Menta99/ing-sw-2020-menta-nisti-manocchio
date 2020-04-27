@@ -6,13 +6,24 @@ import Model.Worker;
 
 import java.util.ArrayList;
 
+/**
+ * Class of GodCard Hephaestus
+ */
 public class Hephaestus extends GodCard {
 
+    /**
+     * God's constructor
+     */
     public Hephaestus(){
         this.setName("Hephaestus");
         this.setPower("You can build again on the same position, but not a Dome");
         setActivePower(true);
     }
+
+    /**
+     * Implement God's function
+     * @return true or false
+     */
     @Override
     public boolean activeSubroutine() {
         boolean canDoSomething=false;
@@ -62,7 +73,7 @@ public class Hephaestus extends GodCard {
     }
 
     /**
-     * Se ha già costruito dà la possibilità di costruire nuovamente, a meno che non si voglia costruire un DOME
+     * If you built you can rebuild but not a Dome
      * @param adjacentBoxes
      * @return
      */
@@ -76,10 +87,6 @@ public class Hephaestus extends GodCard {
                 }
             }
             adjacentBoxes.removeAll(toRemove);
-        }
-        else{
-            adjacentBoxes.removeAll(adjacentBoxes);
-            adjacentBoxes.add(getOwner().getSelectedWorker().getLastBuilding());
         }
         return adjacentBoxes;
     }

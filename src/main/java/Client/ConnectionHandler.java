@@ -10,6 +10,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Class for managing a new connection
+ */
 public class ConnectionHandler implements Runnable{
     private Socket server;
     private Client client;
@@ -17,6 +20,11 @@ public class ConnectionHandler implements Runnable{
     private ObjectOutputStream out;
     private AtomicBoolean active;
 
+    /**
+     * Constructor of the class
+     * @param server
+     * @param client
+     */
     public ConnectionHandler(Socket server, Client client){
         this.server = server;
         this.client = client;
@@ -29,6 +37,9 @@ public class ConnectionHandler implements Runnable{
         }
     }
 
+    /**
+     * Receiving messages...
+     */
     @Override
     public void run() {
         if(!client.isLayout()) {
@@ -40,6 +51,10 @@ public class ConnectionHandler implements Runnable{
         }
     }
 
+    /**
+     * Reading an input command...
+     * @return
+     */
     public CliCommandMsg CliReceiveCommand(){
         CliCommandMsg command = null;
         try {
@@ -54,6 +69,11 @@ public class ConnectionHandler implements Runnable{
         return command;
     }
 
+    /**
+     * Handling the read message based on  the type
+     * @param command
+     * @param cli
+     */
     public void CliHandleCommand(CliCommandMsg command, Cli cli){
         if(command != null) {
             switch (command.getCommandType()) {
@@ -86,6 +106,10 @@ public class ConnectionHandler implements Runnable{
         }
     }
 
+    /**
+     * Writing a message in the output stream
+     * @param msg
+     */
     public void WriteMessage(ServerMsg msg){
         try {
             out.writeObject(msg);

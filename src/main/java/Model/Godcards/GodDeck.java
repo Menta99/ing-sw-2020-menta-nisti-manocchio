@@ -2,6 +2,9 @@ package Model.Godcards;
 
 import java.util.ArrayList;
 
+/**
+ * Class representing a bunch of Godcards
+ */
 public class GodDeck {
     private ArrayList<GodCard> cardList;
 

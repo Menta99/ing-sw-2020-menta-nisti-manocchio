@@ -42,4 +42,12 @@ public class GameTest {
             Assert.assertEquals(god.toString(), myGame.getDeck().getCardList().get(god.getIndex()).getName().toUpperCase());
         }
     }
+    @Test
+    public void endgameTest(){
+        Player player=new Player("carlo");
+        player.setLoser(true);
+        Assert.assertEquals(true,player.isLoser());
+        player.setWorkers(null);
+        Assert.assertNull(player.getWorkers());
+    }
 }

@@ -1,6 +1,9 @@
 package Model;
 
-    public enum PawnType {
+/**
+ * Enumeration class of possible type of pawn
+ */
+public enum PawnType {
 
         GROUND_LEVEL(0),
         Level_1(1),

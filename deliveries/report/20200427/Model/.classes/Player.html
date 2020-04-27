@@ -1,0 +1,304 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Player</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Player (Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/ 20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,9%
+  </span>
+  <span class="absValue">
+    (73/ 85)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Controller.Controller;
+<i>4</i>&nbsp;import Model.Godcards.GodCard;
+<i>5</i>&nbsp;import Model.Godcards.GodDeck;
+<i>6</i>&nbsp;import View.Colors;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.util.ArrayList;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * Class representing a player
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public class Player {
+<i>14</i>&nbsp;    private Controller controller;
+<i>15</i>&nbsp;    private boolean view; //false = cli -- true = gui
+<i>16</i>&nbsp;    private Colors color;
+<i>17</i>&nbsp;    private String nickName;
+<i>18</i>&nbsp;    private boolean challenger; // possible exceed
+<i>19</i>&nbsp;    private GodCard card;
+<i>20</i>&nbsp;    private boolean winner;
+<i>21</i>&nbsp;    private boolean loser;
+<i>22</i>&nbsp;    private boolean usePower;
+<i>23</i>&nbsp;    private ArrayList &lt;Worker&gt; workers;
+<i>24</i>&nbsp;    private Worker selectedWorker;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Constructor of Player
+<i>28</i>&nbsp;     */
+<b class="fc"><i>29</i>&nbsp;    public Player(String nickName) {</b>
+<b class="fc"><i>30</i>&nbsp;        this.controller = Game.getInstance().getController();</b>
+<b class="fc"><i>31</i>&nbsp;        this.view = false;</b>
+<b class="fc"><i>32</i>&nbsp;        this.nickName = nickName;</b>
+<b class="fc"><i>33</i>&nbsp;        this.winner = false;</b>
+<b class="fc"><i>34</i>&nbsp;        this.loser = false;</b>
+<b class="fc"><i>35</i>&nbsp;        this.usePower = false;</b>
+<b class="fc"><i>36</i>&nbsp;        this.workers = new ArrayList&lt;Worker&gt;();</b>
+<b class="fc"><i>37</i>&nbsp;        this.workers.add(new Worker());</b>
+<b class="fc"><i>38</i>&nbsp;        this.workers.add(new Worker());</b>
+<b class="fc"><i>39</i>&nbsp;        this.workers.get(0).setOwner(this);</b>
+<b class="fc"><i>40</i>&nbsp;        this.workers.get(1).setOwner(this);</b>
+<b class="fc"><i>41</i>&nbsp;        Game.getInstance().getPlayer().add(this);</b>
+<b class="fc"><i>42</i>&nbsp;        if (Game.getInstance().getPlayer().size() == 1) {</b>
+<b class="fc"><i>43</i>&nbsp;            this.challenger = true;</b>
+<i>44</i>&nbsp;        }
+<i>45</i>&nbsp;        else {
+<b class="fc"><i>46</i>&nbsp;            this.challenger = false;</b>
+<i>47</i>&nbsp;        }
+<b class="fc"><i>48</i>&nbsp;        if (Game.getInstance().getPlayer().size()==1){</b>
+<b class="fc"><i>49</i>&nbsp;            this.color = Colors.GREEN;</b>
+<i>50</i>&nbsp;        }
+<b class="fc"><i>51</i>&nbsp;        if (Game.getInstance().getPlayer().size()==2){</b>
+<b class="fc"><i>52</i>&nbsp;            this.color = Colors.BLUE;</b>
+<i>53</i>&nbsp;        }
+<b class="fc"><i>54</i>&nbsp;        if (Game.getInstance().getPlayer().size()==3){</b>
+<b class="fc"><i>55</i>&nbsp;            this.color = Colors.RED;</b>
+<i>56</i>&nbsp;        }
+<b class="fc"><i>57</i>&nbsp;    }</b>
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    /**
+<i>60</i>&nbsp;     * SetUp the workers of the player in the Turn Start phase
+<i>61</i>&nbsp;     */
+<i>62</i>&nbsp;    public void SetUpWorkers(){
+<b class="fc"><i>63</i>&nbsp;        for (Worker worker : workers){</b>
+<b class="fc"><i>64</i>&nbsp;            worker.setDidBuild(false);</b>
+<b class="fc"><i>65</i>&nbsp;            worker.setMoved(false);</b>
+<b class="fc"><i>66</i>&nbsp;            worker.setDidClimb(false);</b>
+<b class="fc"><i>67</i>&nbsp;            worker.setLastPosition(worker.getPosition());</b>
+<b class="fc"><i>68</i>&nbsp;        }</b>
+<b class="fc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    /**
+<i>72</i>&nbsp;     * Draws the GodCards of the Game, made by the Challenger
+<i>73</i>&nbsp;     * @param deck ArrayList of GodCard
+<i>74</i>&nbsp;     * @return ArrayList of chosen GodCard or null if the player isn&#39;t the Challenger
+<i>75</i>&nbsp;     * @throws NullPointerException if requested invalid action on the cards
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;    public ArrayList&lt;GodCard&gt; Draw(GodDeck deck, ArrayList&lt;Integer&gt; index){
+<b class="fc"><i>78</i>&nbsp;        if (challenger) {</b>
+<b class="fc"><i>79</i>&nbsp;            ArrayList&lt;GodCard&gt; gods = new ArrayList&lt;GodCard&gt;();</b>
+<b class="fc"><i>80</i>&nbsp;            GodCard chosen = null;</b>
+<b class="fc"><i>81</i>&nbsp;            int i = 0;</b>
+<i>82</i>&nbsp;            try {
+<b class="fc"><i>83</i>&nbsp;                while (i &lt; Game.getInstance().getPlayer().size()) {</b>
+<b class="fc"><i>84</i>&nbsp;                    chosen = Game.getInstance().getDeck().Draw(index.get(i));</b>
+<b class="fc"><i>85</i>&nbsp;                    if (chosen != null) {</b>
+<b class="fc"><i>86</i>&nbsp;                        gods.add(chosen);</b>
+<b class="fc"><i>87</i>&nbsp;                        chosen = null;</b>
+<b class="fc"><i>88</i>&nbsp;                        i++;</b>
+<i>89</i>&nbsp;                    }
+<i>90</i>&nbsp;                }
+<b class="fc"><i>91</i>&nbsp;                return gods;</b>
+<i>92</i>&nbsp;            }
+<b class="nc"><i>93</i>&nbsp;            catch (NullPointerException e) {</b>
+<b class="nc"><i>94</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>95</i>&nbsp;                return null;</b>
+<i>96</i>&nbsp;            }
+<i>97</i>&nbsp;        }
+<i>98</i>&nbsp;        else {
+<b class="nc"><i>99</i>&nbsp;            return null;</b>
+<i>100</i>&nbsp;        }
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    /**
+<i>104</i>&nbsp;     * Choose the GodCard of the Player
+<i>105</i>&nbsp;     * @return true or false if the action succeed
+<i>106</i>&nbsp;     * @throws NullPointerException if requested invalid action on the cards
+<i>107</i>&nbsp;     */
+<i>108</i>&nbsp;    public boolean ChooseGod(int index){//sistemare con la view
+<i>109</i>&nbsp;        try {
+<b class="fc"><i>110</i>&nbsp;            if (card == null) {</b>
+<b class="fc"><i>111</i>&nbsp;                GodCard pick = Game.getInstance().getActiveCards().get(index);</b>
+<b class="fc"><i>112</i>&nbsp;                if (!pick.isPicked()) {</b>
+<b class="fc"><i>113</i>&nbsp;                    pick.setPicked(true);</b>
+<b class="fc"><i>114</i>&nbsp;                    this.card = pick;</b>
+<b class="fc"><i>115</i>&nbsp;                    pick.setOwner(this);</b>
+<b class="fc"><i>116</i>&nbsp;                    return true;</b>
+<i>117</i>&nbsp;                }
+<i>118</i>&nbsp;            }
+<b class="nc"><i>119</i>&nbsp;            return false;</b>
+<i>120</i>&nbsp;        }
+<b class="nc"><i>121</i>&nbsp;        catch (NullPointerException e){</b>
+<b class="nc"><i>122</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>123</i>&nbsp;            return false;</b>
+<i>124</i>&nbsp;        }
+<i>125</i>&nbsp;    }
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    /**
+<i>128</i>&nbsp;     * Getter of the Worker on the Box selected
+<i>129</i>&nbsp;     * @param box selected box
+<i>130</i>&nbsp;     * @return worker o null if no Worker is present on the Box selected
+<i>131</i>&nbsp;     * @throws NullPointerException if requested invalid action on a box
+<i>132</i>&nbsp;     */
+<i>133</i>&nbsp;    public Worker selectWorker(Box box){
+<i>134</i>&nbsp;        try {
+<b class="fc"><i>135</i>&nbsp;            if (box.getUpperLevel() == PawnType.WORKER) {</b>
+<b class="fc"><i>136</i>&nbsp;                Worker toReturn = (Worker)box.getStructure().get(box.getStructure().size()-1);</b>
+<b class="fc"><i>137</i>&nbsp;                if(toReturn.getOwner().equals(this)){</b>
+<b class="fc"><i>138</i>&nbsp;                    return (Worker) box.getStructure().get(box.getStructure().size() - 1);</b>
+<i>139</i>&nbsp;                }
+<i>140</i>&nbsp;            }
+<b class="nc"><i>141</i>&nbsp;            return null;</b>
+<i>142</i>&nbsp;        }
+<b class="nc"><i>143</i>&nbsp;        catch (NullPointerException e){</b>
+<b class="nc"><i>144</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>145</i>&nbsp;            return null;</b>
+<i>146</i>&nbsp;        }
+<i>147</i>&nbsp;    }
+<i>148</i>&nbsp;
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;    public boolean isView() {
+<b class="fc"><i>151</i>&nbsp;        return view;</b>
+<i>152</i>&nbsp;    }
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;    public void setView(boolean view) {
+<b class="fc"><i>155</i>&nbsp;        this.view = view;</b>
+<b class="fc"><i>156</i>&nbsp;    }</b>
+<i>157</i>&nbsp;
+<i>158</i>&nbsp;    public Colors getColor() {
+<b class="fc"><i>159</i>&nbsp;        return color;</b>
+<i>160</i>&nbsp;    }
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;    public String getNickName(){
+<b class="fc"><i>163</i>&nbsp;        return this.nickName;</b>
+<i>164</i>&nbsp;    }
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    /**
+<i>167</i>&nbsp;     * Getter method of card
+<i>168</i>&nbsp;     */
+<i>169</i>&nbsp;    public GodCard getCard() {
+<b class="fc"><i>170</i>&nbsp;        return card;</b>
+<i>171</i>&nbsp;    }
+<i>172</i>&nbsp;
+<i>173</i>&nbsp;    public boolean isWinner() {
+<b class="fc"><i>174</i>&nbsp;        return winner;</b>
+<i>175</i>&nbsp;    }
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;    /**
+<i>178</i>&nbsp;     * Setter method used in winning condition
+<i>179</i>&nbsp;     * @param winner Player who won the Game*/
+<i>180</i>&nbsp;    public void setWinner(boolean winner){
+<b class="fc"><i>181</i>&nbsp;        this.winner = winner;</b>
+<b class="fc"><i>182</i>&nbsp;    }</b>
+<i>183</i>&nbsp;
+<i>184</i>&nbsp;    public boolean isLoser() {
+<b class="fc"><i>185</i>&nbsp;        return loser;</b>
+<i>186</i>&nbsp;    }
+<i>187</i>&nbsp;
+<i>188</i>&nbsp;    public void setLoser(boolean loser) {
+<b class="fc"><i>189</i>&nbsp;        this.loser = loser;</b>
+<b class="fc"><i>190</i>&nbsp;    }</b>
+<i>191</i>&nbsp;
+<i>192</i>&nbsp;    public boolean isUsePower() {
+<b class="fc"><i>193</i>&nbsp;        return usePower;</b>
+<i>194</i>&nbsp;    }
+<i>195</i>&nbsp;
+<i>196</i>&nbsp;    public void setUsePower(boolean usePower) {
+<b class="fc"><i>197</i>&nbsp;        this.usePower = usePower;</b>
+<b class="fc"><i>198</i>&nbsp;    }</b>
+<i>199</i>&nbsp;
+<i>200</i>&nbsp;    /**
+<i>201</i>&nbsp;     * Getter method for workers
+<i>202</i>&nbsp;     */
+<i>203</i>&nbsp;    public ArrayList&lt;Worker&gt; getWorkers(){
+<b class="fc"><i>204</i>&nbsp;        return this.workers;</b>
+<i>205</i>&nbsp;    }
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;    public void setWorkers(ArrayList&lt;Worker&gt; workers) {
+<b class="fc"><i>208</i>&nbsp;        this.workers = workers;</b>
+<b class="fc"><i>209</i>&nbsp;    }</b>
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;    /**
+<i>212</i>&nbsp;     * Getter of the selected worker
+<i>213</i>&nbsp;     */
+<i>214</i>&nbsp;    public Worker getSelectedWorker() {
+<b class="fc"><i>215</i>&nbsp;        return selectedWorker;</b>
+<i>216</i>&nbsp;    }
+<i>217</i>&nbsp;
+<i>218</i>&nbsp;    public void setSelectedWorker(Worker selectedWorker) {
+<b class="fc"><i>219</i>&nbsp;        this.selectedWorker = selectedWorker;</b>
+<b class="fc"><i>220</i>&nbsp;    }</b>
+<i>221</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-27 23:23</div>
+</div>
+</body>
+</html>

@@ -7,14 +7,24 @@ import Model.Worker;
 
 import java.util.ArrayList;
 
+/**
+ * Class of GodCard Prometeo
+ */
 public class Prometeo extends GodCard {
 
+    /**
+     * Constructor of the god
+     */
     public Prometeo(){
         this.setName("Prometeo");
         this.setPower("You can build before and after moving, but, if you do so, you can't climb");
         setActivePower(true);
     }
 
+    /**
+     * Implement Prometeo's function
+     * @return true or false
+     */
     @Override
     public boolean activeSubroutine(){
         boolean canDoSomething=false;
@@ -77,8 +87,12 @@ public class Prometeo extends GodCard {
         return false;
     }
 
+    /**
+     * If you use the power you can't climb
+     * @param adjacentBoxes
+     * @return
+     */
     @Override
-
     public ArrayList<Box> specialMovement(ArrayList<Box> adjacentBoxes){
         if (getOwner().getSelectedWorker()==null){
             return adjacentBoxes;

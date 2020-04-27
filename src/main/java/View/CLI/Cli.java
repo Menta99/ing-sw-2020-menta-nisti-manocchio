@@ -9,20 +9,36 @@ import View.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Class representing the command line interface
+ */
 public class Cli extends View {
     private Scanner scanner;
     private BoxInfo[][] map;
 
+    /**
+     * Constructor of the class
+     */
     public Cli(){
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Handler for CommandType Name
+     * @param command
+     * @param client
+     */
     public void NameHandler(CliCommandMsg command, ConnectionHandler client){
         Display(command.getMsg());
         String msg = scanner.nextLine();
         client.WriteMessage(new ServerMsg(msg, client.Layout()));
     }
 
+    /**
+     * Handler for CommandType Number
+     * @param command
+     * @param client
+     */
     public void NumberHandler(CliCommandMsg command, ConnectionHandler client){
         Display(command.getMsg());
         ArrayList<Integer> output = new ArrayList<>();
@@ -30,6 +46,11 @@ public class Cli extends View {
         client.WriteMessage(new ServerMsg(output));
     }
 
+    /**
+     * Handler for CommandType Coordinates
+     * @param command
+     * @param client
+     */
     public void CoordinatesHandler(CliCommandMsg command, ConnectionHandler client){
         Display(command.getMsg());
         ArrayList<Integer> coord = new ArrayList<>();
@@ -38,6 +59,11 @@ public class Cli extends View {
         client.WriteMessage(new ServerMsg(coord));
     }
 
+    /**
+     * Handler for CommandType Answer
+     * @param command
+     * @param client
+     */
     public void AnswerHandler(CliCommandMsg command, ConnectionHandler client){
         Display(command.getMsg());
         String msg = null;
@@ -48,13 +74,18 @@ public class Cli extends View {
         client.WriteMessage(new ServerMsg(msg));
     }
 
+    /**
+     * Handler for CommandType God
+     * @param command
+     * @param client
+     */
     public void GodHandler(CliCommandMsg command, ConnectionHandler client){
         Display(command.getMsg());
         ArrayList<Integer> index = new ArrayList<>();
         int number;
         while (index.size() < command.getInfo()){
             number = scanner.nextInt();
-            if (number > -1 && number < 15){
+            if (number > -1 && number < 14){
                 if (!index.contains(number)){
                     index.add(number);
                     System.out.println("God n°" + number + " added");
@@ -64,27 +95,48 @@ public class Cli extends View {
         client.WriteMessage(new ServerMsg(index));
     }
 
+    /**
+     * Print a communication message
+     * @param command
+     */
     public void CommunicationHandler(CliCommandMsg command){
         Display(command.getMsg());
     }
 
+    /**
+     * Print a updating message
+     * @param command
+     */
     public void UpdateHandler(CliCommandMsg command){
         map = command.getMap();
         ShowMap(map);
         Display(command.getMsg());
     }
 
+    /**
+     * Closing a ClientHandler...
+     * @param command
+     * @param client
+     */
     public void CloseHandler(CliCommandMsg command, ConnectionHandler client){
         Display(command.getMsg());
         client.setActive(false);
     }
 
+    /**
+     * Print the msg messages
+     * @param msg
+     */
     public void Display(ArrayList<String> msg){
         for(String str : msg){
             System.out.println(str);
         }
     }
 
+    /**
+     * Print the game's map
+     * @param map
+     */
     public void ShowMap(BoxInfo[][] map){
         String line = "";
         ArrayList<String> output = new ArrayList<>();

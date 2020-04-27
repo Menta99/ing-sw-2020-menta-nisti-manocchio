@@ -6,8 +6,14 @@ import Model.Worker;
 
 import java.util.ArrayList;
 
+/**
+ * Class of GodCard Artemis
+ */
 public class Artemis extends GodCard {
 
+    /**
+     * Constructor of the god
+     */
     public Artemis(){
         this.setName("Artemis");
         this.setPower("Your worker can move twice a turn, but can't go back to the first position");
@@ -15,8 +21,8 @@ public class Artemis extends GodCard {
     }
 
     /**
-     * Indicatore di modifiche nella fase di movimento
-     * @return
+     * Modification marker in the move phase
+     * @return true
      */
     @Override
     public boolean myMovement() {
@@ -24,9 +30,9 @@ public class Artemis extends GodCard {
     }
 
     /**
-     * Se il worker si muove nuovamente non può tornare nella casella iniziale
+     * If the worker moves twice, can't go back to the initial box
      * @param adjacentBoxes
-     * @return
+     * @return adjacentBoxes without the initial one
      */
     @Override
     public ArrayList<Box> specialMovement(ArrayList <Box> adjacentBoxes){
@@ -39,8 +45,8 @@ public class Artemis extends GodCard {
     }
 
     /**
-     * Implementa il potere speciale di Artemide
-     * @return
+     * Implement Artemis' special power
+     * @return true or false
      */
     @Override
     public boolean activeSubroutine(){

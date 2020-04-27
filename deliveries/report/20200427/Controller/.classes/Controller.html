@@ -1,0 +1,563 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Controller</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Controller (Controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Controller</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,2%
+  </span>
+  <span class="absValue">
+    (30/ 34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    82,7%
+  </span>
+  <span class="absValue">
+    (172/ 208)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import ComunicationProtocol.CliCommandMsg;
+<i>4</i>&nbsp;import Model.*;
+<i>5</i>&nbsp;import Server.ClientHandler;
+<i>6</i>&nbsp;import Server.Server;
+<i>7</i>&nbsp;import View.Colors;
+<i>8</i>&nbsp;import VirtualView.VirtualView;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.io.IOException;
+<i>11</i>&nbsp;import java.net.Socket;
+<i>12</i>&nbsp;import java.util.ArrayList;
+<i>13</i>&nbsp;import java.util.Random;
+<i>14</i>&nbsp;import java.util.concurrent.atomic.AtomicBoolean;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;/**
+<i>17</i>&nbsp; * Class controller of MVC pattern
+<i>18</i>&nbsp; */
+<i>19</i>&nbsp;public class Controller implements Runnable{
+<i>20</i>&nbsp;    private VirtualView virtual;
+<i>21</i>&nbsp;    private Game match;
+<b class="fc"><i>22</i>&nbsp;    private int playerNum = 2;</b>
+<i>23</i>&nbsp;    private ArrayList&lt;ClientHandler&gt; handlers;
+<i>24</i>&nbsp;    private AtomicBoolean active;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Constructor of the class
+<i>28</i>&nbsp;     */
+<b class="fc"><i>29</i>&nbsp;    public Controller(){</b>
+<b class="fc"><i>30</i>&nbsp;        this.match = Game.getInstance();</b>
+<b class="fc"><i>31</i>&nbsp;        this.virtual = new VirtualView(match);</b>
+<b class="fc"><i>32</i>&nbsp;        this.handlers = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>33</i>&nbsp;        this.active = new AtomicBoolean(true);</b>
+<b class="fc"><i>34</i>&nbsp;    }</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    /**
+<i>37</i>&nbsp;     * Override of run method in Runnable: setting and start of a new game;
+<i>38</i>&nbsp;     */
+<i>39</i>&nbsp;    @Override
+<i>40</i>&nbsp;    public void run() {
+<b class="nc"><i>41</i>&nbsp;        Clean();</b>
+<b class="nc"><i>42</i>&nbsp;        LobbyCreation();</b>
+<b class="nc"><i>43</i>&nbsp;        VirtualWelcome();</b>
+<b class="nc"><i>44</i>&nbsp;        VirtualGodPhase(handlers.get(0));</b>
+<b class="nc"><i>45</i>&nbsp;        StartGame();</b>
+<b class="nc"><i>46</i>&nbsp;        while (active.get()){</b>
+<b class="nc"><i>47</i>&nbsp;            TurnStart(match.getActualPlayer());</b>
+<i>48</i>&nbsp;        }
+<b class="nc"><i>49</i>&nbsp;        Server.UpdateServer();</b>
+<b class="nc"><i>50</i>&nbsp;    }</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    /**
+<i>53</i>&nbsp;     * Initializing phase for each player
+<i>54</i>&nbsp;     */
+<i>55</i>&nbsp;    public void LobbyCreation(){
+<b class="nc"><i>56</i>&nbsp;        int counter = 0;</b>
+<b class="nc"><i>57</i>&nbsp;        System.out.println(&quot;[3] - Start Lobby Creation&quot;);</b>
+<b class="nc"><i>58</i>&nbsp;        InitializePlayer(counter);</b>
+<b class="nc"><i>59</i>&nbsp;        counter++;</b>
+<b class="nc"><i>60</i>&nbsp;        for(; counter &lt; playerNum; counter++){</b>
+<b class="nc"><i>61</i>&nbsp;            InitializePlayer(counter);</b>
+<i>62</i>&nbsp;        }
+<b class="nc"><i>63</i>&nbsp;        System.out.println(&quot;[4] - Lobby Completed&quot;);</b>
+<b class="nc"><i>64</i>&nbsp;    }</b>
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    /**
+<i>67</i>&nbsp;     * Each client&#39;s connecting to server...
+<i>68</i>&nbsp;     * @param position
+<i>69</i>&nbsp;     */
+<i>70</i>&nbsp;    public void InitializePlayer(int position){
+<i>71</i>&nbsp;        try {
+<b class="nc"><i>72</i>&nbsp;            Socket client = Server.getServer().accept();</b>
+<b class="nc"><i>73</i>&nbsp;            ClientHandler handler = new ClientHandler(client, position);</b>
+<b class="nc"><i>74</i>&nbsp;            handlers.add(handler);</b>
+<b class="nc"><i>75</i>&nbsp;            new Thread(handler).start();</b>
+<b class="nc"><i>76</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>77</i>&nbsp;            System.err.println(&quot;Problem initializing a new Player&quot;);</b>
+<b class="nc"><i>78</i>&nbsp;        }</b>
+<b class="nc"><i>79</i>&nbsp;    }</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    /**
+<i>82</i>&nbsp;     * Print the welcome screen starting the game
+<i>83</i>&nbsp;     */
+<i>84</i>&nbsp;    public void VirtualWelcome(){
+<b class="fc"><i>85</i>&nbsp;        System.out.println(&quot;[5] - Game start&quot;);</b>
+<b class="fc"><i>86</i>&nbsp;        for(ClientHandler handler : handlers){</b>
+<b class="fc"><i>87</i>&nbsp;            if(!match.getPlayer().get(handlers.indexOf(handler)).isView()) {</b>
+<b class="fc"><i>88</i>&nbsp;                virtual.CliWelcomeScreen(handler);</b>
+<i>89</i>&nbsp;            }
+<i>90</i>&nbsp;            else{
+<i>91</i>&nbsp;                //gui
+<i>92</i>&nbsp;            }
+<b class="fc"><i>93</i>&nbsp;        }</b>
+<b class="fc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**
+<i>97</i>&nbsp;     * Challenger&#39;s ChooseGodPhase is starting
+<i>98</i>&nbsp;     * @param challenger
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    public void VirtualGodPhase(ClientHandler challenger){
+<b class="fc"><i>101</i>&nbsp;        if (!challenger.getPlayer().isView()){</b>
+<b class="fc"><i>102</i>&nbsp;            virtual.CliChooseGodPhase(challenger);</b>
+<i>103</i>&nbsp;        }
+<i>104</i>&nbsp;        else {
+<i>105</i>&nbsp;            //gui
+<i>106</i>&nbsp;        }
+<b class="fc"><i>107</i>&nbsp;    }</b>
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    /**
+<i>110</i>&nbsp;     * Set Up a new Game, generating a random ID
+<i>111</i>&nbsp;     */
+<i>112</i>&nbsp;    public void StartGame(){
+<b class="fc"><i>113</i>&nbsp;        match.setActualPlayer(handlers.get(0).getPlayer());</b>
+<b class="fc"><i>114</i>&nbsp;        match.setId(new Random().nextInt(10000));</b>
+<b class="fc"><i>115</i>&nbsp;    }</b>
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;    /**
+<i>118</i>&nbsp;     * Clean the game and prepare for a new one
+<i>119</i>&nbsp;     */
+<i>120</i>&nbsp;    public void Clean(){
+<b class="fc"><i>121</i>&nbsp;        match.CleanGame();</b>
+<b class="fc"><i>122</i>&nbsp;        match.setController(this);</b>
+<b class="fc"><i>123</i>&nbsp;    }</b>
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    /**
+<i>126</i>&nbsp;     * Start your Turn, you can make your actions; if you can&#39;t, you lose
+<i>127</i>&nbsp;     */
+<i>128</i>&nbsp;    public void TurnStart(Player player){
+<b class="fc"><i>129</i>&nbsp;        player.setSelectedWorker(null);</b>
+<b class="fc"><i>130</i>&nbsp;        if (player.isLoser()){</b>
+<b class="fc"><i>131</i>&nbsp;            EndTurn();</b>
+<b class="fc"><i>132</i>&nbsp;            return;</b>
+<i>133</i>&nbsp;        }
+<b class="fc"><i>134</i>&nbsp;        VirtualTurnStart(player.isView());</b>
+<b class="fc"><i>135</i>&nbsp;        Boolean canDoSomething = false;</b>
+<b class="fc"><i>136</i>&nbsp;        player.SetUpWorkers();</b>
+<b class="fc"><i>137</i>&nbsp;        if ((match.getActualTurn() / handlers.size()) == 0) {</b>
+<b class="fc"><i>138</i>&nbsp;            InitializeWorkers(player);</b>
+<b class="fc"><i>139</i>&nbsp;            EndTurn();</b>
+<b class="fc"><i>140</i>&nbsp;            return;</b>
+<i>141</i>&nbsp;        }
+<b class="fc"><i>142</i>&nbsp;        if (player.getCard().isActivePower()){</b>
+<b class="fc"><i>143</i>&nbsp;            player.setUsePower(VirtualAskPower(player.isView()));</b>
+<b class="fc"><i>144</i>&nbsp;            if (player.isUsePower()) {</b>
+<b class="fc"><i>145</i>&nbsp;                player.getCard().activeSubroutine();</b>
+<b class="fc"><i>146</i>&nbsp;                player.setUsePower(false);</b>
+<b class="fc"><i>147</i>&nbsp;                EndTurn();</b>
+<b class="fc"><i>148</i>&nbsp;                return;</b>
+<i>149</i>&nbsp;            }
+<i>150</i>&nbsp;        }
+<b class="fc"><i>151</i>&nbsp;        for (Worker worker : player.getWorkers()) {</b>
+<b class="fc"><i>152</i>&nbsp;            canDoSomething = canDoSomething || worker.CanMove();</b>
+<b class="fc"><i>153</i>&nbsp;        }</b>
+<b class="fc"><i>154</i>&nbsp;        if (canDoSomething) {</b>
+<b class="fc"><i>155</i>&nbsp;            SelectWorkerPhase(player);</b>
+<b class="fc"><i>156</i>&nbsp;            MovePhase(player);</b>
+<b class="fc"><i>157</i>&nbsp;            if(!active.get()){</b>
+<b class="fc"><i>158</i>&nbsp;                return;</b>
+<i>159</i>&nbsp;            }
+<i>160</i>&nbsp;        }
+<i>161</i>&nbsp;        else {
+<b class="fc"><i>162</i>&nbsp;            Lose(player);</b>
+<b class="fc"><i>163</i>&nbsp;            return;</b>
+<i>164</i>&nbsp;        }
+<b class="fc"><i>165</i>&nbsp;        if (player.getSelectedWorker().CanBuild()){</b>
+<b class="fc"><i>166</i>&nbsp;            BuildPhase(player);</b>
+<i>167</i>&nbsp;        }
+<i>168</i>&nbsp;        else {
+<b class="nc"><i>169</i>&nbsp;            Lose(player);</b>
+<b class="nc"><i>170</i>&nbsp;            return;</b>
+<i>171</i>&nbsp;        }
+<b class="fc"><i>172</i>&nbsp;        EndTurn();</b>
+<b class="fc"><i>173</i>&nbsp;    }</b>
+<i>174</i>&nbsp;
+<i>175</i>&nbsp;    /**
+<i>176</i>&nbsp;     * Initialize workers
+<i>177</i>&nbsp;     */
+<i>178</i>&nbsp;    public void InitializeWorkers(Player player){
+<i>179</i>&nbsp;        Box box;
+<b class="fc"><i>180</i>&nbsp;        for(Worker worker : player.getWorkers()){</b>
+<b class="fc"><i>181</i>&nbsp;            box = VirtualAskPlace(player.getWorkers().indexOf(worker) + 1, player.isView());</b>
+<b class="fc"><i>182</i>&nbsp;            while (worker.getPosition() == null){</b>
+<b class="fc"><i>183</i>&nbsp;                if (worker.setInitialPosition(box)){</b>
+<b class="fc"><i>184</i>&nbsp;                    worker.setState(true);</b>
+<i>185</i>&nbsp;                }
+<i>186</i>&nbsp;                else {
+<b class="fc"><i>187</i>&nbsp;                    VirtualNotValidDest(player.isView());</b>
+<b class="fc"><i>188</i>&nbsp;                    box = VirtualAskPlace(1, player.isView());</b>
+<i>189</i>&nbsp;                }
+<i>190</i>&nbsp;            }
+<b class="fc"><i>191</i>&nbsp;            if(player.getWorkers().indexOf(worker) == 0) {</b>
+<b class="fc"><i>192</i>&nbsp;                UpdateAll(true, false);</b>
+<i>193</i>&nbsp;            }
+<b class="fc"><i>194</i>&nbsp;        }</b>
+<b class="fc"><i>195</i>&nbsp;    }</b>
+<i>196</i>&nbsp;
+<i>197</i>&nbsp;    /**
+<i>198</i>&nbsp;     * You must Select a valid worker
+<i>199</i>&nbsp;     */
+<i>200</i>&nbsp;    public void SelectWorkerPhase(Player player){
+<i>201</i>&nbsp;        Worker candidate;
+<b class="fc"><i>202</i>&nbsp;        candidate = VirtualAskWorker(player.isView());</b>
+<b class="fc"><i>203</i>&nbsp;        if (candidate.CanMove()){</b>
+<b class="fc"><i>204</i>&nbsp;            player.setSelectedWorker(candidate);</b>
+<i>205</i>&nbsp;        }
+<i>206</i>&nbsp;        else {
+<b class="nc"><i>207</i>&nbsp;            SelectWorkerPhase(player);</b>
+<i>208</i>&nbsp;        }
+<b class="fc"><i>209</i>&nbsp;    }</b>
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;    /**
+<i>212</i>&nbsp;     * Start of the movement phase, you must move the selected worker
+<i>213</i>&nbsp;     */
+<i>214</i>&nbsp;    public void MovePhase(Player player){
+<b class="fc"><i>215</i>&nbsp;        Update(false, false);</b>
+<b class="fc"><i>216</i>&nbsp;        Box box = VirtualAskMovement(player.isView());</b>
+<b class="fc"><i>217</i>&nbsp;        if (player.getSelectedWorker().LegalMovement(box)){</b>
+<b class="fc"><i>218</i>&nbsp;            player.getSelectedWorker().Move(box);</b>
+<i>219</i>&nbsp;        }
+<i>220</i>&nbsp;        else{
+<b class="fc"><i>221</i>&nbsp;            VirtualNotValidDest(player.isView());</b>
+<b class="fc"><i>222</i>&nbsp;            MovePhase(player);</b>
+<b class="fc"><i>223</i>&nbsp;            return;</b>
+<i>224</i>&nbsp;        }
+<b class="fc"><i>225</i>&nbsp;        CheckGameFinished();</b>
+<b class="fc"><i>226</i>&nbsp;    }</b>
+<i>227</i>&nbsp;
+<i>228</i>&nbsp;    /**
+<i>229</i>&nbsp;     * Start of the Build phase, you must build with the selected worker
+<i>230</i>&nbsp;     */
+<i>231</i>&nbsp;    public void BuildPhase(Player player){
+<b class="fc"><i>232</i>&nbsp;        UpdateAll(false, true);</b>
+<b class="fc"><i>233</i>&nbsp;        Box box = VirtualAskBuilding(player.isView());</b>
+<b class="fc"><i>234</i>&nbsp;        if (player.getCard().getName().equals(&quot;Atlas&quot;)){</b>
+<b class="fc"><i>235</i>&nbsp;            if (VirtualAskPower(player.isView())){</b>
+<b class="fc"><i>236</i>&nbsp;                if (player.getSelectedWorker().LegalBuild(box)){</b>
+<b class="fc"><i>237</i>&nbsp;                    player.getSelectedWorker().BuildDome(box);</b>
+<b class="fc"><i>238</i>&nbsp;                    return;</b>
+<i>239</i>&nbsp;                }
+<i>240</i>&nbsp;            }
+<i>241</i>&nbsp;        }
+<b class="fc"><i>242</i>&nbsp;        if (player.getSelectedWorker().LegalBuild(box)){</b>
+<b class="fc"><i>243</i>&nbsp;            player.getSelectedWorker().Build(box);</b>
+<i>244</i>&nbsp;        }
+<i>245</i>&nbsp;        else{
+<b class="fc"><i>246</i>&nbsp;            VirtualNotValidDest(player.isView());</b>
+<b class="fc"><i>247</i>&nbsp;            BuildPhase(player);</b>
+<b class="fc"><i>248</i>&nbsp;            return;</b>
+<i>249</i>&nbsp;        }
+<b class="fc"><i>250</i>&nbsp;    }</b>
+<i>251</i>&nbsp;
+<i>252</i>&nbsp;    /**
+<i>253</i>&nbsp;     * Pass your Turn if you made the mandatory actions
+<i>254</i>&nbsp;     */
+<i>255</i>&nbsp;    public void EndTurn(){
+<b class="fc"><i>256</i>&nbsp;        for (Player player : match.getPlayer()){</b>
+<b class="fc"><i>257</i>&nbsp;            if(!player.isLoser()) {</b>
+<b class="fc"><i>258</i>&nbsp;                player.getCard().myVictoryCondition();</b>
+<i>259</i>&nbsp;            }
+<b class="fc"><i>260</i>&nbsp;        }</b>
+<b class="fc"><i>261</i>&nbsp;        CheckGameFinished();</b>
+<b class="fc"><i>262</i>&nbsp;        NextTurn();</b>
+<b class="fc"><i>263</i>&nbsp;    }</b>
+<i>264</i>&nbsp;
+<i>265</i>&nbsp;    /**
+<i>266</i>&nbsp;     * Goes to the next round
+<i>267</i>&nbsp;     * @throws NullPointerException if requested invalid action on the players
+<i>268</i>&nbsp;     */
+<i>269</i>&nbsp;    public void NextTurn(){
+<b class="fc"><i>270</i>&nbsp;        if(match.isGameFinished()){</b>
+<b class="fc"><i>271</i>&nbsp;            active.set(false);</b>
+<b class="fc"><i>272</i>&nbsp;            return;</b>
+<i>273</i>&nbsp;        }
+<i>274</i>&nbsp;        else {
+<b class="fc"><i>275</i>&nbsp;            match.IncrementActualTurn();</b>
+<b class="fc"><i>276</i>&nbsp;            match.setActualPlayer(match.getPlayer().get(match.getActualTurn() % match.getPlayer().size()));</b>
+<i>277</i>&nbsp;        }
+<b class="fc"><i>278</i>&nbsp;    }</b>
+<i>279</i>&nbsp;
+<i>280</i>&nbsp;    /**
+<i>281</i>&nbsp;     * The player loses and he&#39;s removed from the game
+<i>282</i>&nbsp;     */
+<i>283</i>&nbsp;    public void Lose(Player player){
+<b class="fc"><i>284</i>&nbsp;        VirtualLose(player.isView());</b>
+<b class="fc"><i>285</i>&nbsp;        player.setLoser(true);</b>
+<i>286</i>&nbsp;        //CheckGameFinished();
+<b class="fc"><i>287</i>&nbsp;        for (Worker worker : player.getWorkers()){</b>
+<b class="fc"><i>288</i>&nbsp;            worker.getPosition().setOccupied(false);</b>
+<b class="fc"><i>289</i>&nbsp;            worker.getPosition().getStructure().remove(worker.getPosition().getStructure().size()-1);</b>
+<b class="fc"><i>290</i>&nbsp;            player.setSelectedWorker(null);</b>
+<b class="fc"><i>291</i>&nbsp;            player.setWorkers(null);</b>
+<b class="fc"><i>292</i>&nbsp;        }</b>
+<b class="fc"><i>293</i>&nbsp;        EndTurn();</b>
+<b class="fc"><i>294</i>&nbsp;    }</b>
+<i>295</i>&nbsp;
+<i>296</i>&nbsp;    /**
+<i>297</i>&nbsp;     * Checks if the game is finished
+<i>298</i>&nbsp;     */
+<i>299</i>&nbsp;    public void CheckGameFinished() {
+<b class="fc"><i>300</i>&nbsp;        int counter = 0;</b>
+<b class="fc"><i>301</i>&nbsp;        for (Player player : match.getPlayer()){</b>
+<b class="fc"><i>302</i>&nbsp;            if (player.isLoser()){</b>
+<b class="fc"><i>303</i>&nbsp;                counter++;</b>
+<i>304</i>&nbsp;            }
+<b class="fc"><i>305</i>&nbsp;            if (player.isWinner()){</b>
+<b class="fc"><i>306</i>&nbsp;                match.setGameFinished(true);</b>
+<b class="fc"><i>307</i>&nbsp;                match.setWinner(player);</b>
+<i>308</i>&nbsp;            }
+<b class="fc"><i>309</i>&nbsp;        }</b>
+<b class="fc"><i>310</i>&nbsp;        if (counter == match.getPlayer().size() - 1){</b>
+<b class="fc"><i>311</i>&nbsp;            match.setGameFinished(true);</b>
+<b class="fc"><i>312</i>&nbsp;            for (Player player : match.getPlayer()){</b>
+<b class="fc"><i>313</i>&nbsp;                if (!player.isLoser()){</b>
+<b class="fc"><i>314</i>&nbsp;                    match.setWinner(player);</b>
+<b class="fc"><i>315</i>&nbsp;                    player.setWinner(true);</b>
+<i>316</i>&nbsp;                }
+<b class="fc"><i>317</i>&nbsp;            }</b>
+<i>318</i>&nbsp;        }
+<b class="fc"><i>319</i>&nbsp;        if (match.isGameFinished()){</b>
+<b class="fc"><i>320</i>&nbsp;            VirtualGameFinished();</b>
+<b class="fc"><i>321</i>&nbsp;            active.set(false);</b>
+<i>322</i>&nbsp;        }
+<b class="fc"><i>323</i>&nbsp;    }</b>
+<i>324</i>&nbsp;
+<i>325</i>&nbsp;    /**
+<i>326</i>&nbsp;     * Call the corresponding method in the virtual view class
+<i>327</i>&nbsp;     * @param view
+<i>328</i>&nbsp;     */
+<i>329</i>&nbsp;    public void VirtualTurnStart(boolean view){
+<b class="fc"><i>330</i>&nbsp;        if (!view){</b>
+<b class="fc"><i>331</i>&nbsp;            virtual.CliTurnStartMessage();</b>
+<i>332</i>&nbsp;        }
+<i>333</i>&nbsp;        else{
+<i>334</i>&nbsp;
+<i>335</i>&nbsp;        }
+<b class="fc"><i>336</i>&nbsp;    }</b>
+<i>337</i>&nbsp;
+<i>338</i>&nbsp;    /**
+<i>339</i>&nbsp;     * Call the corresponding method in the virtual view class
+<i>340</i>&nbsp;     * @param view
+<i>341</i>&nbsp;     */
+<i>342</i>&nbsp;    public boolean VirtualAskPower(boolean view){
+<b class="fc"><i>343</i>&nbsp;        if (!view){</b>
+<b class="fc"><i>344</i>&nbsp;            return virtual.CliAskForPower(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));</b>
+<i>345</i>&nbsp;        }
+<b class="nc"><i>346</i>&nbsp;        return true; //else gui</b>
+<i>347</i>&nbsp;    }
+<i>348</i>&nbsp;
+<i>349</i>&nbsp;    /**
+<i>350</i>&nbsp;     * Call the corresponding method in the virtual view class
+<i>351</i>&nbsp;     * @param view
+<i>352</i>&nbsp;     */
+<i>353</i>&nbsp;    public Worker VirtualAskWorker(boolean view){
+<b class="fc"><i>354</i>&nbsp;        if (!view){</b>
+<b class="fc"><i>355</i>&nbsp;            return virtual.CliAskForWorker(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));</b>
+<i>356</i>&nbsp;        }
+<b class="nc"><i>357</i>&nbsp;        return null; //else gui</b>
+<i>358</i>&nbsp;    }
+<i>359</i>&nbsp;
+<i>360</i>&nbsp;    /**
+<i>361</i>&nbsp;     * Call the corresponding method in the virtual view class
+<i>362</i>&nbsp;     * @param view
+<i>363</i>&nbsp;     */
+<i>364</i>&nbsp;    public Box VirtualAskMovement(boolean view){
+<b class="fc"><i>365</i>&nbsp;        if (!view){</b>
+<b class="fc"><i>366</i>&nbsp;            return virtual.CliAskForMovement(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));</b>
+<i>367</i>&nbsp;        }
+<b class="nc"><i>368</i>&nbsp;        return null; //else gui</b>
+<i>369</i>&nbsp;    }
+<i>370</i>&nbsp;
+<i>371</i>&nbsp;    /**
+<i>372</i>&nbsp;     * Call the corresponding method in the virtual view class
+<i>373</i>&nbsp;     * @param view
+<i>374</i>&nbsp;     */
+<i>375</i>&nbsp;    public Box VirtualAskBuilding(boolean view){
+<b class="fc"><i>376</i>&nbsp;        if (!view){</b>
+<b class="fc"><i>377</i>&nbsp;            return virtual.CliAskForBuilding(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));</b>
+<i>378</i>&nbsp;        }
+<b class="nc"><i>379</i>&nbsp;        return null; //else gui</b>
+<i>380</i>&nbsp;    }
+<i>381</i>&nbsp;
+<i>382</i>&nbsp;    /**
+<i>383</i>&nbsp;     * Call the corresponding method in the virtual view class
+<i>384</i>&nbsp;     * @param view
+<i>385</i>&nbsp;     */
+<i>386</i>&nbsp;    public void VirtualNotValidDest(boolean view){
+<b class="fc"><i>387</i>&nbsp;        if (!view){</b>
+<b class="fc"><i>388</i>&nbsp;            virtual.CliNotValidDestination(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));</b>
+<b class="fc"><i>389</i>&nbsp;            return;</b>
+<i>390</i>&nbsp;        }
+<b class="nc"><i>391</i>&nbsp;        return; //else gui</b>
+<i>392</i>&nbsp;    }
+<i>393</i>&nbsp;
+<i>394</i>&nbsp;    /**
+<i>395</i>&nbsp;     * Call the corresponding method in the virtual view class
+<i>396</i>&nbsp;     * @param workerNumber
+<i>397</i>&nbsp;     * @param view
+<i>398</i>&nbsp;     * @return
+<i>399</i>&nbsp;     */
+<i>400</i>&nbsp;    public Box VirtualAskPlace(int workerNumber, boolean view){
+<b class="fc"><i>401</i>&nbsp;        if (!view){</b>
+<b class="fc"><i>402</i>&nbsp;            return virtual.CliAskForPlacement(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())), workerNumber);</b>
+<i>403</i>&nbsp;        }
+<b class="nc"><i>404</i>&nbsp;        return null; //else gui</b>
+<i>405</i>&nbsp;    }
+<i>406</i>&nbsp;
+<i>407</i>&nbsp;    /**
+<i>408</i>&nbsp;     * Call the corresponding method in the virtual view class
+<i>409</i>&nbsp;     * @param view
+<i>410</i>&nbsp;     */
+<i>411</i>&nbsp;    public void VirtualLose(boolean view){
+<b class="fc"><i>412</i>&nbsp;        if (!view){</b>
+<b class="fc"><i>413</i>&nbsp;            virtual.CliLose(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));</b>
+<i>414</i>&nbsp;        }
+<i>415</i>&nbsp;        //else gui
+<b class="fc"><i>416</i>&nbsp;    }</b>
+<i>417</i>&nbsp;
+<i>418</i>&nbsp;    /**
+<i>419</i>&nbsp;     * Call the corresponding method in the virtual view class
+<i>420</i>&nbsp;     * @param
+<i>421</i>&nbsp;     */
+<i>422</i>&nbsp;    public void VirtualGameFinished(){
+<b class="fc"><i>423</i>&nbsp;        System.out.println(&quot;[F] - Game finished&quot;);</b>
+<b class="fc"><i>424</i>&nbsp;        for(ClientHandler handler : handlers){</b>
+<b class="fc"><i>425</i>&nbsp;            if(!match.getPlayer().get(handlers.indexOf(handler)).isView()) {</b>
+<b class="fc"><i>426</i>&nbsp;                virtual.CliGameFinished(handler);</b>
+<i>427</i>&nbsp;            }
+<i>428</i>&nbsp;            else{
+<i>429</i>&nbsp;                //gui
+<i>430</i>&nbsp;            }
+<b class="fc"><i>431</i>&nbsp;        }</b>
+<i>432</i>&nbsp;        //Server.GameClose();//supposed common part
+<b class="fc"><i>433</i>&nbsp;    }</b>
+<i>434</i>&nbsp;
+<i>435</i>&nbsp;    /**
+<i>436</i>&nbsp;     * Updating message for all players
+<i>437</i>&nbsp;     * @param generic
+<i>438</i>&nbsp;     * @param phase
+<i>439</i>&nbsp;     */
+<i>440</i>&nbsp;    public void UpdateAll(boolean generic, boolean phase){
+<b class="fc"><i>441</i>&nbsp;        ClientHandler actual = handlers.get(match.getPlayer().indexOf(match.getActualPlayer()));</b>
+<b class="fc"><i>442</i>&nbsp;        CliCommandMsg msg1 = virtual.MapInfo(generic, phase, &quot;&quot;);</b>
+<b class="fc"><i>443</i>&nbsp;        CliCommandMsg msg2 = virtual.MapInfo(true, false, &quot;Look at &quot; + match.getActualPlayer().getColor() + match.getActualPlayer().getNickName() + Colors.RESET + &quot;&#39;s move&quot;);</b>
+<b class="fc"><i>444</i>&nbsp;        virtual.Echo(actual, msg1, msg2);</b>
+<b class="fc"><i>445</i>&nbsp;    }</b>
+<i>446</i>&nbsp;
+<i>447</i>&nbsp;    /**
+<i>448</i>&nbsp;     * Updating message for a player
+<i>449</i>&nbsp;     * @param generic
+<i>450</i>&nbsp;     * @param phase
+<i>451</i>&nbsp;     */
+<i>452</i>&nbsp;    public void Update(boolean generic, boolean phase){
+<b class="fc"><i>453</i>&nbsp;        ClientHandler actual = handlers.get(match.getPlayer().indexOf(match.getActualPlayer()));</b>
+<b class="fc"><i>454</i>&nbsp;        virtual.UpdateMap(actual, generic, phase);</b>
+<b class="fc"><i>455</i>&nbsp;    }</b>
+<i>456</i>&nbsp;
+<i>457</i>&nbsp;    public VirtualView getVirtual() {
+<b class="fc"><i>458</i>&nbsp;        return virtual;</b>
+<i>459</i>&nbsp;    }
+<i>460</i>&nbsp;
+<i>461</i>&nbsp;    public int getPlayerNum() {
+<b class="fc"><i>462</i>&nbsp;        return playerNum;</b>
+<i>463</i>&nbsp;    }
+<i>464</i>&nbsp;
+<i>465</i>&nbsp;    public void setPlayerNum(int playerNum) {
+<b class="fc"><i>466</i>&nbsp;        this.playerNum = playerNum;</b>
+<b class="fc"><i>467</i>&nbsp;    }</b>
+<i>468</i>&nbsp;
+<i>469</i>&nbsp;    public ArrayList&lt;ClientHandler&gt; getHandlers() {
+<b class="fc"><i>470</i>&nbsp;        return handlers;</b>
+<i>471</i>&nbsp;    }
+<i>472</i>&nbsp;
+<i>473</i>&nbsp;    public AtomicBoolean getActive() {
+<b class="fc"><i>474</i>&nbsp;        return active;</b>
+<i>475</i>&nbsp;    }
+<i>476</i>&nbsp;
+<i>477</i>&nbsp;    public void setActive(AtomicBoolean active) {
+<b class="nc"><i>478</i>&nbsp;        this.active = active;</b>
+<b class="nc"><i>479</i>&nbsp;    }</b>
+<i>480</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-27 23:23</div>
+</div>
+</body>
+</html>

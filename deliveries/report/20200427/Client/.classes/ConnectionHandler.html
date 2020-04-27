@@ -1,0 +1,239 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ConnectionHandler</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Client</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ConnectionHandler (Client)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ConnectionHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 49)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ConnectionHandler$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 50)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Client;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import ComunicationProtocol.CliCommandMsg;
+<i>4</i>&nbsp;import ComunicationProtocol.ServerMsg;
+<i>5</i>&nbsp;import View.CLI.Cli;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.io.IOException;
+<i>8</i>&nbsp;import java.io.ObjectInputStream;
+<i>9</i>&nbsp;import java.io.ObjectOutputStream;
+<i>10</i>&nbsp;import java.net.Socket;
+<i>11</i>&nbsp;import java.util.concurrent.atomic.AtomicBoolean;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/**
+<i>14</i>&nbsp; * Class for managing a new connection
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;public class ConnectionHandler implements Runnable{
+<i>17</i>&nbsp;    private Socket server;
+<i>18</i>&nbsp;    private Client client;
+<i>19</i>&nbsp;    private ObjectInputStream in;
+<i>20</i>&nbsp;    private ObjectOutputStream out;
+<i>21</i>&nbsp;    private AtomicBoolean active;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * Constructor of the class
+<i>25</i>&nbsp;     * @param server
+<i>26</i>&nbsp;     * @param client
+<i>27</i>&nbsp;     */
+<b class="nc"><i>28</i>&nbsp;    public ConnectionHandler(Socket server, Client client){</b>
+<b class="nc"><i>29</i>&nbsp;        this.server = server;</b>
+<b class="nc"><i>30</i>&nbsp;        this.client = client;</b>
+<b class="nc"><i>31</i>&nbsp;        this.active = new AtomicBoolean(true);</b>
+<i>32</i>&nbsp;        try {
+<b class="nc"><i>33</i>&nbsp;            in = new ObjectInputStream(server.getInputStream());</b>
+<b class="nc"><i>34</i>&nbsp;            out = new ObjectOutputStream(server.getOutputStream());</b>
+<b class="nc"><i>35</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>36</i>&nbsp;            System.err.println(&quot;Unable to open the Streams (ConnectionHandler)&quot;);</b>
+<b class="nc"><i>37</i>&nbsp;        }</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * Receiving messages...
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    @Override
+<i>44</i>&nbsp;    public void run() {
+<b class="nc"><i>45</i>&nbsp;        if(!client.isLayout()) {</b>
+<i>46</i>&nbsp;            CliCommandMsg command;
+<b class="nc"><i>47</i>&nbsp;            while (active.get()) {</b>
+<b class="nc"><i>48</i>&nbsp;                command = CliReceiveCommand();</b>
+<b class="nc"><i>49</i>&nbsp;                CliHandleCommand(command, (Cli) client.getView());</b>
+<i>50</i>&nbsp;            }
+<i>51</i>&nbsp;        }
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * Reading an input command...
+<i>56</i>&nbsp;     * @return
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    public CliCommandMsg CliReceiveCommand(){
+<b class="nc"><i>59</i>&nbsp;        CliCommandMsg command = null;</b>
+<i>60</i>&nbsp;        try {
+<b class="nc"><i>61</i>&nbsp;            command = (CliCommandMsg) in.readObject();</b>
+<b class="nc"><i>62</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>63</i>&nbsp;            System.err.println(&quot;Problems with the Stream\nThe Server is probably down&quot;);</b>
+<b class="nc"><i>64</i>&nbsp;            active.set(false);</b>
+<b class="nc"><i>65</i>&nbsp;            client.CloseClient();</b>
+<b class="nc"><i>66</i>&nbsp;        } catch (ClassNotFoundException e) {</b>
+<b class="nc"><i>67</i>&nbsp;            System.err.println(&quot;Invalid Class, not a CliCommandMsg&quot;);</b>
+<b class="nc"><i>68</i>&nbsp;        }</b>
+<b class="nc"><i>69</i>&nbsp;        return command;</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    /**
+<i>73</i>&nbsp;     * Handling the read message based on  the type
+<i>74</i>&nbsp;     * @param command
+<i>75</i>&nbsp;     * @param cli
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;    public void CliHandleCommand(CliCommandMsg command, Cli cli){
+<b class="nc"><i>78</i>&nbsp;        if(command != null) {</b>
+<b class="nc"><i>79</i>&nbsp;            switch (command.getCommandType()) {</b>
+<i>80</i>&nbsp;                case NAME:
+<b class="nc"><i>81</i>&nbsp;                    cli.NameHandler(command, this);</b>
+<b class="nc"><i>82</i>&nbsp;                    break;</b>
+<i>83</i>&nbsp;                case COORDINATES:
+<b class="nc"><i>84</i>&nbsp;                    cli.CoordinatesHandler(command, this);</b>
+<b class="nc"><i>85</i>&nbsp;                    break;</b>
+<i>86</i>&nbsp;                case NUMBER:
+<b class="nc"><i>87</i>&nbsp;                    cli.NumberHandler(command, this);</b>
+<b class="nc"><i>88</i>&nbsp;                    break;</b>
+<i>89</i>&nbsp;                case ANSWER:
+<b class="nc"><i>90</i>&nbsp;                    cli.AnswerHandler(command, this);</b>
+<b class="nc"><i>91</i>&nbsp;                    break;</b>
+<i>92</i>&nbsp;                case GOD:
+<b class="nc"><i>93</i>&nbsp;                    cli.GodHandler(command, this);</b>
+<b class="nc"><i>94</i>&nbsp;                    break;</b>
+<i>95</i>&nbsp;                case CLOSE:
+<b class="nc"><i>96</i>&nbsp;                    cli.CloseHandler(command, this);</b>
+<b class="nc"><i>97</i>&nbsp;                    client.CloseClient();</b>
+<b class="nc"><i>98</i>&nbsp;                    break;</b>
+<i>99</i>&nbsp;                case UPDATE:
+<b class="nc"><i>100</i>&nbsp;                    cli.UpdateHandler(command);</b>
+<b class="nc"><i>101</i>&nbsp;                    break;</b>
+<i>102</i>&nbsp;                case COMMUNICATION:
+<b class="nc"><i>103</i>&nbsp;                    cli.CommunicationHandler(command);</b>
+<i>104</i>&nbsp;                    break;
+<i>105</i>&nbsp;            }
+<i>106</i>&nbsp;        }
+<i>107</i>&nbsp;    }
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    /**
+<i>110</i>&nbsp;     * Writing a message in the output stream
+<i>111</i>&nbsp;     * @param msg
+<i>112</i>&nbsp;     */
+<i>113</i>&nbsp;    public void WriteMessage(ServerMsg msg){
+<i>114</i>&nbsp;        try {
+<b class="nc"><i>115</i>&nbsp;            out.writeObject(msg);</b>
+<b class="nc"><i>116</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>117</i>&nbsp;            System.err.println(&quot;Unable to write message\nThe Server is probably down&quot;);</b>
+<b class="nc"><i>118</i>&nbsp;            active.set(false);</b>
+<b class="nc"><i>119</i>&nbsp;            client.CloseClient();</b>
+<b class="nc"><i>120</i>&nbsp;        }</b>
+<i>121</i>&nbsp;    }
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;    public boolean Layout(){
+<b class="nc"><i>124</i>&nbsp;        return client.isLayout();</b>
+<i>125</i>&nbsp;    }
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    public void setActive(boolean active) {
+<b class="nc"><i>128</i>&nbsp;        this.active.set(active);</b>
+<i>129</i>&nbsp;    }
+<i>130</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-27 23:23</div>
+</div>
+</body>
+</html>

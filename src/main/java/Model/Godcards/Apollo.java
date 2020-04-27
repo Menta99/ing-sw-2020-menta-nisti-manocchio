@@ -5,13 +5,24 @@ import Model.Game;
 import Model.Player;
 import Model.Worker;
 
+/**
+ * Class of GodCard Apollo
+ */
 public class Apollo extends  GodCard{
 
+    /**
+     * Constructor of the god
+     */
     public Apollo(){
         this.setName("Apollo");
         this.setPower("You can move in an enemy worker's position (according to normal rules) and force him to occupy your initial position");
     }
 
+    /**
+     * Change your position with an enemy one(if's legal)
+     * @param dest's your destination box
+     * @return true or false
+     */
     @Override
     public boolean moveOthers(Box dest) {
         Box position = getOwner().getSelectedWorker().getPosition();

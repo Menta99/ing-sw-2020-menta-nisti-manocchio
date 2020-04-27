@@ -2,24 +2,14 @@ package Model;
 
 import java.util.ArrayList;
 
+/**
+ * Class representing the game's field
+ */
 public class PlayGround {
     private static PlayGround instance = null;
     private Box[][] grid;
     private final int SIZE = 5;
 
-    /**
-     * Load the saved status of the map
-     */
-    public void restore(ArrayList <Box> grid){
-
-    }          //to implement
-
-    /**
-     * Save the map status
-     */
-    public void saveState(){
-
-    }             //to implement
 
     /**
      * Private constructor of the Playground (Singleton)

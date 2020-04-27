@@ -9,12 +9,19 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Class representing the server
+ */
 public class Server {
     private static final int PORT_NUM = 5555;
     private static ServerSocket server;
     private static Object lock = new Object();
     private static AtomicBoolean active = new AtomicBoolean(true);
 
+    /**
+     * Configure the server and at the end close if there's nothing to do
+     * @param args
+     */
     public static void main(String[] args){
         new Thread(new Keyboard()).start();
         try {
@@ -37,16 +44,25 @@ public class Server {
         }
     }
 
+    /**
+     * Starting the Controller in a different thread
+     */
     public static void GameSetting(){
         new Thread(new Controller()).start();
     }
 
+    /**
+     * Updating message
+     */
     public static void UpdateServer(){
         synchronized (lock){
             lock.notifyAll();
         }
     }
 
+    /**
+     * Shut down the server
+     */
     public static void ServerClose(){
         try {
             if(Game.getInstance().getController().getActive().get()) {
@@ -61,6 +77,10 @@ public class Server {
         }
     }
 
+    /**
+     * Manage an unexpected game close( client disconnected)
+     * @param disconnected
+     */
     public static void AnomalousGameClose(ClientHandler disconnected){
         System.out.println("[Z] - Anomalous Disconnection of player n°" + Game.getInstance().getController().getHandlers().indexOf(disconnected));
         Game.getInstance().getController().getHandlers().remove(disconnected);

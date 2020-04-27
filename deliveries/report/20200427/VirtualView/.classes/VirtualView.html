@@ -1,0 +1,440 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: VirtualView</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">VirtualView</a> ]
+</div>
+
+<h1>Coverage Summary for Class: VirtualView (VirtualView)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VirtualView</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95,2%
+  </span>
+  <span class="absValue">
+    (20/ 21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91,9%
+  </span>
+  <span class="absValue">
+    (125/ 136)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package VirtualView;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import ComunicationProtocol.BoxInfo;
+<i>4</i>&nbsp;import ComunicationProtocol.CliCommandMsg;
+<i>5</i>&nbsp;import ComunicationProtocol.CommandType;
+<i>6</i>&nbsp;import ComunicationProtocol.ServerMsg;
+<i>7</i>&nbsp;import Model.*;
+<i>8</i>&nbsp;import Model.Godcards.GodCard;
+<i>9</i>&nbsp;import Server.ClientHandler;
+<i>10</i>&nbsp;import View.Colors;
+<i>11</i>&nbsp;import java.util.ArrayList;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/**
+<i>14</i>&nbsp; * VirtualView class of the game
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;public class VirtualView {
+<i>17</i>&nbsp;    private Game myGame;
+<i>18</i>&nbsp;    private PlayGround myMap;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * class&#39; constructor
+<i>22</i>&nbsp;     * @param game
+<i>23</i>&nbsp;     */
+<b class="fc"><i>24</i>&nbsp;    public VirtualView(Game game){</b>
+<b class="fc"><i>25</i>&nbsp;        this.myGame = game;</b>
+<b class="fc"><i>26</i>&nbsp;        this.myMap = PlayGround.getInstance();</b>
+<b class="fc"><i>27</i>&nbsp;    }</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * Print a welcome screen
+<i>31</i>&nbsp;     * @param player
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;    public void CliWelcomeScreen(ClientHandler player) {
+<b class="fc"><i>34</i>&nbsp;        ArrayList&lt;String&gt; output = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>35</i>&nbsp;        output.add(&quot;\n&quot;+ Colors.PURPLE + &quot;╭╮╭╮╭╮&quot; + Colors.YELLOW + &quot;╱╱&quot; + Colors.PURPLE + &quot;╭╮&quot;);</b>
+<b class="fc"><i>36</i>&nbsp;        output.add(&quot;┃┃┃┃┃┃&quot; + Colors.YELLOW + &quot;╱╱&quot; + Colors.PURPLE + &quot;┃┃&quot;);</b>
+<b class="fc"><i>37</i>&nbsp;        output.add(&quot;┃┃┃┃┃┣━━┫┃╭━━┳━━┳╮╭┳━━╮\n┃╰╯╰╯┃┃━┫┃┃╭━┫╭╮┃╰╯┃┃━┫\n╰╮╭╮╭┫┃━┫╰┫╰━┫╰╯┃┃┃┃┃━┫&quot;);</b>
+<b class="fc"><i>38</i>&nbsp;        output.add(Colors.YELLOW + &quot;╱&quot; + Colors.PURPLE + &quot;╰╯╰╯╰━━┻━┻━━┻━━┻┻┻┻━━╯&quot;);</b>
+<b class="fc"><i>39</i>&nbsp;        output.add(&quot;╭━━━━╮&quot; + Colors.YELLOW + &quot;╱╱&quot; + Colors.PURPLE + &quot;╭━━━╮&quot; + Colors.YELLOW + &quot;╱╱╱╱╱&quot; + Colors.PURPLE + &quot;╭╮&quot;);</b>
+<b class="fc"><i>40</i>&nbsp;        output.add(&quot;┃╭╮╭╮┃&quot; + Colors.YELLOW + &quot;╱╱&quot; + Colors.PURPLE + &quot;┃╭━╮┃&quot; + Colors.YELLOW + &quot;╱╱╱╱&quot; + Colors.PURPLE + &quot;╭╯╰╮&quot;);</b>
+<b class="fc"><i>41</i>&nbsp;        output.add(&quot;╰╯┃┃┣┻━╮┃╰━━┳━━┳━╋╮╭╋━━┳━┳┳━╮╭╮&quot;);</b>
+<b class="fc"><i>42</i>&nbsp;        output.add(Colors.YELLOW + &quot;╱╱&quot; + Colors.PURPLE + &quot;┃┃┃╭╮┃╰━━╮┃╭╮┃╭╮┫┃┃╭╮┃╭╋┫╭╮╋┫&quot;);</b>
+<b class="fc"><i>43</i>&nbsp;        output.add(Colors.YELLOW + &quot;╱╱&quot; + Colors.PURPLE + &quot;┃┃┃╰╯┃┃╰━╯┃╭╮┃┃┃┃╰┫╰╯┃┃┃┃┃┃┃┃&quot;);</b>
+<b class="fc"><i>44</i>&nbsp;        output.add(Colors.YELLOW + &quot;╱╱&quot; + Colors.PURPLE + &quot;╰╯╰━━╯╰━━━┻╯╰┻╯╰┻━┻━━┻╯╰┻╯╰┻╯&quot; + Colors.RESET + &quot;\n&quot;);</b>
+<b class="fc"><i>45</i>&nbsp;        player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, output));</b>
+<b class="fc"><i>46</i>&nbsp;    } //ready</b>
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * Print a list of available gods for the game
+<i>50</i>&nbsp;     * @param player
+<i>51</i>&nbsp;     */
+<i>52</i>&nbsp;    public void CliGodList(ClientHandler player) {
+<b class="fc"><i>53</i>&nbsp;        ArrayList&lt;String&gt; output = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>54</i>&nbsp;        int i = 0;</b>
+<b class="fc"><i>55</i>&nbsp;        output.add(&quot;These are the GodCards available :\n&quot;);</b>
+<b class="fc"><i>56</i>&nbsp;        for (GodCard god : myGame.getDeck().getCardList()) {</b>
+<b class="fc"><i>57</i>&nbsp;            output.add(&quot;[&quot; + i + &quot;] &quot; + god.getName() + &quot; - &quot; + god.getPower());</b>
+<b class="fc"><i>58</i>&nbsp;            i++;</b>
+<b class="fc"><i>59</i>&nbsp;        }</b>
+<b class="fc"><i>60</i>&nbsp;        player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, output));</b>
+<b class="fc"><i>61</i>&nbsp;    } //ready</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /**
+<i>64</i>&nbsp;     * Print the picked gods
+<i>65</i>&nbsp;     */
+<i>66</i>&nbsp;    public void CliInGameGods() {
+<b class="fc"><i>67</i>&nbsp;        ArrayList&lt;String&gt; output = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>68</i>&nbsp;        output.add(&quot;\n&quot;);</b>
+<b class="fc"><i>69</i>&nbsp;        for (Player user : myGame.getPlayer()) {</b>
+<b class="fc"><i>70</i>&nbsp;            output.add(&quot;Player: &quot; + user.getColor() + user.getNickName() + Colors.RESET + &quot; GodCard: &quot; + user.getCard().getName());</b>
+<b class="fc"><i>71</i>&nbsp;        }</b>
+<b class="fc"><i>72</i>&nbsp;        for(ClientHandler player : myGame.getController().getHandlers()) {</b>
+<b class="fc"><i>73</i>&nbsp;            player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, output));</b>
+<b class="fc"><i>74</i>&nbsp;        }</b>
+<b class="fc"><i>75</i>&nbsp;    } //ready</b>
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    //methods MessageHandlerCLI
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    /**
+<i>80</i>&nbsp;     * Choosing gods phase
+<i>81</i>&nbsp;     * @param challenger
+<i>82</i>&nbsp;     */
+<i>83</i>&nbsp;    public void CliChooseGodPhase(ClientHandler challenger){
+<b class="fc"><i>84</i>&nbsp;        CliGodList(challenger);</b>
+<i>85</i>&nbsp;        ClientHandler handler;
+<b class="fc"><i>86</i>&nbsp;        ArrayList&lt;String&gt; output = new ArrayList&lt;&gt;();</b>
+<i>87</i>&nbsp;        Player player;
+<i>88</i>&nbsp;        int godCard;
+<b class="fc"><i>89</i>&nbsp;        int numOfPlayers = myGame.getController().getPlayerNum();</b>
+<b class="fc"><i>90</i>&nbsp;        challenger.WriteMessage(new CliCommandMsg(CommandType.GOD, &quot;\nPlease &quot; + myGame.getPlayer().get(0).getColor() + myGame.getPlayer().get(0).getNickName() + Colors.RESET</b>
+<i>91</i>&nbsp;                + &quot; Select &quot; + numOfPlayers + &quot; GodCards indicating their numbers&quot;, numOfPlayers));
+<b class="fc"><i>92</i>&nbsp;        ArrayList&lt;Integer&gt; index = challenger.ReadMessage().getList();</b>
+<b class="fc"><i>93</i>&nbsp;        myGame.ExtractCard(index);</b>
+<b class="fc"><i>94</i>&nbsp;        for (int i = 0; i &lt; numOfPlayers; i++){</b>
+<b class="fc"><i>95</i>&nbsp;            if (i == numOfPlayers - 1){</b>
+<b class="fc"><i>96</i>&nbsp;                player = myGame.getPlayer().get(0);</b>
+<b class="fc"><i>97</i>&nbsp;                handler = myGame.getController().getHandlers().get(0);</b>
+<i>98</i>&nbsp;            }
+<i>99</i>&nbsp;            else {
+<b class="fc"><i>100</i>&nbsp;                player = myGame.getPlayer().get(i + 1);</b>
+<b class="fc"><i>101</i>&nbsp;                handler = myGame.getController().getHandlers().get(i + 1);</b>
+<i>102</i>&nbsp;            }
+<b class="fc"><i>103</i>&nbsp;            output.add(player.getColor() +  player.getNickName() +  Colors.RESET + &quot; Pick a card&quot;);</b>
+<b class="fc"><i>104</i>&nbsp;            int j=0;</b>
+<b class="fc"><i>105</i>&nbsp;            for(GodCard card : Game.getInstance().getActiveCards()){</b>
+<b class="fc"><i>106</i>&nbsp;                if (!card.isPicked()){</b>
+<b class="fc"><i>107</i>&nbsp;                    output.add(&quot;Insert &quot; + j + &quot; to get &quot; + card.getName());</b>
+<i>108</i>&nbsp;                }
+<b class="fc"><i>109</i>&nbsp;                j++;</b>
+<b class="fc"><i>110</i>&nbsp;            }</b>
+<b class="fc"><i>111</i>&nbsp;            godCard = CliAskGod(handler, output);</b>
+<b class="fc"><i>112</i>&nbsp;            player.ChooseGod(godCard);</b>
+<b class="fc"><i>113</i>&nbsp;            output = new ArrayList&lt;&gt;();</b>
+<i>114</i>&nbsp;        }
+<b class="fc"><i>115</i>&nbsp;        CliInGameGods();</b>
+<b class="fc"><i>116</i>&nbsp;    }</b>
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    /**
+<i>119</i>&nbsp;     * Tell if it&#39;s a legal box for the game
+<i>120</i>&nbsp;     * @param i
+<i>121</i>&nbsp;     * @param j
+<i>122</i>&nbsp;     * @return
+<i>123</i>&nbsp;     */
+<i>124</i>&nbsp;    public boolean CliLegalCoordinates(int i, int j) {
+<b class="fc"><i>125</i>&nbsp;        int size = myMap.getSIZE();</b>
+<b class="fc"><i>126</i>&nbsp;        if (i &lt; 0 || j &lt; 0 || i &gt; size - 1 || j &gt; size - 1) {</b>
+<b class="nc"><i>127</i>&nbsp;            return false;</b>
+<i>128</i>&nbsp;        }
+<b class="fc"><i>129</i>&nbsp;        return true;</b>
+<i>130</i>&nbsp;    }
+<i>131</i>&nbsp;
+<i>132</i>&nbsp;    /**
+<i>133</i>&nbsp;     * Request of a box through coordinates
+<i>134</i>&nbsp;     * @param player
+<i>135</i>&nbsp;     * @param msg
+<i>136</i>&nbsp;     * @return asked box or error message
+<i>137</i>&nbsp;     */
+<i>138</i>&nbsp;    public Box CliAskForCoordinates(ClientHandler player, String msg) {
+<i>139</i>&nbsp;        ServerMsg answer;
+<i>140</i>&nbsp;        while (true) {
+<b class="fc"><i>141</i>&nbsp;            player.WriteMessage(new CliCommandMsg(CommandType.COORDINATES, msg));</b>
+<b class="fc"><i>142</i>&nbsp;            answer = player.ReadMessage();</b>
+<b class="fc"><i>143</i>&nbsp;            if (CliLegalCoordinates(answer.getList().get(0), answer.getList().get(1))) {</b>
+<b class="fc"><i>144</i>&nbsp;                return myMap.getBox(answer.getList().get(0), answer.getList().get(1));</b>
+<i>145</i>&nbsp;            }
+<b class="nc"><i>146</i>&nbsp;            CliNotValidDestination(player);</b>
+<i>147</i>&nbsp;        }
+<i>148</i>&nbsp;    }
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;    /**
+<i>151</i>&nbsp;     * Ask if the player would like to use his god power
+<i>152</i>&nbsp;     * @param player
+<i>153</i>&nbsp;     * @return
+<i>154</i>&nbsp;     */
+<i>155</i>&nbsp;    public boolean CliAskForPower(ClientHandler player) {
+<i>156</i>&nbsp;        ServerMsg answer;
+<b class="fc"><i>157</i>&nbsp;        player.WriteMessage(new CliCommandMsg(CommandType.ANSWER, &quot;Would you like to use your divinity Power? \nyes / no&quot;));</b>
+<b class="fc"><i>158</i>&nbsp;        answer = player.ReadMessage();</b>
+<b class="fc"><i>159</i>&nbsp;        if (answer.getMsg().equalsIgnoreCase(&quot;yes&quot;)) {</b>
+<b class="fc"><i>160</i>&nbsp;            return true;</b>
+<i>161</i>&nbsp;        } else {
+<b class="fc"><i>162</i>&nbsp;            return false;</b>
+<i>163</i>&nbsp;        }
+<i>164</i>&nbsp;    }
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    /**
+<i>167</i>&nbsp;     * Player must select one of his worker
+<i>168</i>&nbsp;     * @param player
+<i>169</i>&nbsp;     * @return selected worker or error message
+<i>170</i>&nbsp;     */
+<i>171</i>&nbsp;    public Worker CliAskForWorker(ClientHandler player) {
+<b class="fc"><i>172</i>&nbsp;        Box box = CliAskForCoordinates(player,&quot;Select one of your workers&quot;);</b>
+<b class="fc"><i>173</i>&nbsp;        Worker candidate = myGame.getActualPlayer().selectWorker(box);</b>
+<b class="fc"><i>174</i>&nbsp;        if (candidate == null) {</b>
+<b class="nc"><i>175</i>&nbsp;            player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, &quot;Not a valid worker&quot;));</b>
+<b class="nc"><i>176</i>&nbsp;            return CliAskForWorker(player);</b>
+<i>177</i>&nbsp;        }
+<b class="fc"><i>178</i>&nbsp;        return candidate;</b>
+<i>179</i>&nbsp;    }
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;    /**
+<i>182</i>&nbsp;     * Ask for the move phase
+<i>183</i>&nbsp;     * @param player
+<i>184</i>&nbsp;     * @return
+<i>185</i>&nbsp;     */
+<i>186</i>&nbsp;    public Box CliAskForMovement(ClientHandler player) {
+<b class="fc"><i>187</i>&nbsp;        return CliAskForCoordinates(player, &quot;Where do you want to move your worker?&quot;);</b>
+<i>188</i>&nbsp;    }
+<i>189</i>&nbsp;
+<i>190</i>&nbsp;    /**
+<i>191</i>&nbsp;     * Ask for the build phase
+<i>192</i>&nbsp;     * @param player
+<i>193</i>&nbsp;     * @return
+<i>194</i>&nbsp;     */
+<i>195</i>&nbsp;    public Box CliAskForBuilding(ClientHandler player) {
+<b class="fc"><i>196</i>&nbsp;        return CliAskForCoordinates(player, &quot;Where do you want to build?&quot;);</b>
+<i>197</i>&nbsp;    }
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;    /**
+<i>200</i>&nbsp;     * Error message selecting a box destination
+<i>201</i>&nbsp;     * @param player
+<i>202</i>&nbsp;     */
+<i>203</i>&nbsp;    public void CliNotValidDestination(ClientHandler player) {
+<b class="fc"><i>204</i>&nbsp;        player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, &quot;Not a valid destination, try again!&quot;));</b>
+<b class="fc"><i>205</i>&nbsp;    }</b>
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;    /**
+<i>208</i>&nbsp;     * Ask for a destination box for your selected worker
+<i>209</i>&nbsp;     * @param player
+<i>210</i>&nbsp;     * @param workerNumber
+<i>211</i>&nbsp;     * @return
+<i>212</i>&nbsp;     */
+<i>213</i>&nbsp;    public Box CliAskForPlacement(ClientHandler player, int workerNumber) {
+<b class="fc"><i>214</i>&nbsp;        return CliAskForCoordinates(player, &quot;Where do you want to place Worker number &quot; + workerNumber + &quot;?&quot;);</b>
+<i>215</i>&nbsp;    }
+<i>216</i>&nbsp;
+<i>217</i>&nbsp;    /**
+<i>218</i>&nbsp;     * Print message of loosing game
+<i>219</i>&nbsp;     * @param player
+<i>220</i>&nbsp;     */
+<i>221</i>&nbsp;    public void CliLose(ClientHandler player){
+<b class="fc"><i>222</i>&nbsp;        player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, &quot;You Lost! Dumbo&#39;s&quot;));</b>
+<b class="fc"><i>223</i>&nbsp;    }</b>
+<i>224</i>&nbsp;
+<i>225</i>&nbsp;    /**
+<i>226</i>&nbsp;     * Print message of victory for the winner
+<i>227</i>&nbsp;     * @param player
+<i>228</i>&nbsp;     */
+<i>229</i>&nbsp;    public void CliGameFinished(ClientHandler player){
+<b class="fc"><i>230</i>&nbsp;        Player winner = myGame.getWinner();</b>
+<b class="fc"><i>231</i>&nbsp;        if(player == myGame.getController().getHandlers().get(myGame.getPlayer().indexOf(winner))){</b>
+<b class="fc"><i>232</i>&nbsp;            player.WriteMessage(new CliCommandMsg(CommandType.CLOSE, &quot;You have won\nCongratulations&quot;));</b>
+<i>233</i>&nbsp;        }
+<i>234</i>&nbsp;        else{
+<b class="fc"><i>235</i>&nbsp;            player.WriteMessage(new CliCommandMsg(CommandType.CLOSE, winner.getColor() + winner.getNickName() + Colors.RESET + &quot; has won !\nEverybody clap your hands!&quot;));</b>
+<i>236</i>&nbsp;        }
+<b class="fc"><i>237</i>&nbsp;    }</b>
+<i>238</i>&nbsp;
+<i>239</i>&nbsp;    /**
+<i>240</i>&nbsp;     * Ask for some Gods
+<i>241</i>&nbsp;     * @param player
+<i>242</i>&nbsp;     * @param msg
+<i>243</i>&nbsp;     * @return
+<i>244</i>&nbsp;     */
+<i>245</i>&nbsp;    public int CliAskGod(ClientHandler player, ArrayList&lt;String&gt; msg){
+<b class="fc"><i>246</i>&nbsp;        player.WriteMessage(new CliCommandMsg(CommandType.NUMBER, msg));</b>
+<b class="fc"><i>247</i>&nbsp;        int index = player.ReadMessage().getList().get(0);</b>
+<b class="fc"><i>248</i>&nbsp;        if(index &lt; 0 || index &gt;= myGame.getController().getPlayerNum() || myGame.getActiveCards().get(index).isPicked()){</b>
+<b class="nc"><i>249</i>&nbsp;            ArrayList&lt;String&gt; retry = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>250</i>&nbsp;            retry.add(&quot;Index not valid, retry&quot;);</b>
+<b class="nc"><i>251</i>&nbsp;            CliAskGod(player, retry);</b>
+<i>252</i>&nbsp;        }
+<b class="fc"><i>253</i>&nbsp;        return index;</b>
+<i>254</i>&nbsp;    }
+<i>255</i>&nbsp;
+<i>256</i>&nbsp;    /**
+<i>257</i>&nbsp;     * A player&#39;s starting his turn, others are waiting
+<i>258</i>&nbsp;     */
+<i>259</i>&nbsp;    public void CliTurnStartMessage(){
+<b class="fc"><i>260</i>&nbsp;        Player actual = myGame.getActualPlayer();</b>
+<b class="fc"><i>261</i>&nbsp;        ClientHandler handler = myGame.getController().getHandlers().get(myGame.getPlayer().indexOf(actual));</b>
+<b class="fc"><i>262</i>&nbsp;        CliCommandMsg msg1 = MapInfo(true, false, &quot;\n&quot; + actual.getColor() + actual.getNickName() + Colors.RESET + &quot; Turn Start!&quot;);</b>
+<b class="fc"><i>263</i>&nbsp;        CliCommandMsg msg2 = MapInfo(true, false,  actual.getColor() + actual.getNickName() + Colors.RESET + &quot; is playing\nWait your Turn!!&quot;);</b>
+<b class="fc"><i>264</i>&nbsp;        Echo(handler, msg1, msg2);</b>
+<b class="fc"><i>265</i>&nbsp;    }</b>
+<i>266</i>&nbsp;
+<i>267</i>&nbsp;    /**
+<i>268</i>&nbsp;     * Update the game map after a generic move
+<i>269</i>&nbsp;     * @param player
+<i>270</i>&nbsp;     * @param generic
+<i>271</i>&nbsp;     * @param phase
+<i>272</i>&nbsp;     */
+<i>273</i>&nbsp;    public void UpdateMap(ClientHandler player, boolean generic, boolean phase){
+<b class="fc"><i>274</i>&nbsp;        player.WriteMessage(MapInfo(generic, phase, &quot;&quot;));</b>
+<b class="fc"><i>275</i>&nbsp;    }</b>
+<i>276</i>&nbsp;
+<i>277</i>&nbsp;    /**
+<i>278</i>&nbsp;     * Send an update message for all the players
+<i>279</i>&nbsp;     * @param msg
+<i>280</i>&nbsp;     */
+<i>281</i>&nbsp;    public void Echo(CliCommandMsg msg){
+<b class="nc"><i>282</i>&nbsp;        for (ClientHandler handler : myGame.getController().getHandlers()){</b>
+<b class="nc"><i>283</i>&nbsp;            handler.WriteMessage(msg);</b>
+<b class="nc"><i>284</i>&nbsp;        }</b>
+<b class="nc"><i>285</i>&nbsp;    }</b>
+<i>286</i>&nbsp;
+<i>287</i>&nbsp;    /**
+<i>288</i>&nbsp;     * Send an update message, if player&#39;s actual send another one
+<i>289</i>&nbsp;     * @param actual
+<i>290</i>&nbsp;     * @param msgActual
+<i>291</i>&nbsp;     * @param msg
+<i>292</i>&nbsp;     */
+<i>293</i>&nbsp;    public void Echo(ClientHandler actual, CliCommandMsg msgActual, CliCommandMsg msg){
+<b class="fc"><i>294</i>&nbsp;        for (ClientHandler handler : myGame.getController().getHandlers()){</b>
+<b class="fc"><i>295</i>&nbsp;            if(handler == actual){</b>
+<b class="fc"><i>296</i>&nbsp;                handler.WriteMessage(msgActual);</b>
+<i>297</i>&nbsp;            }
+<i>298</i>&nbsp;            else {
+<b class="fc"><i>299</i>&nbsp;                handler.WriteMessage(msg);</b>
+<i>300</i>&nbsp;            }
+<b class="fc"><i>301</i>&nbsp;        }</b>
+<b class="fc"><i>302</i>&nbsp;    }</b>
+<i>303</i>&nbsp;
+<i>304</i>&nbsp;    /**
+<i>305</i>&nbsp;     * Info of the map updated after a move
+<i>306</i>&nbsp;     * @param generic
+<i>307</i>&nbsp;     * @param phase
+<i>308</i>&nbsp;     * @param msg
+<i>309</i>&nbsp;     * @return
+<i>310</i>&nbsp;     */
+<i>311</i>&nbsp;    public CliCommandMsg MapInfo(boolean generic, boolean phase, String msg){//phase == false --&gt; movement
+<i>312</i>&nbsp;        //generic=true mappa di inizio turno, se false colora
+<i>313</i>&nbsp;        Box box;
+<i>314</i>&nbsp;        boolean legal;
+<i>315</i>&nbsp;        Worker actualWorker;
+<b class="fc"><i>316</i>&nbsp;        BoxInfo[][] map = new BoxInfo[myMap.getSIZE()][myMap.getSIZE()];</b>
+<b class="fc"><i>317</i>&nbsp;        for (int i = 0; i &lt; myMap.getSIZE(); i++){</b>
+<b class="fc"><i>318</i>&nbsp;            for (int j = 0; j &lt; myMap.getSIZE(); j++){</b>
+<b class="fc"><i>319</i>&nbsp;                box = myMap.getBox(i, j);</b>
+<b class="fc"><i>320</i>&nbsp;                if (generic) {</b>
+<b class="fc"><i>321</i>&nbsp;                    if(box.isOccupied()){</b>
+<b class="fc"><i>322</i>&nbsp;                        map[i][j] = new BoxInfo(box.getStructure().size(), box.getUpperLevel(), ((Worker)box.getStructure().get(box.getStructure().size()-1)).getOwner().getColor(), Colors.RESET);</b>
+<i>323</i>&nbsp;                    }
+<i>324</i>&nbsp;                    else{
+<b class="fc"><i>325</i>&nbsp;                        map[i][j] = new BoxInfo(box.getStructure().size(), box.getUpperLevel(), Colors.RESET, Colors.RESET);</b>
+<i>326</i>&nbsp;                    }
+<i>327</i>&nbsp;                }
+<i>328</i>&nbsp;                else{
+<b class="fc"><i>329</i>&nbsp;                    actualWorker = myGame.getActualPlayer().getSelectedWorker();</b>
+<b class="fc"><i>330</i>&nbsp;                    if (phase){</b>
+<b class="fc"><i>331</i>&nbsp;                        legal = actualWorker.LegalBuild(box);</b>
+<i>332</i>&nbsp;                    }
+<i>333</i>&nbsp;                    else {
+<b class="fc"><i>334</i>&nbsp;                        legal = actualWorker.LegalMovement(box);</b>
+<i>335</i>&nbsp;                    }
+<b class="fc"><i>336</i>&nbsp;                    if(legal){</b>
+<b class="fc"><i>337</i>&nbsp;                        if(box.isOccupied()){</b>
+<b class="fc"><i>338</i>&nbsp;                            map[i][j] = new BoxInfo(box.getStructure().size(), box.getUpperLevel(), ((Worker)box.getStructure().get(box.getStructure().size()-1)).getOwner().getColor(), actualWorker.getOwner().getColor());</b>
+<i>339</i>&nbsp;                        }
+<i>340</i>&nbsp;                        else{
+<b class="fc"><i>341</i>&nbsp;                            map[i][j] = new BoxInfo(box.getStructure().size(), box.getUpperLevel(), Colors.RESET, actualWorker.getOwner().getColor());</b>
+<i>342</i>&nbsp;                        }
+<i>343</i>&nbsp;                    }
+<i>344</i>&nbsp;                    else {
+<b class="fc"><i>345</i>&nbsp;                        if(box.isOccupied()){</b>
+<b class="fc"><i>346</i>&nbsp;                            map[i][j] = new BoxInfo(box.getStructure().size(), box.getUpperLevel(), ((Worker)box.getStructure().get(box.getStructure().size()-1)).getOwner().getColor(), Colors.RESET);</b>
+<i>347</i>&nbsp;                        }
+<i>348</i>&nbsp;                        else{
+<b class="fc"><i>349</i>&nbsp;                            map[i][j] = new BoxInfo(box.getStructure().size(), box.getUpperLevel(), Colors.RESET, Colors.RESET);</b>
+<i>350</i>&nbsp;                        }
+<i>351</i>&nbsp;                    }
+<i>352</i>&nbsp;                }
+<i>353</i>&nbsp;            }
+<i>354</i>&nbsp;        }
+<b class="fc"><i>355</i>&nbsp;        return new CliCommandMsg(CommandType.UPDATE, map, msg);</b>
+<i>356</i>&nbsp;    }
+<i>357</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-27 23:23</div>
+</div>
+</body>
+</html>

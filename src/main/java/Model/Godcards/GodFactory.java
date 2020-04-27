@@ -1,5 +1,8 @@
 package Model.Godcards;
 
+/**
+ * Class implementing factory pattern to create gods
+ */
 public class GodFactory {
     public GodCard create(GodsEnum god){
         GodCard toReturn;

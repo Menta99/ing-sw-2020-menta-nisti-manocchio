@@ -1,0 +1,196 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Prometeo</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Model.Godcards</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Prometeo (Model.Godcards)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Prometeo</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79,2%
+  </span>
+  <span class="absValue">
+    (38/ 48)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Model.Godcards;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Model.Box;
+<i>4</i>&nbsp;import Model.Game;
+<i>5</i>&nbsp;import Model.PlayGround;
+<i>6</i>&nbsp;import Model.Worker;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.util.ArrayList;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * Class of GodCard Prometeo
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public class Prometeo extends GodCard {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * Constructor of the god
+<i>17</i>&nbsp;     */
+<b class="fc"><i>18</i>&nbsp;    public Prometeo(){</b>
+<b class="fc"><i>19</i>&nbsp;        this.setName(&quot;Prometeo&quot;);</b>
+<b class="fc"><i>20</i>&nbsp;        this.setPower(&quot;You can build before and after moving, but, if you do so, you can&#39;t climb&quot;);</b>
+<b class="fc"><i>21</i>&nbsp;        setActivePower(true);</b>
+<b class="fc"><i>22</i>&nbsp;    }</b>
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * Implement Prometeo&#39;s function
+<i>26</i>&nbsp;     * @return true or false
+<i>27</i>&nbsp;     */
+<i>28</i>&nbsp;    @Override
+<i>29</i>&nbsp;    public boolean activeSubroutine(){
+<b class="fc"><i>30</i>&nbsp;        boolean canDoSomething=false;</b>
+<b class="fc"><i>31</i>&nbsp;        for (Worker worker : getOwner().getWorkers()) {</b>
+<b class="fc"><i>32</i>&nbsp;        canDoSomething = canDoSomething || worker.CanBuild();</b>
+<b class="fc"><i>33</i>&nbsp;        }</b>
+<b class="fc"><i>34</i>&nbsp;        if (canDoSomething) {</b>
+<i>35</i>&nbsp;            Worker candidate;
+<b class="fc"><i>36</i>&nbsp;            while(getOwner().getSelectedWorker()==null) {  //Select Phase with condition canBuild instead of canMove</b>
+<b class="fc"><i>37</i>&nbsp;                candidate = Game.getInstance().getController().VirtualAskWorker(getOwner().isView());</b>
+<i>38</i>&nbsp;                //candidate = getOwner().getController().askForWorker(getOwner().isView());
+<b class="fc"><i>39</i>&nbsp;                if (candidate.CanBuild()) {</b>
+<b class="fc"><i>40</i>&nbsp;                    getOwner().setSelectedWorker(candidate);</b>
+<i>41</i>&nbsp;                }
+<i>42</i>&nbsp;            }
+<b class="fc"><i>43</i>&nbsp;            Game.getInstance().getController().BuildPhase(getOwner());</b>
+<b class="fc"><i>44</i>&nbsp;            if(!Game.getInstance().getController().getActive().get()){</b>
+<b class="nc"><i>45</i>&nbsp;                return false;</b>
+<i>46</i>&nbsp;            }
+<i>47</i>&nbsp;            //getOwner().buildPhase();
+<b class="fc"><i>48</i>&nbsp;            canDoSomething = false;</b>
+<i>49</i>&nbsp;        }
+<i>50</i>&nbsp;        else {
+<b class="nc"><i>51</i>&nbsp;            Game.getInstance().getController().Lose(getOwner());</b>
+<b class="nc"><i>52</i>&nbsp;            return false;</b>
+<i>53</i>&nbsp;            //getOwner().lose();
+<i>54</i>&nbsp;        }
+<b class="fc"><i>55</i>&nbsp;        if (getOwner().getSelectedWorker().CanMove()){</b>
+<b class="fc"><i>56</i>&nbsp;            Game.getInstance().getController().MovePhase(getOwner());</b>
+<b class="fc"><i>57</i>&nbsp;            if(!Game.getInstance().getController().getActive().get()){</b>
+<b class="nc"><i>58</i>&nbsp;                return false;</b>
+<i>59</i>&nbsp;            }
+<i>60</i>&nbsp;            //getOwner().movePhase();
+<i>61</i>&nbsp;        }
+<i>62</i>&nbsp;        else{
+<b class="nc"><i>63</i>&nbsp;            Game.getInstance().getController().Lose(getOwner());</b>
+<b class="nc"><i>64</i>&nbsp;            return false;</b>
+<i>65</i>&nbsp;            //getOwner().lose();
+<i>66</i>&nbsp;        }
+<b class="fc"><i>67</i>&nbsp;        if (getOwner().getSelectedWorker().CanBuild()){</b>
+<b class="fc"><i>68</i>&nbsp;            Game.getInstance().getController().BuildPhase(getOwner());</b>
+<b class="fc"><i>69</i>&nbsp;            if(!Game.getInstance().getController().getActive().get()){</b>
+<b class="nc"><i>70</i>&nbsp;                return false;</b>
+<i>71</i>&nbsp;            }
+<i>72</i>&nbsp;            //getOwner().buildPhase();
+<i>73</i>&nbsp;        }
+<i>74</i>&nbsp;        else {
+<b class="nc"><i>75</i>&nbsp;            Game.getInstance().getController().Lose(getOwner());</b>
+<b class="nc"><i>76</i>&nbsp;            return false;</b>
+<i>77</i>&nbsp;            //getOwner().lose();
+<i>78</i>&nbsp;        }
+<b class="fc"><i>79</i>&nbsp;        return true;</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    @Override
+<i>83</i>&nbsp;    public boolean myMovement(){
+<b class="fc"><i>84</i>&nbsp;        if (getOwner().isUsePower()){</b>
+<b class="fc"><i>85</i>&nbsp;            return true;</b>
+<i>86</i>&nbsp;        }
+<b class="fc"><i>87</i>&nbsp;        return false;</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    /**
+<i>91</i>&nbsp;     * If you use the power you can&#39;t climb
+<i>92</i>&nbsp;     * @param adjacentBoxes
+<i>93</i>&nbsp;     * @return
+<i>94</i>&nbsp;     */
+<i>95</i>&nbsp;    @Override
+<i>96</i>&nbsp;    public ArrayList&lt;Box&gt; specialMovement(ArrayList&lt;Box&gt; adjacentBoxes){
+<b class="fc"><i>97</i>&nbsp;        if (getOwner().getSelectedWorker()==null){</b>
+<b class="nc"><i>98</i>&nbsp;            return adjacentBoxes;</b>
+<i>99</i>&nbsp;        }
+<b class="fc"><i>100</i>&nbsp;        ArrayList&lt;Box&gt; toRemove = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>101</i>&nbsp;        for (Box box : adjacentBoxes){</b>
+<b class="fc"><i>102</i>&nbsp;            if (box.getStructure().size()&gt;=getOwner().getSelectedWorker().getPosition().getStructure().size()){</b>
+<b class="fc"><i>103</i>&nbsp;                toRemove.add(box);</b>
+<i>104</i>&nbsp;            }
+<b class="fc"><i>105</i>&nbsp;        }</b>
+<b class="fc"><i>106</i>&nbsp;        for (Box box : toRemove){</b>
+<b class="fc"><i>107</i>&nbsp;            if (adjacentBoxes.contains(box)){</b>
+<b class="fc"><i>108</i>&nbsp;                adjacentBoxes.remove(box);</b>
+<i>109</i>&nbsp;            }
+<b class="fc"><i>110</i>&nbsp;        }</b>
+<b class="fc"><i>111</i>&nbsp;        return adjacentBoxes;</b>
+<i>112</i>&nbsp;    }
+<i>113</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-27 23:23</div>
+</div>
+</body>
+</html>

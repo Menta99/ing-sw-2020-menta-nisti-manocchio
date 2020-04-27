@@ -2,12 +2,24 @@ package Model.Godcards;
 
 import Model.*;
 
+/**
+ * Class of GodCard Minotaur
+ */
 public class Minotaur extends GodCard {
 
+    /**
+     * Constructor of the god
+     */
     public Minotaur(){
         this.setName("Minotaur");
         this.setPower("You can move in an enemy Worker position (according to normal rules) if the next position in the same direction is available and push him in there");
     }
+
+    /**
+     * Implement Minotaur's power
+     * @param dest's the destination box
+     * @return true or false
+     */
     @Override
     public boolean moveOthers(Box dest) {
         Box position = getOwner().getSelectedWorker().getPosition();
@@ -50,6 +62,11 @@ public class Minotaur extends GodCard {
         return true;
     }
 
+    /**
+     * Check if you can move an enemy worker
+     * @param dest's the destination box
+     * @return true or false
+     */
     @Override
     public boolean canMoveOthers(Box dest){
         if (getOwner().getSelectedWorker()==null){

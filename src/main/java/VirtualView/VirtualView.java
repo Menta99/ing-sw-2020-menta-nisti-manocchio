@@ -10,15 +10,26 @@ import Server.ClientHandler;
 import View.Colors;
 import java.util.ArrayList;
 
+/**
+ * VirtualView class of the game
+ */
 public class VirtualView {
     private Game myGame;
     private PlayGround myMap;
 
+    /**
+     * class' constructor
+     * @param game
+     */
     public VirtualView(Game game){
         this.myGame = game;
         this.myMap = PlayGround.getInstance();
     }
 
+    /**
+     * Print a welcome screen
+     * @param player
+     */
     public void CliWelcomeScreen(ClientHandler player) {
         ArrayList<String> output = new ArrayList<>();
         output.add("\n"+ Colors.PURPLE + "╭╮╭╮╭╮" + Colors.YELLOW + "╱╱" + Colors.PURPLE + "╭╮");
@@ -34,6 +45,10 @@ public class VirtualView {
         player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, output));
     } //ready
 
+    /**
+     * Print a list of available gods for the game
+     * @param player
+     */
     public void CliGodList(ClientHandler player) {
         ArrayList<String> output = new ArrayList<>();
         int i = 0;
@@ -45,6 +60,9 @@ public class VirtualView {
         player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, output));
     } //ready
 
+    /**
+     * Print the picked gods
+     */
     public void CliInGameGods() {
         ArrayList<String> output = new ArrayList<>();
         output.add("\n");
@@ -58,6 +76,10 @@ public class VirtualView {
 
     //methods MessageHandlerCLI
 
+    /**
+     * Choosing gods phase
+     * @param challenger
+     */
     public void CliChooseGodPhase(ClientHandler challenger){
         CliGodList(challenger);
         ClientHandler handler;
@@ -93,6 +115,12 @@ public class VirtualView {
         CliInGameGods();
     }
 
+    /**
+     * Tell if it's a legal box for the game
+     * @param i
+     * @param j
+     * @return
+     */
     public boolean CliLegalCoordinates(int i, int j) {
         int size = myMap.getSIZE();
         if (i < 0 || j < 0 || i > size - 1 || j > size - 1) {
@@ -101,6 +129,12 @@ public class VirtualView {
         return true;
     }
 
+    /**
+     * Request of a box through coordinates
+     * @param player
+     * @param msg
+     * @return asked box or error message
+     */
     public Box CliAskForCoordinates(ClientHandler player, String msg) {
         ServerMsg answer;
         while (true) {
@@ -113,6 +147,11 @@ public class VirtualView {
         }
     }
 
+    /**
+     * Ask if the player would like to use his god power
+     * @param player
+     * @return
+     */
     public boolean CliAskForPower(ClientHandler player) {
         ServerMsg answer;
         player.WriteMessage(new CliCommandMsg(CommandType.ANSWER, "Would you like to use your divinity Power? \nyes / no"));
@@ -124,6 +163,11 @@ public class VirtualView {
         }
     }
 
+    /**
+     * Player must select one of his worker
+     * @param player
+     * @return selected worker or error message
+     */
     public Worker CliAskForWorker(ClientHandler player) {
         Box box = CliAskForCoordinates(player,"Select one of your workers");
         Worker candidate = myGame.getActualPlayer().selectWorker(box);
@@ -134,26 +178,54 @@ public class VirtualView {
         return candidate;
     }
 
+    /**
+     * Ask for the move phase
+     * @param player
+     * @return
+     */
     public Box CliAskForMovement(ClientHandler player) {
         return CliAskForCoordinates(player, "Where do you want to move your worker?");
     }
 
+    /**
+     * Ask for the build phase
+     * @param player
+     * @return
+     */
     public Box CliAskForBuilding(ClientHandler player) {
         return CliAskForCoordinates(player, "Where do you want to build?");
     }
 
+    /**
+     * Error message selecting a box destination
+     * @param player
+     */
     public void CliNotValidDestination(ClientHandler player) {
         player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, "Not a valid destination, try again!"));
     }
 
+    /**
+     * Ask for a destination box for your selected worker
+     * @param player
+     * @param workerNumber
+     * @return
+     */
     public Box CliAskForPlacement(ClientHandler player, int workerNumber) {
         return CliAskForCoordinates(player, "Where do you want to place Worker number " + workerNumber + "?");
     }
 
+    /**
+     * Print message of loosing game
+     * @param player
+     */
     public void CliLose(ClientHandler player){
         player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, "You Lost! Dumbo's"));
     }
 
+    /**
+     * Print message of victory for the winner
+     * @param player
+     */
     public void CliGameFinished(ClientHandler player){
         Player winner = myGame.getWinner();
         if(player == myGame.getController().getHandlers().get(myGame.getPlayer().indexOf(winner))){
@@ -164,6 +236,12 @@ public class VirtualView {
         }
     }
 
+    /**
+     * Ask for some Gods
+     * @param player
+     * @param msg
+     * @return
+     */
     public int CliAskGod(ClientHandler player, ArrayList<String> msg){
         player.WriteMessage(new CliCommandMsg(CommandType.NUMBER, msg));
         int index = player.ReadMessage().getList().get(0);
@@ -175,6 +253,9 @@ public class VirtualView {
         return index;
     }
 
+    /**
+     * A player's starting his turn, others are waiting
+     */
     public void CliTurnStartMessage(){
         Player actual = myGame.getActualPlayer();
         ClientHandler handler = myGame.getController().getHandlers().get(myGame.getPlayer().indexOf(actual));
@@ -183,16 +264,32 @@ public class VirtualView {
         Echo(handler, msg1, msg2);
     }
 
+    /**
+     * Update the game map after a generic move
+     * @param player
+     * @param generic
+     * @param phase
+     */
     public void UpdateMap(ClientHandler player, boolean generic, boolean phase){
         player.WriteMessage(MapInfo(generic, phase, ""));
     }
 
+    /**
+     * Send an update message for all the players
+     * @param msg
+     */
     public void Echo(CliCommandMsg msg){
         for (ClientHandler handler : myGame.getController().getHandlers()){
             handler.WriteMessage(msg);
         }
     }
 
+    /**
+     * Send an update message, if player's actual send another one
+     * @param actual
+     * @param msgActual
+     * @param msg
+     */
     public void Echo(ClientHandler actual, CliCommandMsg msgActual, CliCommandMsg msg){
         for (ClientHandler handler : myGame.getController().getHandlers()){
             if(handler == actual){
@@ -204,7 +301,15 @@ public class VirtualView {
         }
     }
 
+    /**
+     * Info of the map updated after a move
+     * @param generic
+     * @param phase
+     * @param msg
+     * @return
+     */
     public CliCommandMsg MapInfo(boolean generic, boolean phase, String msg){//phase == false --> movement
+        //generic=true mappa di inizio turno, se false colora
         Box box;
         boolean legal;
         Worker actualWorker;
