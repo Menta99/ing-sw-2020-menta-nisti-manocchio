@@ -10,6 +10,7 @@ import VirtualView.VirtualView;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -38,15 +39,21 @@ public class Controller implements Runnable{
      */
     @Override
     public void run() {
-        Clean();
-        LobbyCreation();
-        VirtualWelcome();
-        VirtualGodPhase(handlers.get(0));
-        StartGame();
-        while (active.get()){
-            TurnStart(match.getActualPlayer());
+        try {
+            Clean();
+            LobbyCreation();
+            VirtualWelcome();
+            VirtualGodPhase(handlers.get(0));
+            StartGame();
+            while (active.get()) {
+                TurnStart(match.getActualPlayer());
+            }
         }
-        Server.UpdateServer();
+        catch (NullPointerException | ConcurrentModificationException e){
+        }
+        finally {
+            Server.UpdateServer();
+        }
     }
 
     /**
@@ -144,7 +151,9 @@ public class Controller implements Runnable{
             if (player.isUsePower()) {
                 player.getCard().activeSubroutine();
                 player.setUsePower(false);
-                EndTurn();
+                if(!player.isLoser()) {
+                    EndTurn();
+                }
                 return;
             }
         }

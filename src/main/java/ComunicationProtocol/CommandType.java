@@ -5,6 +5,7 @@ package ComunicationProtocol;
  */
 public enum CommandType {
     NAME,
+    FIRST,
     COORDINATES,
     NUMBER,
     ANSWER,

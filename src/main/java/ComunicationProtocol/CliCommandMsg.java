@@ -50,6 +50,19 @@ public class CliCommandMsg extends  Message implements Serializable {
     /**
      * Constructor of the class
      * @param type
+     * @param msg
+     * @param info
+     */
+    public CliCommandMsg(CommandType type, ArrayList<String> msg, int info){
+        setCommandType(type);
+        this.msg = msg;
+        this.info = info;
+    }
+
+
+    /**
+     * Constructor of the class
+     * @param type
      * @param map
      * @param msg
      */

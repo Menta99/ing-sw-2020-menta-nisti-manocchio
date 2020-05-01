@@ -30,9 +30,31 @@ public class Cli extends View {
      */
     public void NameHandler(CliCommandMsg command, ConnectionHandler client){
         Display(command.getMsg());
-        String msg = scanner.nextLine();
+        String msg = scanner.nextLine().trim();
+        while(msg.equalsIgnoreCase("")){
+            System.out.println("Insert a non-void name, retry");
+            msg = scanner.nextLine().trim();
+        }
         client.WriteMessage(new ServerMsg(msg, client.Layout()));
     }
+
+    /**
+     * Handler for CommandType First
+     * @param command
+     * @param client
+     */
+    public void FirstHandler(CliCommandMsg command, ConnectionHandler client){
+        Display(command.getMsg());
+        ArrayList<Integer> output = new ArrayList<>();
+        String line = scanner.nextLine().trim();
+        while(!line.equalsIgnoreCase("2") && !line.equalsIgnoreCase("3")) {
+            System.out.println("Invalid input, required '2' or '3', retry");
+            line = scanner.nextLine().trim();
+        }
+        output.add(Integer.parseInt(line));
+        client.WriteMessage(new ServerMsg(output));
+    }
+
 
     /**
      * Handler for CommandType Number
@@ -42,7 +64,26 @@ public class Cli extends View {
     public void NumberHandler(CliCommandMsg command, ConnectionHandler client){
         Display(command.getMsg());
         ArrayList<Integer> output = new ArrayList<>();
-        output.add(scanner.nextInt());
+        String line = scanner.nextLine().trim();
+        boolean found = false;
+        int result = 0;
+        while (!found){
+            if(line.matches("\\d+")){
+                result = Integer.parseInt(line);
+                if(result > -1 && result < command.getInfo()){
+                    output.add(result);
+                    found = true;
+                }
+                else {
+                    System.out.println("Invalid index, retry");
+                    line = scanner.nextLine().trim();
+                }
+            }
+            else{
+                System.out.println("Invalid input, required a number, retry");
+                line = scanner.nextLine().trim();
+            }
+        }
         client.WriteMessage(new ServerMsg(output));
     }
 
@@ -53,10 +94,36 @@ public class Cli extends View {
      */
     public void CoordinatesHandler(CliCommandMsg command, ConnectionHandler client){
         Display(command.getMsg());
-        ArrayList<Integer> coord = new ArrayList<>();
-        coord.add(scanner.nextInt());
-        coord.add(scanner.nextInt());
-        client.WriteMessage(new ServerMsg(coord));
+        ArrayList<Integer> coordinates = new ArrayList<>();
+        System.out.println("Insert the coordinates");
+        boolean found = false;
+        String x;
+        String y;
+        int result_x;
+        int result_y;
+        String line = scanner.nextLine().trim();
+        while (!found){
+            if(line.matches("\\d+\\s+\\d+")){
+                x = line.substring(0, line.indexOf(' '));
+                y = line.substring(line.indexOf(x) + 1).trim();
+                result_x = Integer.parseInt(x);
+                result_y = Integer.parseInt(y);
+                if((result_x > -1) && (result_x < 5) && (result_y > -1) && (result_y < 5)){
+                    coordinates.add(result_x);
+                    coordinates.add(result_y);
+                    found = true;
+                }
+                else{
+                    System.out.println("Invalid index, required numbers between '0' and '4', retry");
+                    line = scanner.nextLine().trim();
+                }
+            }
+            else{
+                System.out.println("Invalid input, required two numbers, retry");
+                line = scanner.nextLine().trim();
+            }
+        }
+        client.WriteMessage(new ServerMsg(coordinates));
     }
 
     /**
@@ -66,10 +133,10 @@ public class Cli extends View {
      */
     public void AnswerHandler(CliCommandMsg command, ConnectionHandler client){
         Display(command.getMsg());
-        String msg = null;
-        msg = scanner.nextLine();
-        while (msg == null || (!msg.equalsIgnoreCase("yes") && !msg.equalsIgnoreCase("no"))){
-            msg = scanner.nextLine();
+        String msg = scanner.nextLine().trim();
+        while ((!msg.equalsIgnoreCase("yes") && !msg.equalsIgnoreCase("no"))){
+            System.out.println("Invalid input, required 'yes' or 'no', retry");
+            msg = scanner.nextLine().trim();
         }
         client.WriteMessage(new ServerMsg(msg));
     }
@@ -83,13 +150,26 @@ public class Cli extends View {
         Display(command.getMsg());
         ArrayList<Integer> index = new ArrayList<>();
         int number;
+        String line;
         while (index.size() < command.getInfo()){
-            number = scanner.nextInt();
-            if (number > -1 && number < 14){
-                if (!index.contains(number)){
-                    index.add(number);
-                    System.out.println("God n°" + number + " added");
+            line = scanner.nextLine().trim();
+            if(line.matches("\\d+")) {
+                number = Integer.parseInt(line);
+                if (number > -1 && number < 14) {
+                    if (!index.contains(number)) {
+                        index.add(number);
+                        System.out.println("God n°" + number + " added");
+                    }
+                    else {
+                        System.out.println("Already selected God, retry");
+                    }
                 }
+                else {
+                    System.out.println("Index not valid, required number between 0 and 13");
+                }
+            }
+            else{
+                System.out.println("Invalid input, required a number, retry");
             }
         }
         client.WriteMessage(new ServerMsg(index));

@@ -90,6 +90,7 @@ public class VirtualView {
         challenger.WriteMessage(new CliCommandMsg(CommandType.GOD, "\nPlease " + myGame.getPlayer().get(0).getColor() + myGame.getPlayer().get(0).getNickName() + Colors.RESET
                 + " Select " + numOfPlayers + " GodCards indicating their numbers", numOfPlayers));
         ArrayList<Integer> index = challenger.ReadMessage().getList();
+        challenger.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, "Waiting the GodCard choice of the other players"));
         myGame.ExtractCard(index);
         for (int i = 0; i < numOfPlayers; i++){
             if (i == numOfPlayers - 1){
@@ -109,6 +110,7 @@ public class VirtualView {
                 j++;
             }
             godCard = CliAskGod(handler, output);
+            handler.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, "You have picked " + myGame.getActiveCards().get(godCard).getName()));
             player.ChooseGod(godCard);
             output = new ArrayList<>();
         }
@@ -243,12 +245,12 @@ public class VirtualView {
      * @return
      */
     public int CliAskGod(ClientHandler player, ArrayList<String> msg){
-        player.WriteMessage(new CliCommandMsg(CommandType.NUMBER, msg));
+        player.WriteMessage(new CliCommandMsg(CommandType.NUMBER, msg, myGame.getController().getPlayerNum()));
         int index = player.ReadMessage().getList().get(0);
-        if(index < 0 || index >= myGame.getController().getPlayerNum() || myGame.getActiveCards().get(index).isPicked()){
+        if(myGame.getActiveCards().get(index).isPicked()){
             ArrayList<String> retry = new ArrayList<>();
-            retry.add("Index not valid, retry");
-            CliAskGod(player, retry);
+            retry.add("Index not valid, already picked card, retry");
+            return CliAskGod(player, retry);
         }
         return index;
     }

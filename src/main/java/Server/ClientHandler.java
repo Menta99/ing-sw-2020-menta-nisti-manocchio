@@ -59,16 +59,17 @@ public class ClientHandler implements Runnable{
      */
     public void FirstPlayer(int playerNum){
         if(playerNum == 0){
-            CliCommandMsg msg = new CliCommandMsg(CommandType.NUMBER, "You are the challenger\nTell me how many Players will join the game");
+            CliCommandMsg msg = new CliCommandMsg(CommandType.FIRST, "You are the challenger\nTell me how many Players will join the game");
             WriteMessage(msg);
             int result = ReadMessage().getList().get(0);
             while (result != 2 && result != 3){
-                msg = new CliCommandMsg(CommandType.NUMBER, "Invalid number, required 2 or 3, retry");
+                msg = new CliCommandMsg(CommandType.FIRST, "Invalid number, required 2 or 3, retry");
                 WriteMessage(msg);
                 result = ReadMessage().getList().get(0);
             }
             Game.getInstance().getController().setPlayerNum(result);
         }
+        WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, "Waiting for the remaining players to join"));
     }
 
     /**

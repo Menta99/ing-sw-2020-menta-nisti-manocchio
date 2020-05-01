@@ -16,19 +16,17 @@ public class Server {
     private static final int PORT_NUM = 5555;
     private static ServerSocket server;
     private static Object lock = new Object();
-    private static AtomicBoolean active = new AtomicBoolean(true);
 
     /**
      * Configure the server and at the end close if there's nothing to do
      * @param args
      */
     public static void main(String[] args){
-        new Thread(new Keyboard()).start();
         try {
             System.out.println("[1] - Configuring the Server on port n° " + PORT_NUM);
             server = new ServerSocket(PORT_NUM);
             System.out.println("[2] - Server ready on port n° " + PORT_NUM);
-            while(active.get()){
+            while(true){
                 GameSetting();
                 synchronized (lock){
                     try{
@@ -37,10 +35,12 @@ public class Server {
                     }
                 }
             }
-            System.out.println("[Z] - Closing the Server");
-            ServerClose();
         } catch (IOException e) {
             System.err.println("Unable to open the Server Socket");
+        }
+        finally {
+            System.out.println("[Z] - Closing the Server");
+            ServerClose();
         }
     }
 
@@ -93,9 +93,5 @@ public class Server {
 
     public static ServerSocket getServer() {
         return server;
-    }
-
-    public static void setActive(boolean active) {
-        Server.active.set(active);
     }
 }

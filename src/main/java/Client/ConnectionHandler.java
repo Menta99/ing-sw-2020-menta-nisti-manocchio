@@ -80,6 +80,9 @@ public class ConnectionHandler implements Runnable{
                 case NAME:
                     cli.NameHandler(command, this);
                     break;
+                case FIRST:
+                    cli.FirstHandler(command, this);
+                    break;
                 case COORDINATES:
                     cli.CoordinatesHandler(command, this);
                     break;
