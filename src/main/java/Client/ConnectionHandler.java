@@ -123,10 +123,6 @@ public class ConnectionHandler implements Runnable{
         }
     }
 
-    public boolean Layout(){
-        return client.isLayout();
-    }
-
     public void setActive(boolean active) {
         this.active.set(active);
     }

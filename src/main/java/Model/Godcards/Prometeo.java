@@ -2,7 +2,6 @@ package Model.Godcards;
 
 import Model.Box;
 import Model.Game;
-import Model.PlayGround;
 import Model.Worker;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class Prometeo extends GodCard {
         if (canDoSomething) {
             Worker candidate;
             while(getOwner().getSelectedWorker()==null) {  //Select Phase with condition canBuild instead of canMove
-                candidate = Game.getInstance().getController().VirtualAskWorker(getOwner().isView());
+                candidate = Game.getInstance().getController().VirtualAskWorker();
                 //candidate = getOwner().getController().askForWorker(getOwner().isView());
                 if (candidate.CanBuild()) {
                     getOwner().setSelectedWorker(candidate);
@@ -48,7 +47,7 @@ public class Prometeo extends GodCard {
             canDoSomething = false;
         }
         else {
-            Game.getInstance().getController().Lose(getOwner());
+            Game.getInstance().getController().PlayerLose(getOwner());
             return false;
             //getOwner().lose();
         }
@@ -60,7 +59,7 @@ public class Prometeo extends GodCard {
             //getOwner().movePhase();
         }
         else{
-            Game.getInstance().getController().Lose(getOwner());
+            Game.getInstance().getController().PlayerLose(getOwner());
             return false;
             //getOwner().lose();
         }
@@ -72,7 +71,7 @@ public class Prometeo extends GodCard {
             //getOwner().buildPhase();
         }
         else {
-            Game.getInstance().getController().Lose(getOwner());
+            Game.getInstance().getController().PlayerLose(getOwner());
             return false;
             //getOwner().lose();
         }

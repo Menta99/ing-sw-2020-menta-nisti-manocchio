@@ -12,7 +12,6 @@ import java.util.ArrayList;
  */
 public class Player {
     private Controller controller;
-    private boolean view; //false = cli -- true = gui
     private Colors color;
     private String nickName;
     private boolean challenger; // possible exceed
@@ -28,7 +27,6 @@ public class Player {
      */
     public Player(String nickName) {
         this.controller = Game.getInstance().getController();
-        this.view = false;
         this.nickName = nickName;
         this.winner = false;
         this.loser = false;
@@ -144,15 +142,6 @@ public class Player {
             e.printStackTrace();
             return null;
         }
-    }
-
-
-    public boolean isView() {
-        return view;
-    }
-
-    public void setView(boolean view) {
-        this.view = view;
     }
 
     public Colors getColor() {

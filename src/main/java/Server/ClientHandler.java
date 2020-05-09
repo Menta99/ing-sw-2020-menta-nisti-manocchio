@@ -35,7 +35,7 @@ public class ClientHandler implements Runnable{
             out = new ObjectOutputStream(client.getOutputStream());
             in = new ObjectInputStream(client.getInputStream());
             NickName();
-            FirstPlayer(playerNum);
+            FirstPlayer();
         } catch (IOException e) {
             System.err.println("Unable to open the Streams");
         }
@@ -54,22 +54,37 @@ public class ClientHandler implements Runnable{
     }
 
     /**
-     * Welcome to the challenger and ask for players' number
-     * @param playerNum
+     * Ask for a nick when a new client is connected
      */
-    public void FirstPlayer(int playerNum){
+    public void NickName(){
+        PlayerInfo[] players;
         if(playerNum == 0){
-            CliCommandMsg msg = new CliCommandMsg(CommandType.FIRST, "You are the challenger\nTell me how many Players will join the game");
+            players = null;
+        }
+        else{
+            players = new PlayerInfo[playerNum];
+            for(int i = 0; i < playerNum; i++){
+                players[i] = new PlayerInfo(i, Game.getInstance().getPlayer().get(i).getNickName(), null, -1);
+            }
+        }
+        CliCommandMsg msg = new CliCommandMsg(CommandType.NAME, SubCommandType.DEFAULT, null, null, players, null);
+        WriteMessage(msg);
+        ServerMsg answer = ReadMessage();
+        nickName = answer.getMsg();
+        player = new Player(nickName);
+    }
+
+    /**
+     * Welcome to the challenger and ask for players' number
+     */
+    public void FirstPlayer(){
+        if(playerNum == 0){
+            CliCommandMsg msg = new CliCommandMsg(CommandType.FIRST, SubCommandType.DEFAULT, null, null, null, null);
             WriteMessage(msg);
             int result = ReadMessage().getList().get(0);
-            while (result != 2 && result != 3){
-                msg = new CliCommandMsg(CommandType.FIRST, "Invalid number, required 2 or 3, retry");
-                WriteMessage(msg);
-                result = ReadMessage().getList().get(0);
-            }
             Game.getInstance().getController().setPlayerNum(result);
         }
-        WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, "Waiting for the remaining players to join"));
+        WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.WAIT, null, null, null, null));
     }
 
     /**
@@ -109,18 +124,6 @@ public class ClientHandler implements Runnable{
         }
         return null;
     }
-
-    /**
-     * Ask for a nick when a new client is connected
-     */
-    public void NickName(){
-        CliCommandMsg msg = new CliCommandMsg(CommandType.NAME, "What's your NickName?");
-        WriteMessage(msg);
-        ServerMsg answer = ReadMessage();
-        nickName = answer.getMsg();
-        player = new Player(nickName);
-        player.setView(answer.isView());
-    } //check on duplicates name needed
 
     public String getNickName() {
         return nickName;

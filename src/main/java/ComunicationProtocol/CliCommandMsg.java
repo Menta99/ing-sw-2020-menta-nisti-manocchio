@@ -6,82 +6,45 @@ import java.util.ArrayList;
 /**
  * Class for messages from command line interface
  */
-public class CliCommandMsg extends  Message implements Serializable {
-    private ArrayList<String> msg;
+public class CliCommandMsg implements Message, Serializable {
+    private CommandType commandType;
+    private SubCommandType subCommandType;
     private BoxInfo[][] map;
-    private int info;
+    private GodInfo[] gods;
+    private PlayerInfo[] players;
+    private ArrayList<Integer> list;
 
-    /**
-     * Constructor of the class
-     * @param type
-     * @param msg
-     */
-    public CliCommandMsg(CommandType type, ArrayList<String> msg){
-        setCommandType(type);
-        this.msg = msg;
-        this.info = 0;
-    }
-
-    /**
-     * Constructor of the class
-     * @param type
-     * @param msg
-     */
-    public CliCommandMsg(CommandType type, String msg){
-        setCommandType(type);
-        this.msg = new ArrayList<>();
-        this.msg.add(msg);
-        this.info = 0;
-    }
-
-    /**
-     * Constructor of the class
-     * @param type
-     * @param msg
-     * @param info
-     */
-    public CliCommandMsg(CommandType type, String msg, int info){
-        setCommandType(type);
-        this.msg = new ArrayList<>();
-        this.msg.add(msg);
-        this.info = info;
-    }
-
-    /**
-     * Constructor of the class
-     * @param type
-     * @param msg
-     * @param info
-     */
-    public CliCommandMsg(CommandType type, ArrayList<String> msg, int info){
-        setCommandType(type);
-        this.msg = msg;
-        this.info = info;
-    }
-
-
-    /**
-     * Constructor of the class
-     * @param type
-     * @param map
-     * @param msg
-     */
-    public CliCommandMsg(CommandType type, BoxInfo[][] map, String msg){
-        setCommandType(type);
+    public CliCommandMsg(CommandType cmd, SubCommandType sub, BoxInfo[][] map, GodInfo[] gods, PlayerInfo[] players, ArrayList<Integer> list){
+        this.commandType = cmd;
+        this.subCommandType = sub;
         this.map = map;
-        this.msg = new ArrayList<>();
-        this.msg.add(msg);
+        this.gods = gods;
+        this.players = players;
+        this.list = list;
     }
 
-    public ArrayList<String> getMsg() {
-        return msg;
+    @Override
+    public CommandType getCommandType() {
+        return commandType;
     }
 
-    public int getInfo() {
-        return info;
+    public SubCommandType getSubCommandType() {
+        return subCommandType;
     }
 
     public BoxInfo[][] getMap() {
         return map;
+    }
+
+    public GodInfo[] getGods() {
+        return gods;
+    }
+
+    public PlayerInfo[] getPlayers() {
+        return players;
+    }
+
+    public ArrayList<Integer> getList() {
+        return list;
     }
 }

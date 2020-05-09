@@ -41,7 +41,7 @@ public class Hephaestus extends GodCard {
             canDoSomething = false;
         }
         else {
-            Game.getInstance().getController().Lose(getOwner());
+            Game.getInstance().getController().PlayerLose(getOwner());
             return false;
             //getOwner().lose();
         }
@@ -54,7 +54,7 @@ public class Hephaestus extends GodCard {
             getOwner().getSelectedWorker().Build(getOwner().getSelectedWorker().getLastBuilding());
         }
         else {
-            Game.getInstance().getController().Lose(getOwner());
+            Game.getInstance().getController().PlayerLose(getOwner());
             return false;
             //getOwner().lose();
         }

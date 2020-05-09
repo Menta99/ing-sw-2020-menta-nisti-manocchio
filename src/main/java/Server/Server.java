@@ -2,11 +2,13 @@ package Server;
 
 import ComunicationProtocol.CliCommandMsg;
 import ComunicationProtocol.CommandType;
+import ComunicationProtocol.SubCommandType;
 import Controller.Controller;
 import Model.Game;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -66,8 +68,10 @@ public class Server {
     public static void ServerClose(){
         try {
             if(Game.getInstance().getController().getActive().get()) {
+                ArrayList<Integer> list = new ArrayList<>();
+                list.add(1);
                 for (ClientHandler handler : Game.getInstance().getController().getHandlers()) {
-                    handler.WriteMessage(new CliCommandMsg(CommandType.CLOSE, "Server is down"));
+                    handler.WriteMessage(new CliCommandMsg(CommandType.CLOSE, SubCommandType.DEFAULT, null, null, null, list));
                 }
             }
             Game.getInstance().getController().setActive(new AtomicBoolean(false));
@@ -83,10 +87,12 @@ public class Server {
      */
     public static void AnomalousGameClose(ClientHandler disconnected){
         System.out.println("[Z] - Anomalous Disconnection of player n°" + Game.getInstance().getController().getHandlers().indexOf(disconnected));
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(-1);
+        list.add(Game.getInstance().getController().getHandlers().indexOf(disconnected));
         Game.getInstance().getController().getHandlers().remove(disconnected);
         for(ClientHandler handler : Game.getInstance().getController().getHandlers()){
-            handler.WriteMessage(new CliCommandMsg(CommandType.CLOSE, "Player " + disconnected.getNickName() +
-                    " disconnected\nEndGame"));
+            handler.WriteMessage(new CliCommandMsg(CommandType.CLOSE, SubCommandType.DEFAULT, null, null, null, list));
         }
         Game.getInstance().getController().setActive(new AtomicBoolean(false));
     }

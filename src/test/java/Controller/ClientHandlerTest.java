@@ -3,6 +3,7 @@ package Controller;
 import ComunicationProtocol.CliCommandMsg;
 import ComunicationProtocol.CommandType;
 import ComunicationProtocol.ServerMsg;
+import ComunicationProtocol.SubCommandType;
 import Model.Game;
 import Model.Player;
 import Server.ClientHandler;
@@ -54,9 +55,11 @@ public class ClientHandlerTest extends ClientHandler implements Runnable {
 
     public void WriteMessage(CliCommandMsg msg){
             lastmsg=msg.getCommandType();
+            /*
             for (String line : msg.getMsg()){
                 System.out.println(line);
             }
+             */
 
     }
 
@@ -113,13 +116,12 @@ public class ClientHandlerTest extends ClientHandler implements Runnable {
     }
 
     public void NickName(){
-        CliCommandMsg msg = new CliCommandMsg(CommandType.NAME, "What's your NickName?");
+        CliCommandMsg msg = new CliCommandMsg(CommandType.NAME, SubCommandType.DEFAULT, null, null, null, null);
         WriteMessage(msg);
         ServerMsg answer = null;
         answer = ReadMessage();
         nickName = answer.getMsg();
         player = new Player(nickName);
-        player.setView(answer.isView());
     }
 
     public String getNickName() {

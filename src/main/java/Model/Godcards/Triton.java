@@ -3,8 +3,6 @@ package Model.Godcards;
 import Model.Game;
 import Model.Worker;
 
-import java.util.Scanner;
-
 /**
  * Class of GodCard Triton
  */
@@ -40,7 +38,7 @@ public class Triton extends GodCard {
             canDoSomething = false;
         }
         else {
-            Game.getInstance().getController().Lose(getOwner());
+            Game.getInstance().getController().PlayerLose(getOwner());
             return false;
             //getOwner().lose();
         }
@@ -48,7 +46,7 @@ public class Triton extends GodCard {
         do {
             powerUse = false;
             if (getOwner().getSelectedWorker().getPosition().isBorder()) {
-                powerUse = Game.getInstance().getController().VirtualAskPower(getOwner().isView());
+                powerUse = Game.getInstance().getController().VirtualAskPower();
                 //powerUse = getOwner().getController().askForPower(getOwner().isView());
                 if (powerUse){
                     Game.getInstance().getController().MovePhase(getOwner());
@@ -68,7 +66,7 @@ public class Triton extends GodCard {
             //getOwner().buildPhase();
         }
         else {
-            Game.getInstance().getController().Lose(getOwner());
+            Game.getInstance().getController().PlayerLose(getOwner());
             return false;
             //getOwner().lose();
         }

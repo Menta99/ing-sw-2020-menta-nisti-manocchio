@@ -65,7 +65,7 @@ public class Artemis extends GodCard {
             canDoSomething = false;
         }
         else {
-            Game.getInstance().getController().Lose(getOwner());
+            Game.getInstance().getController().PlayerLose(getOwner());
             return false;
             //getOwner().lose();
         }
@@ -77,7 +77,7 @@ public class Artemis extends GodCard {
             //getOwner().movePhase();
         }
         else {
-            Game.getInstance().getController().Lose(getOwner());
+            Game.getInstance().getController().PlayerLose(getOwner());
             return false;
             //getOwner().lose();
         }
@@ -89,7 +89,7 @@ public class Artemis extends GodCard {
             //getOwner().buildPhase();
         }
         else {
-            Game.getInstance().getController().Lose(getOwner());
+            Game.getInstance().getController().PlayerLose(getOwner());
             return false;
             //getOwner().lose();
         }

@@ -20,14 +20,9 @@ import java.util.Random;
 public class ControllerTest {
     Game match;
     PlayGround field;
-    Player player_1, player_2, player_3;
-    Worker worker_1_a, worker_1_b, worker_2_a, worker_2_b, worker_3_a, worker_3_b;
     VirtualView virtual;
     Controller controller;
     Cli cli;
-    CliCommandMsg msg;
-    Random rand = new Random();
-    int i,j,k;
 
     @Before
     public void setUp() throws Exception {
@@ -61,7 +56,6 @@ public class ControllerTest {
         Initialise7(3);
         controller.setPlayerNum(3);
         controller.VirtualWelcome();
-        controller.VirtualGodPhase(controller.getHandlers().get(0));
         controller.StartGame();
         for(int i=0;i<4;i++) {
             controller.TurnStart(match.getActualPlayer());
@@ -89,7 +83,6 @@ public class ControllerTest {
         Initialise6(3);
         controller.setPlayerNum(3);
         controller.VirtualWelcome();
-        controller.VirtualGodPhase(controller.getHandlers().get(0));
         controller.StartGame();
         for(int i=0;i<11;i++) {
             controller.TurnStart(match.getActualPlayer());
@@ -121,7 +114,6 @@ public class ControllerTest {
         Initialise5(3);
         controller.setPlayerNum(3);
         controller.VirtualWelcome();
-        controller.VirtualGodPhase(controller.getHandlers().get(0));
         controller.StartGame();
         controller.TurnStart(match.getActualPlayer());
         controller.TurnStart(match.getActualPlayer());
@@ -162,7 +154,6 @@ public class ControllerTest {
         Initialise4(3);
         controller.setPlayerNum(3);
         controller.VirtualWelcome();
-        controller.VirtualGodPhase(controller.getHandlers().get(0));
         controller.StartGame();
         controller.TurnStart(match.getActualPlayer());
         controller.TurnStart(match.getActualPlayer());
@@ -194,7 +185,6 @@ public class ControllerTest {
         Initialise3(3);
         controller.setPlayerNum(3);
         controller.VirtualWelcome();
-        controller.VirtualGodPhase(controller.getHandlers().get(0));
         controller.StartGame();
         controller.TurnStart(match.getActualPlayer());
         controller.TurnStart(match.getActualPlayer());
@@ -229,7 +219,6 @@ public class ControllerTest {
         Initialise2(3);
         controller.setPlayerNum(3);
         controller.VirtualWelcome();
-        controller.VirtualGodPhase(controller.getHandlers().get(0));
         controller.StartGame();
         controller.TurnStart(match.getActualPlayer());
         controller.TurnStart(match.getActualPlayer());
@@ -263,7 +252,6 @@ public class ControllerTest {
      public void run() {
         Initialise(2);
         controller.VirtualWelcome();
-        controller.VirtualGodPhase(controller.getHandlers().get(0));
         controller.StartGame();
         controller.TurnStart(match.getActualPlayer());
         Assert.assertEquals(field.getBox(2,2),match.getPlayer().get(0).getWorkers().get(0).getPosition());
@@ -277,12 +265,6 @@ public class ControllerTest {
         Assert.assertEquals(PawnType.Level_1,field.getBox(1,3).getUpperLevel());
         Assert.assertEquals(PawnType.Level_1,field.getBox(0,2).getUpperLevel());
 
-    }
-
-
-    @Test
-    public void virtualWelcome(){
-        controller.VirtualWelcome();
     }
 
     @Test

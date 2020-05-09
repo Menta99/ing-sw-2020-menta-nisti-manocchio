@@ -69,12 +69,9 @@ public class RandomMapGenerator {
         for (int i = 0; i < 50; i++){
             GenerateRandomField();
             System.out.println("PLAYING WITH: \n" + match.getActiveCards().get(0).getName() + "\n" + match.getActiveCards().get(1).getName() + "\n" + match.getActiveCards().get(2).getName());
-            msg = virtual.MapInfo(true, false, "");
-            cli.ShowMap(msg.getMap());
-            msg = virtual.MapInfo(false, false, "");
-            cli.ShowMap(msg.getMap());
-            msg = virtual.MapInfo(false,  true, "");
-            cli.ShowMap(msg.getMap());
+            cli.ShowMap(virtual.MapInfo(true, false));
+            cli.ShowMap(virtual.MapInfo(false, false));
+            cli.ShowMap(virtual.MapInfo(false,  true));
             tearDown();
             setUp();
         }

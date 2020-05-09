@@ -1,9 +1,6 @@
 package VirtualView;
 
-import ComunicationProtocol.BoxInfo;
-import ComunicationProtocol.CliCommandMsg;
-import ComunicationProtocol.CommandType;
-import ComunicationProtocol.ServerMsg;
+import ComunicationProtocol.*;
 import Model.*;
 import Model.Godcards.GodCard;
 import Server.ClientHandler;
@@ -28,125 +25,112 @@ public class VirtualView {
 
     /**
      * Print a welcome screen
-     * @param player
+     * @param gods
+     * @param players
      */
-    public void CliWelcomeScreen(ClientHandler player) {
-        ArrayList<String> output = new ArrayList<>();
-        output.add("\n"+ Colors.PURPLE + "╭╮╭╮╭╮" + Colors.YELLOW + "╱╱" + Colors.PURPLE + "╭╮");
-        output.add("┃┃┃┃┃┃" + Colors.YELLOW + "╱╱" + Colors.PURPLE + "┃┃");
-        output.add("┃┃┃┃┃┣━━┫┃╭━━┳━━┳╮╭┳━━╮\n┃╰╯╰╯┃┃━┫┃┃╭━┫╭╮┃╰╯┃┃━┫\n╰╮╭╮╭┫┃━┫╰┫╰━┫╰╯┃┃┃┃┃━┫");
-        output.add(Colors.YELLOW + "╱" + Colors.PURPLE + "╰╯╰╯╰━━┻━┻━━┻━━┻┻┻┻━━╯");
-        output.add("╭━━━━╮" + Colors.YELLOW + "╱╱" + Colors.PURPLE + "╭━━━╮" + Colors.YELLOW + "╱╱╱╱╱" + Colors.PURPLE + "╭╮");
-        output.add("┃╭╮╭╮┃" + Colors.YELLOW + "╱╱" + Colors.PURPLE + "┃╭━╮┃" + Colors.YELLOW + "╱╱╱╱" + Colors.PURPLE + "╭╯╰╮");
-        output.add("╰╯┃┃┣┻━╮┃╰━━┳━━┳━╋╮╭╋━━┳━┳┳━╮╭╮");
-        output.add(Colors.YELLOW + "╱╱" + Colors.PURPLE + "┃┃┃╭╮┃╰━━╮┃╭╮┃╭╮┫┃┃╭╮┃╭╋┫╭╮╋┫");
-        output.add(Colors.YELLOW + "╱╱" + Colors.PURPLE + "┃┃┃╰╯┃┃╰━╯┃╭╮┃┃┃┃╰┫╰╯┃┃┃┃┃┃┃┃");
-        output.add(Colors.YELLOW + "╱╱" + Colors.PURPLE + "╰╯╰━━╯╰━━━┻╯╰┻╯╰┻━┻━━┻╯╰┻╯╰┻╯" + Colors.RESET + "\n");
-        player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, output));
-    } //ready
+    public void WelcomePacket(GodInfo[] gods, PlayerInfo[] players) {
+        for(ClientHandler handler : Game.getInstance().getController().getHandlers()) {
+            handler.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.WELCOME, null, gods, players, null));
+        }
+    }
 
     /**
-     * Print a list of available gods for the game
-     * @param player
+     * A player's starting his turn, others are waiting
      */
-    public void CliGodList(ClientHandler player) {
-        ArrayList<String> output = new ArrayList<>();
-        int i = 0;
-        output.add("These are the GodCards available :\n");
-        for (GodCard god : myGame.getDeck().getCardList()) {
-            output.add("[" + i + "] " + god.getName() + " - " + god.getPower());
-            i++;
-        }
-        player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, output));
-    } //ready
-
-    /**
-     * Print the picked gods
-     */
-    public void CliInGameGods() {
-        ArrayList<String> output = new ArrayList<>();
-        output.add("\n");
-        for (Player user : myGame.getPlayer()) {
-            output.add("Player: " + user.getColor() + user.getNickName() + Colors.RESET + " GodCard: " + user.getCard().getName());
-        }
-        for(ClientHandler player : myGame.getController().getHandlers()) {
-            player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, output));
-        }
-    } //ready
-
-    //methods MessageHandlerCLI
+    public void TurnStartMessage(){
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(myGame.getPlayer().indexOf(myGame.getActualPlayer()));
+        list.add(1);
+        BoxInfo[][] map = MapInfo(true, false);
+        Echo(new CliCommandMsg(CommandType.UPDATE, SubCommandType.DEFAULT, map, null, null, list));
+    }
 
     /**
      * Choosing gods phase
      * @param challenger
      */
-    public void CliChooseGodPhase(ClientHandler challenger){
-        CliGodList(challenger);
-        ClientHandler handler;
-        ArrayList<String> output = new ArrayList<>();
-        Player player;
-        int godCard;
+    public void ChooseGodPhase(ClientHandler challenger){
+        ArrayList<Integer> output = new ArrayList<>();
         int numOfPlayers = myGame.getController().getPlayerNum();
-        challenger.WriteMessage(new CliCommandMsg(CommandType.GOD, "\nPlease " + myGame.getPlayer().get(0).getColor() + myGame.getPlayer().get(0).getNickName() + Colors.RESET
-                + " Select " + numOfPlayers + " GodCards indicating their numbers", numOfPlayers));
+        ClientHandler handler;
+        output.add(numOfPlayers);
+        challenger.WriteMessage(new CliCommandMsg(CommandType.GOD, SubCommandType.DEFAULT, null, null, null, output));
         ArrayList<Integer> index = challenger.ReadMessage().getList();
-        challenger.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, "Waiting the GodCard choice of the other players"));
+        challenger.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.WAIT, null, null, null, null));
         myGame.ExtractCard(index);
+        for(ClientHandler user : myGame.getController().getHandlers()){
+            user.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.IN_GAME_GOD, null, null, null, index));
+        }
         for (int i = 0; i < numOfPlayers; i++){
             if (i == numOfPlayers - 1){
-                player = myGame.getPlayer().get(0);
                 handler = myGame.getController().getHandlers().get(0);
             }
             else {
-                player = myGame.getPlayer().get(i + 1);
                 handler = myGame.getController().getHandlers().get(i + 1);
             }
-            output.add(player.getColor() +  player.getNickName() +  Colors.RESET + " Pick a card");
-            int j=0;
-            for(GodCard card : Game.getInstance().getActiveCards()){
-                if (!card.isPicked()){
-                    output.add("Insert " + j + " to get " + card.getName());
-                }
-                j++;
-            }
-            godCard = CliAskGod(handler, output);
-            handler.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, "You have picked " + myGame.getActiveCards().get(godCard).getName()));
-            player.ChooseGod(godCard);
-            output = new ArrayList<>();
+            int godCard = myGame.getActiveCards().indexOf(myGame.getDeck().getCardList().get(AskGod(handler)));
+            handler.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.WAIT, null, null, null, null));
+            handler.getPlayer().ChooseGod(godCard);
         }
-        CliInGameGods();
+        InGameGods();
     }
 
     /**
-     * Tell if it's a legal box for the game
-     * @param i
-     * @param j
+     * Print the picked gods
+     */
+    public void InGameGods() {
+        PlayerInfo[] update = new PlayerInfo[myGame.getController().getPlayerNum()];
+        for (Player user : myGame.getPlayer()) {
+            update[myGame.getPlayer().indexOf(user)] = new PlayerInfo(myGame.getPlayer().indexOf(user), user.getNickName(), user.getColor(), myGame.getDeck().getCardList().indexOf(user.getCard()));
+        }
+        for(ClientHandler player : myGame.getController().getHandlers()) {
+            player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.PLAYER_GOD, null, null, update, null));
+        }
+    }
+
+    /**
+     * Ask for some Gods
+     * @param player
      * @return
      */
-    public boolean CliLegalCoordinates(int i, int j) {
-        int size = myMap.getSIZE();
-        if (i < 0 || j < 0 || i > size - 1 || j > size - 1) {
-            return false;
+    public int AskGod(ClientHandler player){
+        ArrayList<Integer> list = new ArrayList<>();
+        for(GodCard card : myGame.getActiveCards()){
+            if(!card.isPicked()){
+                list.add(myGame.getDeck().getCardList().indexOf(card));
+            }
         }
-        return true;
+        player.WriteMessage(new CliCommandMsg(CommandType.NUMBER, SubCommandType.DEFAULT, null, null, null, list));
+        int index = player.ReadMessage().getList().get(0);
+        return index;
     }
 
     /**
      * Request of a box through coordinates
      * @param player
-     * @param msg
+     * @param type
      * @return asked box or error message
      */
-    public Box CliAskForCoordinates(ClientHandler player, String msg) {
+    public Box AskCoordinates(ClientHandler player, CoordinateType type) {
         ServerMsg answer;
-        while (true) {
-            player.WriteMessage(new CliCommandMsg(CommandType.COORDINATES, msg));
-            answer = player.ReadMessage();
-            if (CliLegalCoordinates(answer.getList().get(0), answer.getList().get(1))) {
-                return myMap.getBox(answer.getList().get(0), answer.getList().get(1));
-            }
-            CliNotValidDestination(player);
+        ArrayList<Integer> info = new ArrayList<>();
+        switch (type){
+            case INITIAL:
+                info.add(0);
+                break;
+            case WORKER:
+                info.add(1);
+                break;
+            case MOVE:
+                info.add(2);
+                break;
+            case BUILD:
+                info.add(3);
+                break;
         }
+        player.WriteMessage(new CliCommandMsg(CommandType.COORDINATES, SubCommandType.DEFAULT, null, null, null, info));
+        answer = player.ReadMessage();
+        return myMap.getBox(answer.getList().get(0), answer.getList().get(1));
     }
 
     /**
@@ -154,9 +138,9 @@ public class VirtualView {
      * @param player
      * @return
      */
-    public boolean CliAskForPower(ClientHandler player) {
+    public boolean AskPower(ClientHandler player) {
         ServerMsg answer;
-        player.WriteMessage(new CliCommandMsg(CommandType.ANSWER, "Would you like to use your divinity Power? \nyes / no"));
+        player.WriteMessage(new CliCommandMsg(CommandType.ANSWER, SubCommandType.DEFAULT, null, null, null, null));
         answer = player.ReadMessage();
         if (answer.getMsg().equalsIgnoreCase("yes")) {
             return true;
@@ -170,100 +154,45 @@ public class VirtualView {
      * @param player
      * @return selected worker or error message
      */
-    public Worker CliAskForWorker(ClientHandler player) {
-        Box box = CliAskForCoordinates(player,"Select one of your workers");
+    public Worker AskWorker(ClientHandler player) {
+        Box box = AskCoordinates(player, CoordinateType.WORKER);
         Worker candidate = myGame.getActualPlayer().selectWorker(box);
         if (candidate == null) {
-            player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, "Not a valid worker"));
-            return CliAskForWorker(player);
+            ArrayList<Integer> list = new ArrayList<>();
+            list.add(1);
+            player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.NOT_VALID, null, null, null, list));
+            return AskWorker(player);
         }
         return candidate;
-    }
-
-    /**
-     * Ask for the move phase
-     * @param player
-     * @return
-     */
-    public Box CliAskForMovement(ClientHandler player) {
-        return CliAskForCoordinates(player, "Where do you want to move your worker?");
-    }
-
-    /**
-     * Ask for the build phase
-     * @param player
-     * @return
-     */
-    public Box CliAskForBuilding(ClientHandler player) {
-        return CliAskForCoordinates(player, "Where do you want to build?");
     }
 
     /**
      * Error message selecting a box destination
      * @param player
      */
-    public void CliNotValidDestination(ClientHandler player) {
-        player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, "Not a valid destination, try again!"));
-    }
-
-    /**
-     * Ask for a destination box for your selected worker
-     * @param player
-     * @param workerNumber
-     * @return
-     */
-    public Box CliAskForPlacement(ClientHandler player, int workerNumber) {
-        return CliAskForCoordinates(player, "Where do you want to place Worker number " + workerNumber + "?");
+    public void NotValidDest(ClientHandler player) {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(0);
+        player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.NOT_VALID, null, null, null, list));
     }
 
     /**
      * Print message of loosing game
      * @param player
      */
-    public void CliLose(ClientHandler player){
-        player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, "You Lost! Dumbo's"));
+    public void Lose(ClientHandler player){
+        player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.LOSE, null, null, null, null));
     }
 
     /**
      * Print message of victory for the winner
      * @param player
      */
-    public void CliGameFinished(ClientHandler player){
-        Player winner = myGame.getWinner();
-        if(player == myGame.getController().getHandlers().get(myGame.getPlayer().indexOf(winner))){
-            player.WriteMessage(new CliCommandMsg(CommandType.CLOSE, "You have won\nCongratulations"));
-        }
-        else{
-            player.WriteMessage(new CliCommandMsg(CommandType.CLOSE, winner.getColor() + winner.getNickName() + Colors.RESET + " has won !\nEverybody clap your hands!"));
-        }
-    }
-
-    /**
-     * Ask for some Gods
-     * @param player
-     * @param msg
-     * @return
-     */
-    public int CliAskGod(ClientHandler player, ArrayList<String> msg){
-        player.WriteMessage(new CliCommandMsg(CommandType.NUMBER, msg, myGame.getController().getPlayerNum()));
-        int index = player.ReadMessage().getList().get(0);
-        if(myGame.getActiveCards().get(index).isPicked()){
-            ArrayList<String> retry = new ArrayList<>();
-            retry.add("Index not valid, already picked card, retry");
-            return CliAskGod(player, retry);
-        }
-        return index;
-    }
-
-    /**
-     * A player's starting his turn, others are waiting
-     */
-    public void CliTurnStartMessage(){
-        Player actual = myGame.getActualPlayer();
-        ClientHandler handler = myGame.getController().getHandlers().get(myGame.getPlayer().indexOf(actual));
-        CliCommandMsg msg1 = MapInfo(true, false, "\n" + actual.getColor() + actual.getNickName() + Colors.RESET + " Turn Start!");
-        CliCommandMsg msg2 = MapInfo(true, false,  actual.getColor() + actual.getNickName() + Colors.RESET + " is playing\nWait your Turn!!");
-        Echo(handler, msg1, msg2);
+    public void GameFinished(ClientHandler player){
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(0);
+        list.add(myGame.getPlayer().indexOf(myGame.getWinner()));
+        player.WriteMessage(new CliCommandMsg(CommandType.CLOSE, SubCommandType.DEFAULT, null, null, null, list));
     }
 
     /**
@@ -273,11 +202,11 @@ public class VirtualView {
      * @param phase
      */
     public void UpdateMap(ClientHandler player, boolean generic, boolean phase){
-        player.WriteMessage(MapInfo(generic, phase, ""));
+        player.WriteMessage(new CliCommandMsg(CommandType.UPDATE, SubCommandType.DEFAULT, MapInfo(generic, phase), null, null, null));
     }
 
     /**
-     * Send an update message for all the players
+     * Send an update message
      * @param msg
      */
     public void Echo(CliCommandMsg msg){
@@ -307,11 +236,9 @@ public class VirtualView {
      * Info of the map updated after a move
      * @param generic
      * @param phase
-     * @param msg
      * @return
      */
-    public CliCommandMsg MapInfo(boolean generic, boolean phase, String msg){//phase == false --> movement
-        //generic=true mappa di inizio turno, se false colora
+    public BoxInfo[][] MapInfo(boolean generic, boolean phase){//phase == false --> movement
         Box box;
         boolean legal;
         Worker actualWorker;
@@ -354,6 +281,6 @@ public class VirtualView {
                 }
             }
         }
-        return new CliCommandMsg(CommandType.UPDATE, map, msg);
+        return map;
     }
 }
