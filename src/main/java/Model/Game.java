@@ -1,10 +1,22 @@
 package Model;
 
 import Controller.Controller;
+import Controller.SavedData.GameData;
+import Controller.SavedData.MapData;
+import Controller.SavedData.PlayerData;
+import Controller.SavedData.WorkerData;
 import Model.Godcards.GodCard;
 import Model.Godcards.GodDeck;
+import Model.Godcards.GodFactory;
+import Model.Godcards.GodsEnum;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import static java.lang.Integer.parseInt;
 
 /**
  * Class representing the game
@@ -173,5 +185,61 @@ public class Game {
 
     public void setGameFinished(boolean gameFinished) {
         this.gameFinished = gameFinished;
+    }
+
+
+    public void loadGame() {
+        ArrayList<String> gameData = getSavedGame();
+        Game myGame = Game.getInstance();
+        myGame.id = parseInt(gameData.get(0));
+        myGame.actualTurn = parseInt(gameData.get(1));
+        int playerNumber = parseInt(gameData.get(2));
+        loadPlayers(playerNumber, gameData);
+        for (Player player : players){
+            if (!player.isLoser()){
+                player.loadWorkers(gameData, players.indexOf(player));
+            }
+        }
+        PlayGround.getInstance().loadMap(gameData);
+        setActualPlayer(players.get(actualTurn % players.size()));
+    }
+
+    public void loadPlayers(int playerNumber, ArrayList<String> gameInfo){
+        GodCard card;
+        activeCards = new ArrayList<>();
+        int playerDataIndex = GameData.Size() + MapData.Size() + 1;
+        for (int i=0; i < playerNumber; i++){
+            new Player(gameInfo.get(playerDataIndex));
+            card = new GodFactory().create(GodsEnum.valueOf((gameInfo.get(playerDataIndex+1).toUpperCase())));
+            card.setChosen(true);
+            card.setPicked(true);
+            card.setOwner(players.get(i));
+            players.get(i).setGod(card);
+            Game.getInstance().getActiveCards().add(players.get(i).getCard());
+            if (gameInfo.get(playerDataIndex-1).equals("1")){
+                players.get(i).setLoser(true);
+            }
+            playerDataIndex += 2* WorkerData.Size() + PlayerData.Size(); //nextPlayerNickname
+        }
+    }
+
+    public ArrayList<String> getSavedGame() {
+        String fileName = ("temp\\savedGame.txt");
+        ArrayList<String> gameData = new ArrayList<>();
+        String singleData;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            try {
+                while ((singleData = reader.readLine()) != null) {
+                    gameData.add(singleData);
+                }
+                reader.close();
+            } catch (IOException e) {
+                System.out.println("Error during File read");
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to find data");
+        }
+        return gameData;
     }
 }

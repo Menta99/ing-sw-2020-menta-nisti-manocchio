@@ -294,4 +294,8 @@ public class Worker extends Pawn{
     public Box getLastBuilding() {
         return lastBuilding;
     }
+
+    public boolean isState() {
+        return state;
+    }
 }

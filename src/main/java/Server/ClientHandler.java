@@ -1,6 +1,7 @@
 package Server;
 
 import ComunicationProtocol.*;
+import Controller.SavedData.GameData;
 import Model.Game;
 import Model.Player;
 
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -22,6 +24,7 @@ public class ClientHandler implements Runnable{
     private Player player;
     private AtomicBoolean active;
 
+
     /**
      * Constructor of the class
      * @param client
@@ -35,7 +38,6 @@ public class ClientHandler implements Runnable{
             out = new ObjectOutputStream(client.getOutputStream());
             in = new ObjectInputStream(client.getInputStream());
             NickName();
-            FirstPlayer();
         } catch (IOException e) {
             System.err.println("Unable to open the Streams");
         }
@@ -58,20 +60,43 @@ public class ClientHandler implements Runnable{
      */
     public void NickName(){
         PlayerInfo[] players;
-        if(playerNum == 0){
+        if(playerNum == 0 || (Game.getInstance().getController().getLoadedGame().get())){
             players = null;
+            System.out.println("player == null");
         }
         else{
             players = new PlayerInfo[playerNum];
             for(int i = 0; i < playerNum; i++){
                 players[i] = new PlayerInfo(i, Game.getInstance().getPlayer().get(i).getNickName(), null, -1);
             }
+            if (Game.getInstance().getController().getLoadedGame().get()){
+                players = null;
+            }
         }
         CliCommandMsg msg = new CliCommandMsg(CommandType.NAME, SubCommandType.DEFAULT, null, null, players, null);
         WriteMessage(msg);
         ServerMsg answer = ReadMessage();
         nickName = answer.getMsg();
-        player = new Player(nickName);
+        if (Game.getInstance().getController().getLoadedGame().get()){
+            if (!GameData.isPlayerInIt(nickName)){
+                active.set(false);
+                ArrayList<Integer> list = new ArrayList<>();
+                list.add(2);
+                WriteMessage(new CliCommandMsg(CommandType.CLOSE, SubCommandType.DEFAULT, null,null,null, list));
+                return;
+            }
+            else {
+                for (Player player : Game.getInstance().getPlayer()){
+                    if (player.getNickName().equals(nickName)){
+                        this.player = player;
+                    }
+                }
+            }
+        }
+        else {
+            //player = new Player(nickName);
+            FirstPlayer();
+        }
     }
 
     /**
@@ -79,12 +104,34 @@ public class ClientHandler implements Runnable{
      */
     public void FirstPlayer(){
         if(playerNum == 0){
+            if(GameData.isPlayerInIt(nickName)){
+                ArrayList<Integer> list = new ArrayList<>();
+                list.add(1);
+                CliCommandMsg msg = new CliCommandMsg(CommandType.ANSWER, SubCommandType.DEFAULT, null, null, null, list);
+                WriteMessage(msg);
+                boolean loadGame = ReadMessage().getMsg().equals("yes");
+                if (loadGame){
+                    System.out.println("Game loaded");
+                    Game.getInstance().getController().setLoadedGame(new AtomicBoolean(true));
+                    System.out.println(Game.getInstance().getController().getLoadedGame().get());
+                    Game.getInstance().loadGame();
+                    for (Player player : Game.getInstance().getPlayer()){
+                        if (player.getNickName().equals(nickName)){
+                            this.player = player;
+                        }
+                    }
+                    WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.WAIT, null, null, null, null));
+                    return;
+                }
+            }
             CliCommandMsg msg = new CliCommandMsg(CommandType.FIRST, SubCommandType.DEFAULT, null, null, null, null);
             WriteMessage(msg);
             int result = ReadMessage().getList().get(0);
             Game.getInstance().getController().setPlayerNum(result);
         }
+        player = new Player(nickName);
         WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.WAIT, null, null, null, null));
+        return;
     }
 
     /**
@@ -131,5 +178,9 @@ public class ClientHandler implements Runnable{
 
     public Player getPlayer() {
         return player;
+    }
+
+    public AtomicBoolean getActive() {
+        return active;
     }
 }

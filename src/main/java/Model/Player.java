@@ -1,11 +1,17 @@
 package Model;
 
 import Controller.Controller;
+import Controller.SavedData.GameData;
+import Controller.SavedData.MapData;
+import Controller.SavedData.PlayerData;
+import Controller.SavedData.WorkerData;
 import Model.Godcards.GodCard;
 import Model.Godcards.GodDeck;
 import View.Colors;
 
 import java.util.ArrayList;
+
+import static java.lang.Integer.parseInt;
 
 /**
  * Class representing a player
@@ -207,4 +213,37 @@ public class Player {
     public void setSelectedWorker(Worker selectedWorker) {
         this.selectedWorker = selectedWorker;
     }
+
+    public void setGod(GodCard card) {
+        this.card=card;
+    }
+
+    public void loadWorkers(ArrayList<String> gameInfo, int playerNumber){
+        int workerDataIndex = MapData.Size() + GameData.Size() + PlayerData.Size()*(playerNumber+1) + (2*WorkerData.Size())*playerNumber;
+        for (Worker worker : workers){
+            worker.setOwner(this);
+            if (gameInfo.get(workerDataIndex).equals("1")) {
+                worker.setMoved(true);
+                setSelectedWorker(worker);
+            } else {
+                worker.setMoved(false);
+            }
+            if (gameInfo.get(workerDataIndex+1).equals("1")){
+                worker.setDidClimb(true);
+            } else {
+                worker.setDidClimb(false);
+            }
+            if (gameInfo.get(workerDataIndex+2).equals("1")){
+                worker.setDidBuild(true);
+            } else {
+                worker.setDidBuild(false);
+            }
+            if (!gameInfo.get(workerDataIndex+3).equals("-1")){  //Checks if the worker isn't in
+                worker.setInitialPosition(PlayGround.getInstance().getBox(parseInt(gameInfo.get(workerDataIndex+3)), parseInt(gameInfo.get(workerDataIndex+4))));
+                worker.setLastPosition(PlayGround.getInstance().getBox(parseInt(gameInfo.get(workerDataIndex+5)), parseInt(gameInfo.get(workerDataIndex+6))));
+            }
+            workerDataIndex += WorkerData.Size();
+        }
+    }
+
 }

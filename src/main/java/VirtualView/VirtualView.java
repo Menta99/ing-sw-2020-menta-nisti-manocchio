@@ -25,13 +25,33 @@ public class VirtualView {
 
     /**
      * Print a welcome screen
-     * @param gods
-     * @param players
+     * @param type
      */
-    public void WelcomePacket(GodInfo[] gods, PlayerInfo[] players) {
-        for(ClientHandler handler : Game.getInstance().getController().getHandlers()) {
-            handler.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.WELCOME, null, gods, players, null));
+    public void WelcomePacket(boolean type) {
+        ArrayList<Integer> command = new ArrayList<>();
+        GodInfo[] gods = new GodInfo[14];
+        PlayerInfo[] players = new PlayerInfo[Game.getInstance().getPlayer().size()];
+        ArrayList<GodCard> deck = Game.getInstance().getDeck().getCardList();
+        ArrayList<Player> list = Game.getInstance().getPlayer();
+        if (type) {
+            command.add(0);
+            for(GodCard card : deck){
+                gods[deck.indexOf(card)] = new GodInfo(deck.indexOf(card), card.getName(), card.getPower(), false);
+            }
+            for(Player player : list){
+                players[list.indexOf(player)] = new PlayerInfo(list.indexOf(player), player.getNickName(), player.getColor(), -1);
+            }
         }
+        else {
+            command.add(1);
+            for(GodCard card : deck){
+                gods[deck.indexOf(card)] = new GodInfo(deck.indexOf(card), card.getName(), card.getPower(), card.isPicked());
+            }
+            for(Player player : list){
+                players[list.indexOf(player)] = new PlayerInfo(list.indexOf(player), player.getNickName(), player.getColor(), deck.indexOf(player.getCard()));
+            }
+        }
+        Echo(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.WELCOME, null, gods, players, command));
     }
 
     /**
@@ -140,7 +160,9 @@ public class VirtualView {
      */
     public boolean AskPower(ClientHandler player) {
         ServerMsg answer;
-        player.WriteMessage(new CliCommandMsg(CommandType.ANSWER, SubCommandType.DEFAULT, null, null, null, null));
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(0);
+        player.WriteMessage(new CliCommandMsg(CommandType.ANSWER, SubCommandType.DEFAULT, null, null, null, list));
         answer = player.ReadMessage();
         if (answer.getMsg().equalsIgnoreCase("yes")) {
             return true;

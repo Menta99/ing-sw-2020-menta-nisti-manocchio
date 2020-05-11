@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.SavedData.GameData;
+
 import java.util.ArrayList;
 
 /**
@@ -67,5 +69,25 @@ public class PlayGround {
      */
     public int getSIZE() {
         return SIZE;
+    }
+
+    public void loadMap(ArrayList<String> gameData){
+        Box myBox;
+        for (int i=0; i < PlayGround.getInstance().getSIZE(); i++){
+            for(int j=0; j < PlayGround.getInstance().getSIZE(); j++){
+                myBox = PlayGround.getInstance().getBox(i,j);
+                if (gameData.get( i*25 + j*5 + GameData.Size()).equals("1")){  //For every Box there are 5 booleans as explained in mapData toString() method, the first indicates if the box is occupied
+                    myBox.setOccupied(true);
+                }
+                for (int k=1; k < 4; k++ ){
+                    if (gameData.get(i*25 + j*5 + k + GameData.Size()).equals("1")){
+                        myBox.Build();
+                    }
+                }
+                if (gameData.get(i*25 + j*5 + 4 + GameData.Size()).equals("1")){
+                    myBox.BuildDome();
+                }
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package Controller;
 
 import ComunicationProtocol.*;
+import Controller.SavedData.GameData;
 import Model.*;
 import Model.Godcards.GodCard;
 import Server.ClientHandler;
@@ -14,6 +15,8 @@ import java.util.ConcurrentModificationException;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static java.lang.Integer.parseInt;
+
 /**
  * Class controller of MVC pattern
  */
@@ -23,6 +26,8 @@ public class Controller implements Runnable{
     private int playerNum = 2;
     private ArrayList<ClientHandler> handlers;
     private AtomicBoolean active;
+    private AtomicBoolean loadedGame;
+    private GameData gameData;
 
     /**
      * Constructor of the class
@@ -32,6 +37,7 @@ public class Controller implements Runnable{
         this.virtual = new VirtualView(match);
         this.handlers = new ArrayList<>();
         this.active = new AtomicBoolean(true);
+        this.loadedGame = new AtomicBoolean(false);
     }
 
     /**
@@ -42,11 +48,15 @@ public class Controller implements Runnable{
         try {
             Clean();
             LobbyCreation();
-            VirtualWelcome();
-            StartGame();
+            if (!loadedGame.get()) {
+                VirtualWelcome();
+                StartGame();
+            }
+            gameData = new GameData();  //HERE
             while (active.get()) {
                 TurnStart(match.getActualPlayer());
             }
+
         }
         catch (NullPointerException | ConcurrentModificationException e){
         }
@@ -64,9 +74,22 @@ public class Controller implements Runnable{
         InitializePlayer(counter);
         counter++;
         for(; counter < playerNum; counter++){
+            if (loadedGame.get()){
+                OldLobbyCreation();
+                virtual.WelcomePacket(false);
+                return;
+            }
             InitializePlayer(counter);
         }
         System.out.println("[4] - Lobby Completed");
+    }
+
+    public void OldLobbyCreation(){
+            playerNum = parseInt(Game.getInstance().getSavedGame().get(2));
+            for (int i=handlers.size(); i<playerNum; i=handlers.size()){
+                InitializePlayer(i);
+            }
+            sortHandlers();
     }
 
     /**
@@ -77,8 +100,10 @@ public class Controller implements Runnable{
         try {
             Socket client = Server.getServer().accept();
             ClientHandler handler = new ClientHandler(client, position);
-            handlers.add(handler);
-            new Thread(handler).start();
+            if (handler.getActive().get()) {
+                handlers.add(handler);
+                new Thread(handler).start();
+            }
         } catch (IOException e) {
             System.err.println("Problem initializing a new Player");
         }
@@ -89,17 +114,7 @@ public class Controller implements Runnable{
      */
     public void VirtualWelcome(){
         System.out.println("[5] - Game start");
-        GodInfo[] gods = new GodInfo[14];
-        PlayerInfo[] players = new PlayerInfo[playerNum];
-        ArrayList<GodCard> deck = Game.getInstance().getDeck().getCardList();
-        ArrayList<Player> list = Game.getInstance().getPlayer();
-        for(GodCard card : deck){
-            gods[deck.indexOf(card)] = new GodInfo(deck.indexOf(card), card.getName(), card.getPower(), false);
-        }
-        for(Player player : list){
-            players[list.indexOf(player)] = new PlayerInfo(list.indexOf(player), player.getNickName(), player.getColor(), -1);
-        }
-        virtual.WelcomePacket(gods, players);
+        virtual.WelcomePacket(true);
         virtual.ChooseGodPhase(handlers.get(0));
     } //ready
 
@@ -123,6 +138,7 @@ public class Controller implements Runnable{
      * Start your Turn, you can make your actions; if you can't, you lose
      */
     public void TurnStart(Player player){
+        gameData.SaveAll();  // HERE
         player.setSelectedWorker(null);
         if (player.isLoser()){
             EndTurn();
@@ -388,5 +404,25 @@ public class Controller implements Runnable{
 
     public void setActive(AtomicBoolean active) {
         this.active = active;
+    }
+
+    public void setLoadedGame(AtomicBoolean loadedGame) {
+        this.loadedGame = loadedGame;
+    }
+
+    public AtomicBoolean getLoadedGame() {
+        return loadedGame;
+    }
+
+    public void sortHandlers(){
+        ArrayList<ClientHandler> sortedList = new ArrayList<>();
+        for (Player player : Game.getInstance().getPlayer()){
+            for (ClientHandler handler : handlers){
+                if (player.getNickName().equals(handler.getNickName())){
+                    sortedList.add(handler);
+                }
+            }
+        }
+        handlers = sortedList;
     }
 }

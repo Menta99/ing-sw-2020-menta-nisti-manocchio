@@ -223,7 +223,9 @@ public class Cli extends View {
             case DEFAULT:
                 break;
             case WELCOME:
-                WelcomeScreen();
+                if (command.getList().get(0)==0) {
+                    WelcomeScreen();
+                }
                 gods = command.getGods();
                 players = command.getPlayers();
                 break;
@@ -289,7 +291,14 @@ public class Cli extends View {
                 }
                 break;
             case ANSWER:
-                System.out.println("Would you like to use your divinity Power? \nyes / no");
+                switch (command.getList().get(0)){
+                    case 0:
+                        System.out.println("Would you like to use your divinity Power? \nyes / no");
+                        break;
+                    case 1:
+                        System.out.println("Would you like to resume your previous Game? \nyes / no");
+                        break;
+                }
                 break;
             case GOD:
                 System.out.println("These are the gods available :");
@@ -300,20 +309,24 @@ public class Cli extends View {
                         + " Select " + players.length + " GodCards indicating their numbers");
                 break;
             case CLOSE:
-                if(command.getList().get(0) == -1){
-                    System.out.println(players[command.getList().get(1)].getColor() + players[command.getList().get(1)].getName() + Colors.RESET + " disconnected\nEndGame");
-                }
-                else if(command.getList().get(0) == 1){
-                    System.out.println("Server is down");
-                }
-                else{
-                    PlayerInfo winner = players[command.getList().get(1)];
-                    if(nickname.equalsIgnoreCase(winner.getName())){
-                        System.out.println("You have won\nCongratulations");
-                    }
-                    else {
-                        System.out.println(winner.getColor() + winner.getName() + Colors.RESET + " has won!\nEverybody clap your hands!");
-                    }
+                switch (command.getList().get(0)) {
+                    case -1:
+                        System.out.println(players[command.getList().get(1)].getColor() + players[command.getList().get(1)].getName() + Colors.RESET + " disconnected\nEndGame");
+                        break;
+                    case 0:
+                        System.out.println("Server is down");
+                        break;
+                    case 1:
+                        PlayerInfo winner = players[command.getList().get(1)];
+                        if (nickname.equalsIgnoreCase(winner.getName())) {
+                            System.out.println("You have won\nCongratulations");
+                        } else {
+                            System.out.println(winner.getColor() + winner.getName() + Colors.RESET + " has won!\nEverybody clap your hands!");
+                        }
+                        break;
+                    case 2:
+                        System.out.println("A game is already started, try later");
+                        break;
                 }
                 break;
             case UPDATE:
