@@ -30,34 +30,35 @@ public class WorkerData {
 
     public void update(int workerNumber){
         Player owner = Game.getInstance().getPlayer().get(ownerIndex);
-        Worker worker = owner.getWorkers().get(workerNumber);
-        if (worker.isState()) {
-            Box position = worker.getPosition();
-            posX = position.getPosX();
-            posY = position.getPosY();
-            Box lastPosition = worker.getLastPosition();
-            if (lastPosition != null){
-                lastX = lastPosition.getPosX();
-                lastY = lastPosition.getPosY();
+        if(!owner.isLoser()) {
+            Worker worker = owner.getWorkers().get(workerNumber);
+            if (worker.isState()) {
+                Box position = worker.getPosition();
+                posX = position.getPosX();
+                posY = position.getPosY();
+                Box lastPosition = worker.getLastPosition();
+                if (lastPosition != null) {
+                    lastX = lastPosition.getPosX();
+                    lastY = lastPosition.getPosY();
+                } else {
+                    lastX = -1;
+                    lastY = -1;
+                }
+                didBuild = worker.isDidBuild();
+                didClimb = worker.getDidClimb();
+                didMove = worker.isMoved();
+                return;
             }
-            else {
-                lastX=-1;
-                lastY=-1;
-            }
-            didBuild = worker.isDidBuild();
-            didClimb = worker.getDidClimb();
-            didMove = worker.isMoved();
         }
-        else {
-            posX = -1;
-            posY = -1;
-            lastX = -1;
-            lastY = -1;
-            didBuild = false;
-            didClimb = false;
-            didMove = false;
-        }
+        posX = -1;
+        posY = -1;
+        lastX = -1;
+        lastY = -1;
+        didBuild = false;
+        didClimb = false;
+        didMove = false;
     }
+
 
     @Override
     public String toString(){

@@ -29,11 +29,9 @@ public class PlayerData {
             for (Player player : Game.getInstance().getPlayer()) {
                 if (player.getNickName().equals(ID)) {
                     loser = player.isLoser();
-                }
-            }
-            if (!loser){
-                for (int i=0; i<2 ; i++){
-                    workers[i].update(i);
+                    for(int i = 0; i < 2; i++){
+                        workers[i].update(i);
+                    }
                 }
             }
         }
@@ -43,9 +41,7 @@ public class PlayerData {
     public String toString(){
         String string = "";
         string = string.concat(((loser) ? "1\n" : "0\n") + ID + "\n" + godCard + "\n");
-        if (!loser){
-            string = string.concat(workers[0].toString() + workers[1].toString());
-        }
+        string = string.concat(workers[0].toString() + workers[1].toString());
         return string;
     }
 

@@ -1,22 +1,29 @@
 package VirtualView;
 
-import ComunicationProtocol.*;
+import CommunicationProtocol.CommandMsg;
+import CommunicationProtocol.CommandType;
+import CommunicationProtocol.SantoriniInfo.BoxInfo;
+import CommunicationProtocol.SantoriniInfo.GodInfo;
+import CommunicationProtocol.SantoriniInfo.Info;
+import CommunicationProtocol.SantoriniInfo.PlayerInfo;
+import CommunicationProtocol.ServerMsg;
 import Model.*;
 import Model.Godcards.GodCard;
 import Server.ClientHandler;
 import View.Colors;
+
 import java.util.ArrayList;
 
 /**
  * VirtualView class of the game
  */
 public class VirtualView {
-    private Game myGame;
-    private PlayGround myMap;
+    private final Game myGame;
+    private final PlayGround myMap;
 
     /**
-     * class' constructor
-     * @param game
+     * Constructor of the Class
+     * @param game instance of the Game
      */
     public VirtualView(Game game){
         this.myGame = game;
@@ -24,63 +31,47 @@ public class VirtualView {
     }
 
     /**
-     * Print a welcome screen
-     * @param type
+     * Send the Welcome Packet
+     * @param type true if it's a new Game, false if it's a restarted one
      */
     public void WelcomePacket(boolean type) {
-        ArrayList<Integer> command = new ArrayList<>();
         GodInfo[] gods = new GodInfo[14];
-        PlayerInfo[] players = new PlayerInfo[Game.getInstance().getPlayer().size()];
-        ArrayList<GodCard> deck = Game.getInstance().getDeck().getCardList();
-        ArrayList<Player> list = Game.getInstance().getPlayer();
-        if (type) {
-            command.add(0);
-            for(GodCard card : deck){
-                gods[deck.indexOf(card)] = new GodInfo(deck.indexOf(card), card.getName(), card.getPower(), false);
-            }
-            for(Player player : list){
+        PlayerInfo[] players = new PlayerInfo[myGame.getPlayer().size()];
+        ArrayList<GodCard> deck = myGame.getDeck().getCardList();
+        ArrayList<Player> list = myGame.getPlayer();
+        for (GodCard card : deck) {
+            gods[deck.indexOf(card)] = new GodInfo(deck.indexOf(card), card.getName(), card.getPower(), card.isPicked());
+        }
+        if(type) {
+            for (Player player : list) {
                 players[list.indexOf(player)] = new PlayerInfo(list.indexOf(player), player.getNickName(), player.getColor(), -1);
             }
+            Echo(new CommandMsg(CommandType.COM_WELCOME, new Info(null, gods, players)));
         }
-        else {
-            command.add(1);
-            for(GodCard card : deck){
-                gods[deck.indexOf(card)] = new GodInfo(deck.indexOf(card), card.getName(), card.getPower(), card.isPicked());
-            }
-            for(Player player : list){
+        else{
+            for (Player player : list) {
                 players[list.indexOf(player)] = new PlayerInfo(list.indexOf(player), player.getNickName(), player.getColor(), deck.indexOf(player.getCard()));
             }
+            Echo(new CommandMsg(CommandType.COM_RESTART, new Info(null, gods, players)));
         }
-        Echo(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.WELCOME, null, gods, players, command));
     }
 
     /**
-     * A player's starting his turn, others are waiting
+     * Send to all the player an Update message in the start of a Turn
      */
     public void TurnStartMessage(){
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(myGame.getPlayer().indexOf(myGame.getActualPlayer()));
-        list.add(1);
-        BoxInfo[][] map = MapInfo(true, false);
-        Echo(new CliCommandMsg(CommandType.UPDATE, SubCommandType.DEFAULT, map, null, null, list));
+        Info info = new Info(MapInfo(true, false), new PlayerInfo(myGame.getActualPlayer()));
+        Echo(new CommandMsg(CommandType.UPDATE_TURN, info));
     }
 
     /**
-     * Choosing gods phase
-     * @param challenger
+     * Choosing gods phase, in which every player chose his god
+     * @param challenger ClientHandler of the Challenger
      */
     public void ChooseGodPhase(ClientHandler challenger){
-        ArrayList<Integer> output = new ArrayList<>();
         int numOfPlayers = myGame.getController().getPlayerNum();
         ClientHandler handler;
-        output.add(numOfPlayers);
-        challenger.WriteMessage(new CliCommandMsg(CommandType.GOD, SubCommandType.DEFAULT, null, null, null, output));
-        ArrayList<Integer> index = challenger.ReadMessage().getList();
-        challenger.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.WAIT, null, null, null, null));
-        myGame.ExtractCard(index);
-        for(ClientHandler user : myGame.getController().getHandlers()){
-            user.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.IN_GAME_GOD, null, null, null, index));
-        }
+        DrawGods(challenger);
         for (int i = 0; i < numOfPlayers; i++){
             if (i == numOfPlayers - 1){
                 handler = myGame.getController().getHandlers().get(0);
@@ -89,161 +80,173 @@ public class VirtualView {
                 handler = myGame.getController().getHandlers().get(i + 1);
             }
             int godCard = myGame.getActiveCards().indexOf(myGame.getDeck().getCardList().get(AskGod(handler)));
-            handler.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.WAIT, null, null, null, null));
+            handler.WriteMessage(new CommandMsg(CommandType.COM_WAIT_CHOICE, null));
             handler.getPlayer().ChooseGod(godCard);
         }
         InGameGods();
     }
 
     /**
-     * Print the picked gods
+     * Draw God Phase, in which the challenger chose the gods in game
+     * Then are sent to all the players the information of the card in game
+     * @param challenger ClientHandler of the Challenger
+     */
+    public void DrawGods(ClientHandler challenger){
+        ArrayList<ClientHandler> handlers = myGame.getController().getHandlers();
+        PlayerInfo[] players = new PlayerInfo[handlers.size()];
+        for(ClientHandler player : handlers){
+            players[handlers.indexOf(player)] = new PlayerInfo(player);
+        }
+        challenger.WriteMessage(new CommandMsg(CommandType.GOD, new Info(players)));
+        ArrayList<Integer> index = challenger.ReadMessage().getList();
+        challenger.WriteMessage(new CommandMsg(CommandType.COM_WAIT_CHOICE, null));
+        myGame.ExtractCard(index);
+        GodInfo[] gods = new GodInfo[myGame.getActiveCards().size()];
+        for(GodCard card : myGame.getActiveCards()){
+            gods[myGame.getActiveCards().indexOf(card)] = new GodInfo(myGame.getDeck().getCardList().indexOf(card), null, null, true);
+        }
+        Echo(new CommandMsg(CommandType.COM_GODS, new Info(gods)));
+    }
+
+    /**
+     * Inform all the players of the gods selected by each player
      */
     public void InGameGods() {
         PlayerInfo[] update = new PlayerInfo[myGame.getController().getPlayerNum()];
         for (Player user : myGame.getPlayer()) {
-            update[myGame.getPlayer().indexOf(user)] = new PlayerInfo(myGame.getPlayer().indexOf(user), user.getNickName(), user.getColor(), myGame.getDeck().getCardList().indexOf(user.getCard()));
+            update[myGame.getPlayer().indexOf(user)] = new PlayerInfo(user);
         }
-        for(ClientHandler player : myGame.getController().getHandlers()) {
-            player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.PLAYER_GOD, null, null, update, null));
-        }
+        Echo(new CommandMsg(CommandType.COM_CHOSEN, new Info(update)));
     }
 
     /**
-     * Ask for some Gods
-     * @param player
-     * @return
+     * Ask to the Player to che his god
+     * @param player ClientHandler of the Player that has to chose
+     * @return the index of the GodCard
      */
     public int AskGod(ClientHandler player){
-        ArrayList<Integer> list = new ArrayList<>();
+        int i = 0;
         for(GodCard card : myGame.getActiveCards()){
             if(!card.isPicked()){
-                list.add(myGame.getDeck().getCardList().indexOf(card));
+                i++;
             }
         }
-        player.WriteMessage(new CliCommandMsg(CommandType.NUMBER, SubCommandType.DEFAULT, null, null, null, list));
-        int index = player.ReadMessage().getList().get(0);
-        return index;
+        GodInfo[] gods = new GodInfo[i];
+        i = 0;
+        for(GodCard card : myGame.getActiveCards()){
+            if(!card.isPicked()){
+                gods[i] = new GodInfo(card);
+                i++;
+            }
+        }
+        player.WriteMessage(new CommandMsg(CommandType.NUMBER, new Info(gods)));
+        return player.ReadMessage().getList().get(0);
     }
 
     /**
-     * Request of a box through coordinates
-     * @param player
-     * @param type
-     * @return asked box or error message
+     * Request of a Box through coordinates
+     * @param player ClientHandler of the Player that has to chose
+     * @param type CoordinateType that indicates the Game Phase
+     * @return asked Box
      */
     public Box AskCoordinates(ClientHandler player, CoordinateType type) {
-        ServerMsg answer;
-        ArrayList<Integer> info = new ArrayList<>();
+        CommandType cmd = CommandType.DEFAULT;
         switch (type){
             case INITIAL:
-                info.add(0);
+                cmd = CommandType.POS_INITIAL;
                 break;
             case WORKER:
-                info.add(1);
+                cmd = CommandType.POS_WORKER;
                 break;
             case MOVE:
-                info.add(2);
+                cmd = CommandType.POS_MOVE;
                 break;
             case BUILD:
-                info.add(3);
+                cmd = CommandType.POS_BUILD;
                 break;
         }
-        player.WriteMessage(new CliCommandMsg(CommandType.COORDINATES, SubCommandType.DEFAULT, null, null, null, info));
-        answer = player.ReadMessage();
+        player.WriteMessage(new CommandMsg(cmd, null));
+        ServerMsg answer = player.ReadMessage();
         return myMap.getBox(answer.getList().get(0), answer.getList().get(1));
     }
 
     /**
      * Ask if the player would like to use his god power
-     * @param player
-     * @return
+     * @param player ClientHandler of the Player that has to answer
+     * @return true or false
      */
     public boolean AskPower(ClientHandler player) {
-        ServerMsg answer;
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(0);
-        player.WriteMessage(new CliCommandMsg(CommandType.ANSWER, SubCommandType.DEFAULT, null, null, null, list));
-        answer = player.ReadMessage();
-        if (answer.getMsg().equalsIgnoreCase("yes")) {
-            return true;
-        } else {
-            return false;
-        }
+        player.WriteMessage(new CommandMsg(CommandType.ANS_POWER, null));
+        ServerMsg answer = player.ReadMessage();
+        return answer.getMsg().equalsIgnoreCase("yes");
     }
 
     /**
-     * Player must select one of his worker
-     * @param player
-     * @return selected worker or error message
+     * Select one of the player's worker
+     * @param player ClientHandler of the Player that has to chose
+     * @return selected worker
      */
     public Worker AskWorker(ClientHandler player) {
         Box box = AskCoordinates(player, CoordinateType.WORKER);
         Worker candidate = myGame.getActualPlayer().selectWorker(box);
         if (candidate == null) {
-            ArrayList<Integer> list = new ArrayList<>();
-            list.add(1);
-            player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.NOT_VALID, null, null, null, list));
+            player.WriteMessage(new CommandMsg(CommandType.COM_INVALID_WORKER, null));
             return AskWorker(player);
         }
         return candidate;
     }
 
     /**
-     * Error message selecting a box destination
-     * @param player
+     * Send Error message if an invalid box is selected
+     * @param player ClientHandler of the Player that has chosen
      */
     public void NotValidDest(ClientHandler player) {
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(0);
-        player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.NOT_VALID, null, null, null, list));
+        player.WriteMessage(new CommandMsg(CommandType.COM_INVALID_POS, null));
     }
 
     /**
-     * Print message of loosing game
-     * @param player
+     * Send message of losing game
+     * @param player ClientHandler of the Player who lost
      */
     public void Lose(ClientHandler player){
-        player.WriteMessage(new CliCommandMsg(CommandType.COMMUNICATION, SubCommandType.LOSE, null, null, null, null));
+        player.WriteMessage(new CommandMsg(CommandType.COM_LOSE, null));
     }
 
     /**
-     * Print message of victory for the winner
-     * @param player
+     * Send message of Finish to the Player
+     * @param player ClientHandler of the Player
      */
     public void GameFinished(ClientHandler player){
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(0);
-        list.add(myGame.getPlayer().indexOf(myGame.getWinner()));
-        player.WriteMessage(new CliCommandMsg(CommandType.CLOSE, SubCommandType.DEFAULT, null, null, null, list));
+        player.WriteMessage(new CommandMsg(CommandType.CLOSE_NORMAL, new Info(new PlayerInfo(myGame.getWinner()))));
     }
 
     /**
-     * Update the game map after a generic move
-     * @param player
-     * @param generic
-     * @param phase
+     * Send an Update message of the Game Map after a generic move
+     * @param player ClientHandler of the Player
+     * @param generic type of map, true if is generic, false if it specific to a game phase
+     * @param phase phase of the game
      */
     public void UpdateMap(ClientHandler player, boolean generic, boolean phase){
-        player.WriteMessage(new CliCommandMsg(CommandType.UPDATE, SubCommandType.DEFAULT, MapInfo(generic, phase), null, null, null));
+        player.WriteMessage(new CommandMsg(CommandType.UPDATE_ACTION, new Info(MapInfo(generic, phase))));
     }
 
     /**
-     * Send an update message
-     * @param msg
+     * Send a message to all the Players
+     * @param msg CommandMsg to be send
      */
-    public void Echo(CliCommandMsg msg){
+    public void Echo(CommandMsg msg){
         for (ClientHandler handler : myGame.getController().getHandlers()){
             handler.WriteMessage(msg);
         }
     }
 
     /**
-     * Send an update message, if player's actual send another one
-     * @param actual
-     * @param msgActual
-     * @param msg
+     * Send a message to all the Players, except one that receives another one
+     * @param actual ClientHandler of the Player that receives the special message
+     * @param msgActual the special message
+     * @param msg the normal message
      */
-    public void Echo(ClientHandler actual, CliCommandMsg msgActual, CliCommandMsg msg){
+    public void Echo(ClientHandler actual, CommandMsg msgActual, CommandMsg msg){
         for (ClientHandler handler : myGame.getController().getHandlers()){
             if(handler == actual){
                 handler.WriteMessage(msgActual);
@@ -256,9 +259,9 @@ public class VirtualView {
 
     /**
      * Info of the map updated after a move
-     * @param generic
-     * @param phase
-     * @return
+     * @param generic type of map, true if is generic, false if it specific to a game phase
+     * @param phase phase of the game
+     * @return the playground information
      */
     public BoxInfo[][] MapInfo(boolean generic, boolean phase){//phase == false --> movement
         Box box;

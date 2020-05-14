@@ -1,6 +1,5 @@
 package Controller;
 
-import ComunicationProtocol.CliCommandMsg;
 import Model.*;
 import View.CLI.Cli;
 import VirtualView.VirtualView;
@@ -10,12 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-import static org.junit.Assert.*;
-import Client.*;
-import Server.*;
-
 import java.util.ArrayList;
-import java.util.Random;
 
 public class ControllerTest {
     Game match;

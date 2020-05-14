@@ -3,16 +3,16 @@ package Model.Godcards;
 import java.util.ArrayList;
 
 /**
- * Class representing a bunch of Godcards
+ * Class representing a bunch of GodCard
  */
 public class GodDeck {
-    private ArrayList<GodCard> cardList;
+    private final ArrayList<GodCard> cardList;
 
     /**
      * Constructor of GodDeck
      */
     public GodDeck(){
-        cardList = new ArrayList<GodCard>();
+        cardList = new ArrayList<>();
         GodFactory factory = new GodFactory();
         for (GodsEnum god : GodsEnum.values()){
             cardList.add(factory.create(god));
@@ -23,7 +23,6 @@ public class GodDeck {
      * Getter of a GodCard from the Deck
      * @param index position of the GodCard
      * @return GodCard if the index is valid, else null
-     * @throws NullPointerException if requested invalid action on the cards
      */
     public GodCard Draw(int index){
         try{
@@ -36,15 +35,10 @@ public class GodDeck {
             return null;
         }
         catch (NullPointerException e){
-            e.printStackTrace();
             return null;
         }
     }
 
-    /**
-     * Getter of cardList
-     * @return cardList
-     */
     public ArrayList<GodCard> getCardList(){
         return cardList;
     }

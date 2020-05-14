@@ -1,17 +1,13 @@
 package Controller;
 
-import ComunicationProtocol.CliCommandMsg;
-import ComunicationProtocol.CommandType;
-import ComunicationProtocol.ServerMsg;
-import ComunicationProtocol.SubCommandType;
-import Model.Game;
+import CommunicationProtocol.CommandMsg;
+import CommunicationProtocol.CommandType;
+import CommunicationProtocol.ServerMsg;
 import Model.Player;
 import Server.ClientHandler;
-import Server.Server;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class ClientHandlerTest extends ClientHandler implements Runnable {
@@ -53,7 +49,7 @@ public class ClientHandlerTest extends ClientHandler implements Runnable {
         }
     }
 
-    public void WriteMessage(CliCommandMsg msg){
+    public void WriteMessage(CommandMsg msg){
             lastmsg=msg.getCommandType();
             /*
             for (String line : msg.getMsg()){
@@ -65,6 +61,7 @@ public class ClientHandlerTest extends ClientHandler implements Runnable {
 
     public ServerMsg ReadMessage()  {
       ServerMsg msg=null;
+      /*
             switch (lastmsg){
                 case COMMUNICATION:
                     break;
@@ -111,17 +108,21 @@ public class ClientHandlerTest extends ClientHandler implements Runnable {
                     }
                 msg= new ServerMsg(list3);
                 break;
-            }
+            }*/
             return msg;
+
     }
 
     public void NickName(){
-        CliCommandMsg msg = new CliCommandMsg(CommandType.NAME, SubCommandType.DEFAULT, null, null, null, null);
+        /*
+        CommandMsg msg = new CommandMsg(CommandType.NAME, SubCommandType.DEFAULT, null, null, null, null);
         WriteMessage(msg);
         ServerMsg answer = null;
         answer = ReadMessage();
         nickName = answer.getMsg();
         player = new Player(nickName);
+
+         */
     }
 
     public String getNickName() {

@@ -2,94 +2,33 @@ package Model;
 
 import java.util.ArrayList;
 
-/** Represents the box game */
+/**
+ * Class that represents the box of the playground
+ */
 public class Box {
-
-    private int posX;
-    private int posY;
-    private ArrayList<Pawn> structure;
+    private final int posX;
+    private final int posY;
+    private final ArrayList<Pawn> structure;
     private boolean border;
     private boolean occupied;
 
     /**
      * Constructor of Box Class
-     *
      * @param x the x coordinate
      * @param y the y coordinate
      */
     public Box(int x, int y) {
         this.posX = x;
         this.posY = y;
-        this.structure = new ArrayList<Pawn>();
+        this.structure = new ArrayList<>();
         this.structure.add(new Building(PawnType.GROUND_LEVEL, this));
-        if ((x == 0) || (x == 4) || (y == 0) || (y == 4)) {
-            this.border = true;
-        } else {
-            this.border = false;
-        }
+        this.border = (x == 0) || (x == 4) || (y == 0) || (y == 4);
         this.occupied = false;
     }
 
     /**
-     * Getter of posX
-     *
-     * @return posX the x coordinate
-     */
-    public int getPosX() {
-        return posX;
-    }
-
-    /**
-     * Getter of posY
-     *
-     * @return posY the y coordinate
-     */
-    public int getPosY() {
-        return posY;
-    }
-
-    /**
-     * Getter of structure
-     *
-     * @return structure the Pawn Array on the Box
-     */
-    public ArrayList<Pawn> getStructure() {
-        return structure;
-    }
-
-    /**
-     * Getter of occupied
-     *
-     * @return occupied the boolean that indicates if there is a Worker on the Box
-     */
-    public boolean isOccupied() {
-        return occupied;
-    }
-
-
-    /**
-     * Setter of occupied
-     *
-     * @param occupied
-     */
-    public void setOccupied(boolean occupied) {
-        this.occupied = occupied;
-    }
-
-    /**
-     * Getter of border
-     *
-     * @return border the boolean that indicated if the Box is a Border-Box
-     */
-    public boolean isBorder() {
-        return border;
-    }
-
-    /**
      * Getter of the upper Pawn on this Box
-     *
      * @return PawnType the upper Pawn on this Box
-     * @throws NullPointerException if requested invalid action on a box
      */
     public PawnType getUpperLevel() {
         return (structure.get(structure.size() - 1).getType());
@@ -97,24 +36,18 @@ public class Box {
 
     /**
      * Says if you can Move or Build on this Box
-     *
      * @return true or false
      */
     public boolean Playable() {
-        if ((getUpperLevel() == PawnType.DOME) || (getUpperLevel() == PawnType.WORKER))
-            return false;
-        else
-            return true;
+        return (getUpperLevel() != PawnType.DOME) && (getUpperLevel() != PawnType.WORKER);
     }
 
     /**
      * Find the neighboring boxes
-     *
      * @return an ArrayList of the neighboring boxes of this Box
-     * @throws NullPointerException if requested invalid action on a box
      */
     public ArrayList<Box> BorderBoxes() {
-        ArrayList<Box> neighbors = new ArrayList<Box>();
+        ArrayList<Box> neighbors = new ArrayList<>();
         try {
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
@@ -123,19 +56,18 @@ public class Box {
                     }
                 }
             }
+            return neighbors;
         } catch (NullPointerException e1) {
-            e1.printStackTrace();
+            System.err.println("Null pointer");
+            return null;
         } catch (ArrayIndexOutOfBoundsException e2) {
             System.err.println("Index not valid");
-            e2.printStackTrace();
-        } finally {
-            return neighbors;
+            return null;
         }
     }
 
     /**
      * You build a Dome in a playable box on the current level
-     *
      * @return true or false if the Dome is created or not
      */
     public boolean BuildDome() {
@@ -149,21 +81,41 @@ public class Box {
 
     /**
      * You can build a new level in a playable box
-     *
      * @return true or false if the Building is created or not
-     * @throws NullPointerException if you try to build from a non-initialized structure
      */
     public boolean Build() {
-
         if (isOccupied()) {
             Worker worker = (Worker) structure.remove(structure.size() - 1);
             structure.add(new Building(PawnType.values()[getUpperLevel().getValue() + 1], this));
             structure.add(worker);
-            return true;
         }
         else{
             structure.add(new Building(PawnType.values()[getUpperLevel().getValue() + 1], this));
-            return true;
         }
+        return true;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public ArrayList<Pawn> getStructure() {
+        return structure;
+    }
+
+    public boolean isOccupied() {
+        return occupied;
+    }
+
+    public void setOccupied(boolean occupied) {
+        this.occupied = occupied;
+    }
+
+    public boolean isBorder() {
+        return border;
     }
 }

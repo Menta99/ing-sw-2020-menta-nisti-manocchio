@@ -1,7 +1,7 @@
 package Client;
 
-import ComunicationProtocol.CliCommandMsg;
-import ComunicationProtocol.ServerMsg;
+import CommunicationProtocol.CommandMsg;
+import CommunicationProtocol.ServerMsg;
 import View.CLI.Cli;
 
 import java.io.IOException;
@@ -11,23 +11,24 @@ import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Class for managing a new connection
+ * Handler Class for managing connection with a Server
  */
 public class ConnectionHandler implements Runnable{
-    private Socket server;
-    private Client client;
+    private final ClientCli client;
+    private final Cli cli;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private AtomicBoolean active;
 
     /**
      * Constructor of the class
-     * @param server
-     * @param client
+     * Handles connection error during Stream creation
+     * @param server Socket of the connection with the Server
+     * @param client Instance of the Client of which is responsible for
      */
-    public ConnectionHandler(Socket server, Client client){
-        this.server = server;
+    public ConnectionHandler(Socket server, ClientCli client){
         this.client = client;
+        this.cli = (Cli) client.getView();
         this.active = new AtomicBoolean(true);
         try {
             in = new ObjectInputStream(server.getInputStream());
@@ -38,27 +39,28 @@ public class ConnectionHandler implements Runnable{
     }
 
     /**
-     * Receiving messages...
+     * Handles the communication with the Server, receiving and processing the messages
      */
     @Override
     public void run() {
-        if(!client.isLayout()) {
-            CliCommandMsg command;
+        if(client.getView() instanceof Cli) {
+            CommandMsg command;
             while (active.get()) {
                 command = CliReceiveCommand();
-                CliHandleCommand(command, (Cli) client.getView());
+                CliHandleCommand(command);
             }
         }
     }
 
     /**
-     * Reading an input command...
-     * @return
+     * Reads a message from the Server
+     * Handles the connection problem and the invalid class scenario
+     * @return the CommandMsg sent by the Server
      */
-    public CliCommandMsg CliReceiveCommand(){
-        CliCommandMsg command = null;
+    public CommandMsg CliReceiveCommand(){
+        CommandMsg command = null;
         try {
-            command = (CliCommandMsg) in.readObject();
+            command = (CommandMsg) in.readObject();
         } catch (IOException e) {
             System.err.println("Problems with the Stream\nThe Server is probably down");
             active.set(false);
@@ -70,11 +72,11 @@ public class ConnectionHandler implements Runnable{
     }
 
     /**
-     * Handling the read message based on  the type
-     * @param command
-     * @param cli
+     * Handles the message from the server
+     * Invokes the relative method to act properly
+     * @param command the CommandMsg from the Server
      */
-    public void CliHandleCommand(CliCommandMsg command, Cli cli){
+    public void CliHandleCommand(CommandMsg command){
         if(command != null) {
             switch (command.getCommandType()) {
                 case NAME:
@@ -83,35 +85,54 @@ public class ConnectionHandler implements Runnable{
                 case FIRST:
                     cli.FirstHandler(command, this);
                     break;
-                case COORDINATES:
-                    cli.CoordinatesHandler(command, this);
+                case GOD:
+                    cli.GodHandler(command, this);
                     break;
                 case NUMBER:
                     cli.NumberHandler(command, this);
                     break;
-                case ANSWER:
+                case POS_INITIAL:
+                case POS_WORKER:
+                case POS_MOVE:
+                case POS_BUILD:
+                    cli.PoseHandler(command, this);
+                    break;
+                case ANS_RESTART:
+                case ANS_POWER:
                     cli.AnswerHandler(command, this);
                     break;
-                case GOD:
-                    cli.GodHandler(command, this);
+                case COM_WELCOME:
+                case COM_RESTART:
+                case COM_GODS:
+                case COM_CHOSEN:
+                case COM_WAIT_CHOICE:
+                case COM_WAIT_LOBBY:
+                case COM_INVALID_WORKER:
+                case COM_INVALID_POS:
+                case COM_LOSE:
+                    cli.CommunicationHandler(command);
                     break;
-                case CLOSE:
+                case UPDATE_TURN:
+                case UPDATE_ACTION:
+                    cli.UpdateHandler(command);
+                    break;
+                case CLOSE_ANOMALOUS:
+                case CLOSE_NORMAL:
+                case CLOSE_RESTART:
+                case CLOSE_SERVER:
                     cli.CloseHandler(command, this);
                     client.CloseClient();
                     break;
-                case UPDATE:
-                    cli.UpdateHandler(command);
-                    break;
-                case COMMUNICATION:
-                    cli.CommunicationHandler(command);
+                case DEFAULT:
                     break;
             }
         }
     }
 
     /**
-     * Writing a message in the output stream
-     * @param msg
+     * Writes a message to the Server
+     * Handles the connection problem scenario
+     * @param msg the ServerMsg to send
      */
     public void WriteMessage(ServerMsg msg){
         try {

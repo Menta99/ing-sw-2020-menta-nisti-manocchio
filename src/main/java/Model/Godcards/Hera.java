@@ -23,9 +23,7 @@ public class Hera extends GodCard {
     @Override
     public boolean enemyVictoryCondition(Box dest){
         if(dest!=null){
-            if (dest.isBorder()){
-                return true;
-            }
+            return dest.isBorder();
         }
         return false;
     }

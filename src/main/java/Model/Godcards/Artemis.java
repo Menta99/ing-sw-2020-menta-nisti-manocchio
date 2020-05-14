@@ -31,7 +31,7 @@ public class Artemis extends GodCard {
 
     /**
      * If the worker moves twice, can't go back to the initial box
-     * @param adjacentBoxes
+     * @param adjacentBoxes ArrayList of the valid boxes
      * @return adjacentBoxes without the initial one
      */
     @Override
@@ -60,40 +60,31 @@ public class Artemis extends GodCard {
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().selectWorkerPhase();
-            //getOwner().movePhase();
-            canDoSomething = false;
         }
         else {
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
         }
-        if (getOwner().getSelectedWorker().CanMove()){ //Secondo movimento, se non riesce non perde
+        if (getOwner().getSelectedWorker().CanMove()){
             Game.getInstance().getController().MovePhase(getOwner());
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().movePhase();
         }
         else {
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){
             Game.getInstance().getController().BuildPhase(getOwner());
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().buildPhase();
         }
         else {
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
         }
         return true;
     }
-
 }

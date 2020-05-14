@@ -14,7 +14,6 @@ public class Worker extends Pawn{
     private Box lastPosition;
     private Box lastBuilding;
 
-
     /**
      * Worker Constructor
      */
@@ -27,13 +26,13 @@ public class Worker extends Pawn{
     }
 
     /**
-     * Moves a worker if able to
+     * Moves a worker if it is possible
      * @param dest box where to move
      */
     public void Move(Box dest){
         if (LegalMovement(dest)){
             if(owner.getCard().canMoveOthers(dest) && dest.isOccupied()){
-                owner.getCard().moveOthers(dest); //IMPLEMENTA FUNZIONALITA DELLE DIVINITA CHE POSSONO MUOVERE I NEMICI
+                owner.getCard().moveOthers(dest);
                 return;
             }
             if (dest.getStructure().size()>=getPosition().getStructure().size()){
@@ -46,11 +45,11 @@ public class Worker extends Pawn{
             getPosition().getStructure().add(this);
             dest.setOccupied(true);
             setMoved(true);
-            if(((this.lastPosition.getStructure().size()<4 && getPosition().getStructure().size()>4) || owner.getCard().myVictoryCondition())){//Parto da un qualsiasi piano minore del terzo e arrivo in un terzo piano non occupato oppure occupato ma posso spingere l'avversario
+            if(((this.lastPosition.getStructure().size()<4 && getPosition().getStructure().size()>4) || owner.getCard().myVictoryCondition())){
                 boolean enemyWinCondition = false;
                 for (Player enemy : Game.getInstance().getPlayer()) {
                     if (!enemy.equals(owner) && !enemy.isLoser()) {
-                        enemyWinCondition = enemyWinCondition || enemy.getCard().enemyVictoryCondition(dest); //CHECKS RESTRIZIONI GODS NEMICI
+                        enemyWinCondition = enemyWinCondition || enemy.getCard().enemyVictoryCondition(dest);
                         if(!enemyWinCondition){
                             this.owner.setWinner(true);
                         }
@@ -88,6 +87,8 @@ public class Worker extends Pawn{
      * @return true or false if is possible to move
      */
     public boolean CanMove(){
+        Worker selected = owner.getSelectedWorker();
+        owner.setSelectedWorker(this);
         ArrayList <Box> adjacentBoxes = this.getPosition().BorderBoxes();
         if (owner.getCard().myMovement()) {
             adjacentBoxes = owner.getCard().specialMovement(adjacentBoxes);
@@ -100,8 +101,12 @@ public class Worker extends Pawn{
             }
         }
         for (Box box : adjacentBoxes){
-            if (this.LegalMovement(box)) {return true;}
+            if (this.LegalMovement(box)) {
+                owner.setSelectedWorker(selected);
+                return true;
+            }
         }
+        owner.setSelectedWorker(selected);
         return false;
     }
 
@@ -119,7 +124,6 @@ public class Worker extends Pawn{
         }
         return false;
     }
-
 
     /**
      * Checks if the worker can Move in the selected box
@@ -180,22 +184,6 @@ public class Worker extends Pawn{
         return false;
     }
 
-    /**
-     * Setter method, if the worker is removed from the game, remove it from the owners list
-     * @param state state of the Worker
-     */
-    public void setState(boolean state){
-        this.state=state;
-        if (!state) {
-            this.owner.getWorkers().remove(this);
-        }
-    }
-
-    /**
-     * Used in game initialization to set a starting point for the worker
-     * @param startingPoint Box where to place the Worker
-     * @return true or false if the positioning succeed
-     */
     public boolean setInitialPosition(Box startingPoint){
         if (!startingPoint.isOccupied()) {
             setPosition(startingPoint);
@@ -207,92 +195,55 @@ public class Worker extends Pawn{
         return false;
     }
 
-    /**
-     * Getter of the worker's Owner
-     * @return
-     */
     public Player getOwner() {
         return owner;
     }
 
-    /**
-     * Set a worker's owner
-     * @param owner Player that owns the Worker
-     */
     public void setOwner(Player owner){
         this.owner=owner;
     }
 
-    /**
-     * Getter of moved
-     * @return true or false if the worker moved or not
-     */
     public boolean isMoved() {
         return moved;
     }
 
-    /**
-     * Setter of moved
-     * @param moved true or false if the worker moved or not
-     */
     public void setMoved(boolean moved) {
         this.moved = moved;
     }
 
-    /**
-     * Getter of didBuild
-     * @return true or false if the worker built or not
-     */
     public boolean isDidBuild() {
         return didBuild;
     }
 
-    /**
-     * Getter of moved
-     * @param didBuild true or false if the worker built or not
-     */
     public void setDidBuild(boolean didBuild) {
         this.didBuild = didBuild;
     }
 
-    /**
-     * Returns true if the worker climbed
-     * @return
-     */
     public boolean getDidClimb() {
         return didClimb;
     }
 
-    /**
-     * Sets true if the worker climbed
-     * @param didClimb
-     */
     public void setDidClimb(boolean didClimb) {
         this.didClimb = didClimb;
     }
 
-    /**
-     * Returns last worker position
-     * @return
-     */
     public Box getLastPosition() {
         return lastPosition;
     }
 
-    /**
-     * Sets last worker's position
-     * @param lastPos
-     */
     public void setLastPosition(Box lastPos){
         lastPosition = lastPos;
     }
 
-    /**
-     * Getter of the worker's last building position
-     * @return
-     */
     public Box getLastBuilding() {
         return lastBuilding;
+    }
+
+    public void setState(boolean state){
+        this.state=state;
+        if (!state) {
+            this.owner.getWorkers().remove(this);
+        }
     }
 
     public boolean isState() {

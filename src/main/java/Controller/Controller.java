@@ -1,12 +1,18 @@
 package Controller;
 
-import ComunicationProtocol.*;
+import CommunicationProtocol.CommandMsg;
+import CommunicationProtocol.CommandType;
+import CommunicationProtocol.SantoriniInfo.Info;
+import CommunicationProtocol.SantoriniInfo.PlayerInfo;
 import Controller.SavedData.GameData;
-import Model.*;
-import Model.Godcards.GodCard;
+import Model.Box;
+import Model.Game;
+import Model.Player;
+import Model.Worker;
 import Server.ClientHandler;
 import Server.Server;
-import VirtualView.*;
+import VirtualView.CoordinateType;
+import VirtualView.VirtualView;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -18,11 +24,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static java.lang.Integer.parseInt;
 
 /**
- * Class controller of MVC pattern
+ * Class of the controller of MVC pattern
  */
 public class Controller implements Runnable{
-    private VirtualView virtual;
-    private Game match;
+    private final VirtualView virtual;
+    private final Game match;
     private int playerNum = 2;
     private ArrayList<ClientHandler> handlers;
     private AtomicBoolean active;
@@ -41,7 +47,8 @@ public class Controller implements Runnable{
     }
 
     /**
-     * Override of run method in Runnable: setting and start of a new game;
+     * Setting and Start of a new Game
+     * When finished updates the Server in order to start a new Game
      */
     @Override
     public void run() {
@@ -52,13 +59,14 @@ public class Controller implements Runnable{
                 VirtualWelcome();
                 StartGame();
             }
-            gameData = new GameData();  //HERE
+            gameData = new GameData();
             while (active.get()) {
                 TurnStart(match.getActualPlayer());
             }
 
         }
         catch (NullPointerException | ConcurrentModificationException e){
+            System.out.println("[C] - Controller Closed");
         }
         finally {
             Server.UpdateServer();
@@ -66,7 +74,7 @@ public class Controller implements Runnable{
     }
 
     /**
-     * Initializing phase for each player
+     * Creates the Lobby and sends to the players the Welcome Packet
      */
     public void LobbyCreation(){
         int counter = 0;
@@ -84,17 +92,21 @@ public class Controller implements Runnable{
         System.out.println("[4] - Lobby Completed");
     }
 
+    /**
+     * Restores the old lobby from an interrupted Game
+     * Resort all the Handlers
+     */
     public void OldLobbyCreation(){
-            playerNum = parseInt(Game.getInstance().getSavedGame().get(2));
-            for (int i=handlers.size(); i<playerNum; i=handlers.size()){
-                InitializePlayer(i);
-            }
-            sortHandlers();
+        playerNum = parseInt(Game.getInstance().getSavedGame().get(2));
+        for (int i=handlers.size(); i<playerNum; i=handlers.size()){
+            InitializePlayer(i);
+        }
+        sortHandlers();
     }
 
     /**
-     * Each client's connecting to server...
-     * @param position
+     * Accept a Client connection, then initializes the Player and his ClientHandler
+     * @param position number of the player
      */
     public void InitializePlayer(int position){
         try {
@@ -110,16 +122,16 @@ public class Controller implements Runnable{
     }
 
     /**
-     * Print the welcome screen starting the game
+     * Sends the Welcome Packet and starts the Chose-God phase
      */
     public void VirtualWelcome(){
         System.out.println("[5] - Game start");
         virtual.WelcomePacket(true);
         virtual.ChooseGodPhase(handlers.get(0));
-    } //ready
+    }
 
     /**
-     * Set Up a new Game, generating a random ID
+     * Set Up a new Game selecting the actual player and generating a random ID
      */
     public void StartGame(){
         match.setActualPlayer(handlers.get(0).getPlayer());
@@ -135,17 +147,18 @@ public class Controller implements Runnable{
     }
 
     /**
-     * Start your Turn, you can make your actions; if you can't, you lose
+     * Start the Turn, performing the different phases and checking the game finish conditions
+     * @param player actual Player that performs the turn
      */
     public void TurnStart(Player player){
-        gameData.SaveAll();  // HERE
+        gameData.SaveAll();
         player.setSelectedWorker(null);
         if (player.isLoser()){
             EndTurn();
             return;
         }
         virtual.TurnStartMessage();
-        Boolean canDoSomething = false;
+        boolean canDoSomething = false;
         player.SetUpWorkers();
         if ((match.getActualTurn() / handlers.size()) == 0) {
             InitializeWorkers(player);
@@ -188,7 +201,8 @@ public class Controller implements Runnable{
     }
 
     /**
-     * Initialize workers
+     * Initialize the starting position of a Player's workers
+     * @param player actual Player that performs the positioning
      */
     public void InitializeWorkers(Player player){
         ClientHandler handler = handlers.get(match.getPlayer().indexOf(player));
@@ -211,12 +225,12 @@ public class Controller implements Runnable{
     }
 
     /**
-     * You must Select a valid worker
+     * Select a Worker to play with
+     * @param player actual Player that performs the selection
      */
     public void SelectWorkerPhase(Player player){
         ClientHandler handler = handlers.get(match.getPlayer().indexOf(player));
-        Worker candidate;
-        candidate = virtual.AskWorker(handler);
+        Worker candidate = virtual.AskWorker(handler);
         if (candidate.CanMove()){
             player.setSelectedWorker(candidate);
         }
@@ -226,7 +240,8 @@ public class Controller implements Runnable{
     }
 
     /**
-     * Start of the movement phase, you must move the selected worker
+     * Move Phase of a Player
+     * @param player actual Player that performs the movement
      */
     public void MovePhase(Player player){
         ClientHandler handler = handlers.get(match.getPlayer().indexOf(player));
@@ -244,7 +259,8 @@ public class Controller implements Runnable{
     }
 
     /**
-     * Start of the Build phase, you must build with the selected worker
+     * Build Phase of a Player
+     * @param player actual Player that performs the building
      */
     public void BuildPhase(Player player){
         ClientHandler handler = handlers.get(match.getPlayer().indexOf(player));
@@ -269,7 +285,7 @@ public class Controller implements Runnable{
     }
 
     /**
-     * Pass your Turn if you made the mandatory actions
+     * End Turn after you made the mandatory actions
      */
     public void EndTurn(){
         for (Player player : match.getPlayer()){
@@ -282,8 +298,7 @@ public class Controller implements Runnable{
     }
 
     /**
-     * Goes to the next round
-     * @throws NullPointerException if requested invalid action on the players
+     * Goes to the next round, if the game is finished ends the controller execution
      */
     public void NextTurn(){
         if(match.isGameFinished()){
@@ -298,6 +313,7 @@ public class Controller implements Runnable{
 
     /**
      * The player loses and he's removed from the game
+     * @param player player that lose the game
      */
     public void PlayerLose(Player player){
         virtual.Lose(handlers.get(match.getPlayer().indexOf(player)));
@@ -335,6 +351,7 @@ public class Controller implements Runnable{
             }
         }
         if (match.isGameFinished()){
+            gameData.ResetData();
             System.out.println("[F] - Game finished");
             for(ClientHandler handler : handlers){
                 virtual.GameFinished(handler);
@@ -344,38 +361,37 @@ public class Controller implements Runnable{
     }
 
     /**
-     * Call the corresponding method in the virtual view class
+     * Request to the Virtual View to ask if the Player wants to use his power
+     * @return true or false
      */
     public boolean VirtualAskPower(){
         return virtual.AskPower(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
-    }//removable
-
-    /**
-     * Call the corresponding method in the virtual view class
-     */
-    public Worker VirtualAskWorker(){
-        return virtual.AskWorker(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
-    }//removable
-
-    /**
-     * Updating message for all players
-     * @param generic
-     * @param phase
-     */
-    public void UpdateAll(boolean generic, boolean phase){
-        ClientHandler actual = handlers.get(match.getPlayer().indexOf(match.getActualPlayer()));
-        ArrayList<Integer> list= new ArrayList<>();
-        list.add(match.getPlayer().indexOf(match.getActualPlayer()));
-        list.add(0);
-        CliCommandMsg msg1 = new CliCommandMsg(CommandType.UPDATE, SubCommandType.DEFAULT, virtual.MapInfo(generic, phase), null, null, list);
-        CliCommandMsg msg2 = new CliCommandMsg(CommandType.UPDATE, SubCommandType.DEFAULT, virtual.MapInfo(true, false), null, null, list);
-        virtual.Echo(actual, msg1, msg2);
     }
 
     /**
-     * Updating message for a player
-     * @param generic
-     * @param phase
+     * Request to the Virtual View to Ask the Player to chose a Worker
+     * @return Worker chosen by the player
+     */
+    public Worker VirtualAskWorker(){
+        return virtual.AskWorker(handlers.get(match.getPlayer().indexOf(match.getActualPlayer())));
+    }
+
+    /**
+     * Send an Update message to all players
+     * @param generic type of map, true if is generic, false if it specific to a game phase
+     * @param phase phase of the game
+     */
+    public void UpdateAll(boolean generic, boolean phase){
+        ClientHandler actual = handlers.get(match.getPlayer().indexOf(match.getActualPlayer()));
+        Info info1 = new Info(virtual.MapInfo(generic, phase), new PlayerInfo(actual));
+        Info info2 = new Info(virtual.MapInfo(true, false), new PlayerInfo(actual));
+        virtual.Echo(actual, new CommandMsg(CommandType.UPDATE_ACTION, info1), new CommandMsg(CommandType.UPDATE_ACTION, info2));
+    }
+
+    /**
+     * Send an Update message to a player
+     * @param generic type of map, true if is generic, false if it specific to a game phase
+     * @param phase phase of the game
      */
     public void Update(boolean generic, boolean phase){
         ClientHandler actual = handlers.get(match.getPlayer().indexOf(match.getActualPlayer()));

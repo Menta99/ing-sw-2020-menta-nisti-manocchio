@@ -1,6 +1,5 @@
 package Model;
 
-import Controller.Controller;
 import Controller.SavedData.GameData;
 import Controller.SavedData.MapData;
 import Controller.SavedData.PlayerData;
@@ -17,10 +16,9 @@ import static java.lang.Integer.parseInt;
  * Class representing a player
  */
 public class Player {
-    private Controller controller;
     private Colors color;
-    private String nickName;
-    private boolean challenger; // possible exceed
+    private final String nickName;
+    private final boolean challenger;
     private GodCard card;
     private boolean winner;
     private boolean loser;
@@ -32,23 +30,17 @@ public class Player {
      * Constructor of Player
      */
     public Player(String nickName) {
-        this.controller = Game.getInstance().getController();
         this.nickName = nickName;
         this.winner = false;
         this.loser = false;
         this.usePower = false;
-        this.workers = new ArrayList<Worker>();
+        this.workers = new ArrayList<>();
         this.workers.add(new Worker());
         this.workers.add(new Worker());
         this.workers.get(0).setOwner(this);
         this.workers.get(1).setOwner(this);
         Game.getInstance().getPlayer().add(this);
-        if (Game.getInstance().getPlayer().size() == 1) {
-            this.challenger = true;
-        }
-        else {
-            this.challenger = false;
-        }
+        this.challenger = Game.getInstance().getPlayer().size() == 1;
         if (Game.getInstance().getPlayer().size()==1){
             this.color = Colors.GREEN;
         }
@@ -76,19 +68,17 @@ public class Player {
      * Draws the GodCards of the Game, made by the Challenger
      * @param deck ArrayList of GodCard
      * @return ArrayList of chosen GodCard or null if the player isn't the Challenger
-     * @throws NullPointerException if requested invalid action on the cards
      */
     public ArrayList<GodCard> Draw(GodDeck deck, ArrayList<Integer> index){
         if (challenger) {
-            ArrayList<GodCard> gods = new ArrayList<GodCard>();
-            GodCard chosen = null;
+            ArrayList<GodCard> gods = new ArrayList<>();
+            GodCard chosen;
             int i = 0;
             try {
                 while (i < Game.getInstance().getPlayer().size()) {
-                    chosen = Game.getInstance().getDeck().Draw(index.get(i));
+                    chosen = deck.Draw(index.get(i));
                     if (chosen != null) {
                         gods.add(chosen);
-                        chosen = null;
                         i++;
                     }
                 }
@@ -107,9 +97,8 @@ public class Player {
     /**
      * Choose the GodCard of the Player
      * @return true or false if the action succeed
-     * @throws NullPointerException if requested invalid action on the cards
      */
-    public boolean ChooseGod(int index){//sistemare con la view
+    public boolean ChooseGod(int index){
         try {
             if (card == null) {
                 GodCard pick = Game.getInstance().getActiveCards().get(index);
@@ -132,7 +121,6 @@ public class Player {
      * Getter of the Worker on the Box selected
      * @param box selected box
      * @return worker o null if no Worker is present on the Box selected
-     * @throws NullPointerException if requested invalid action on a box
      */
     public Worker selectWorker(Box box){
         try {
@@ -158,9 +146,6 @@ public class Player {
         return this.nickName;
     }
 
-    /**
-     * Getter method of card
-     */
     public GodCard getCard() {
         return card;
     }
@@ -169,9 +154,6 @@ public class Player {
         return winner;
     }
 
-    /**
-     * Setter method used in winning condition
-     * @param winner Player who won the Game*/
     public void setWinner(boolean winner){
         this.winner = winner;
     }
@@ -192,9 +174,6 @@ public class Player {
         this.usePower = usePower;
     }
 
-    /**
-     * Getter method for workers
-     */
     public ArrayList<Worker> getWorkers(){
         return this.workers;
     }
@@ -203,9 +182,6 @@ public class Player {
         this.workers = workers;
     }
 
-    /**
-     * Getter of the selected worker
-     */
     public Worker getSelectedWorker() {
         return selectedWorker;
     }
@@ -228,18 +204,12 @@ public class Player {
             } else {
                 worker.setMoved(false);
             }
-            if (gameInfo.get(workerDataIndex+1).equals("1")){
-                worker.setDidClimb(true);
-            } else {
-                worker.setDidClimb(false);
-            }
-            if (gameInfo.get(workerDataIndex+2).equals("1")){
-                worker.setDidBuild(true);
-            } else {
-                worker.setDidBuild(false);
-            }
-            if (!gameInfo.get(workerDataIndex+3).equals("-1")){  //Checks if the worker isn't in
+            worker.setDidClimb(gameInfo.get(workerDataIndex + 1).equals("1"));
+            worker.setDidBuild(gameInfo.get(workerDataIndex + 2).equals("1"));
+            if (!gameInfo.get(workerDataIndex+3).equals("-1")){
                 worker.setInitialPosition(PlayGround.getInstance().getBox(parseInt(gameInfo.get(workerDataIndex+3)), parseInt(gameInfo.get(workerDataIndex+4))));
+            }
+            if(!gameInfo.get(workerDataIndex+5).equals("-1")){
                 worker.setLastPosition(PlayGround.getInstance().getBox(parseInt(gameInfo.get(workerDataIndex+5)), parseInt(gameInfo.get(workerDataIndex+6))));
             }
             workerDataIndex += WorkerData.Size();

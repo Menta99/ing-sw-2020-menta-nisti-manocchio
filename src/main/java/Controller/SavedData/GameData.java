@@ -43,7 +43,7 @@ public class GameData {
     }
 
     public void save() throws IOException {
-        File gameInformation = new File("temp\\" + "savedGame" + ".txt");
+        File gameInformation = new File("temp\\savedGame.txt");
         try{
         FileWriter myWriter = new FileWriter(gameInformation);
         try {

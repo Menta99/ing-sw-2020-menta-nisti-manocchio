@@ -19,6 +19,10 @@ public class Zeus extends GodCard {
         this.setPower("You can build in your own worker's position, if you reach 3rd level this way, you don't win");
     }
 
+    /**
+     * Checks if it has performed building
+     * @return true or false
+     */
     @Override
     public boolean myBuild(){
         return true;
@@ -26,8 +30,8 @@ public class Zeus extends GodCard {
 
     /**
      * Implement Zeus' power
-     * @param legalBoxes
-     * @return
+     * @param legalBoxes ArrayList of valid boxes
+     * @return ArrayList of updated boxes
      */
     @Override
     public ArrayList<Box> specialBuilding(ArrayList<Box> legalBoxes) {
@@ -40,5 +44,4 @@ public class Zeus extends GodCard {
         }
         return legalBoxes;
     }
-
 }

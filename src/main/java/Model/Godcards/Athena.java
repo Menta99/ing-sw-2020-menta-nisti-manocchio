@@ -18,6 +18,10 @@ public class Athena extends GodCard{
         this.setPower("If in your last turn you did climb with one of your workers, in this turn enemy workers can't climb");
     }
 
+    /**
+     * Ask if the power could limit the enemy movement
+     * @return true or false
+     */
     @Override
     public boolean enemyMovement(){
         return true;
@@ -41,7 +45,7 @@ public class Athena extends GodCard{
             Box position = Game.getInstance().getActualPlayer().getSelectedWorker().getPosition();
             for (Box box : legalMoves){
                 if (box.isOccupied()){
-                    if(position.getStructure().size()<box.getStructure().size()){ // Se è occupato c'è comunque la possibilità che alcune divinità muovano le altre
+                    if(position.getStructure().size()<box.getStructure().size()){
                         toRemove.add(box);
                     }
                 }

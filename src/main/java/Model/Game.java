@@ -27,7 +27,7 @@ public class Game {
     private int id;
     private ArrayList<Player> players;
     private Player actualPlayer;
-    private PlayGround map;
+    private final PlayGround map;
     private GodDeck deck;
     private ArrayList<GodCard> activeCards;
     private int actualTurn;
@@ -50,9 +50,8 @@ public class Game {
     }
 
     /**
-     * Getter of the Game istances (Singleton), creates a new object if none is present
-     *
-     * @return istance of Game
+     * Getter of the Game instance (Singleton), creates a new object if none is present
+     * @return instance of Game
      */
     public static Game getInstance() {
         if (instance == null) {
@@ -86,7 +85,6 @@ public class Game {
     /**
      * Extracts the active cards
      * @return true or false if it succeed
-     * @throws NullPointerException if requested invalid action on the cards
      */
     public boolean ExtractCard(ArrayList<Integer> index){
         if (activeCards == null) {
@@ -112,9 +110,6 @@ public class Game {
         this.controller = controller;
     }
 
-    /**
-     * Getter of id
-     */
     public int getId() {
         return this.id;
     }
@@ -123,51 +118,30 @@ public class Game {
         this.id = id;
     }
 
-    /**
-     * Getter of the players' ArrayList
-     */
     public ArrayList<Player> getPlayer() {
         return this.players;
     }
 
-    /**
-     * Getter of actualPlayer
-     */
     public Player getActualPlayer() {
         return this.actualPlayer;
     }
 
-    /**
-     * Setter of ActualPlayer
-     */
     public void setActualPlayer(Player actualPlayer) {
         this.actualPlayer = actualPlayer;
     }
 
-    /**
-     * Getter of deck
-     */
     public GodDeck getDeck() {
         return this.deck;
     }
 
-    /**
-     * Getter of activeCards
-     */
     public ArrayList<GodCard> getActiveCards() {
         return this.activeCards;
     }
 
-    /**
-     * Getter of the actual turn
-     */
     public int getActualTurn() {
         return this.actualTurn;
     }
 
-    /**
-     * Getter of winner Player
-     */
     public Player getWinner() {
         return this.winner;
     }
@@ -176,9 +150,6 @@ public class Game {
         this.winner = winner;
     }
 
-    /**
-     * Getter of gameFinished
-     */
     public boolean isGameFinished() {
         return this.gameFinished;
     }
@@ -186,7 +157,6 @@ public class Game {
     public void setGameFinished(boolean gameFinished) {
         this.gameFinished = gameFinished;
     }
-
 
     public void loadGame() {
         ArrayList<String> gameData = getSavedGame();

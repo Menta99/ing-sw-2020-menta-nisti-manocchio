@@ -36,51 +36,47 @@ public class Hephaestus extends GodCard {
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().selectWorkerPhase();
-            //getOwner().movePhase();
-            canDoSomething = false;
         }
         else {
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
+
         }
         if (getOwner().getSelectedWorker().CanBuild()){
             Game.getInstance().getController().BuildPhase(getOwner());
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().buildPhase();
             getOwner().getSelectedWorker().Build(getOwner().getSelectedWorker().getLastBuilding());
         }
         else {
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
         }
         return true;
     }
 
+    /**
+     * Check if it has performed the building
+     * @return true or false
+     */
     @Override
     public boolean myBuild(){
         if(getOwner().getSelectedWorker()==null){
             return false;
         }
-        if (getOwner().getSelectedWorker().isDidBuild()) {
-            return true;
-        }
-        return false;
+        return getOwner().getSelectedWorker().isDidBuild();
     }
 
     /**
      * If you built you can rebuild but not a Dome
-     * @param adjacentBoxes
-     * @return
+     * @param adjacentBoxes ArrayList of valid boxes
+     * @return ArrayList of updated boxes
      */
     @Override
     public ArrayList<Box> specialBuilding(ArrayList<Box> adjacentBoxes){
         ArrayList<Box> toRemove = new ArrayList<>();
-        if(!getOwner().getSelectedWorker().isDidBuild()){ //Costruisce nuovamente nella stessa Box a meno che non ci sia la possibilità di creare un DOME
+        if(!getOwner().getSelectedWorker().isDidBuild()){
             for (Box box : adjacentBoxes){
                 if (box.getUpperLevel().getValue()>1){
                     toRemove.add(box);

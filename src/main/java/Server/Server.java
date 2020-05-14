@@ -1,27 +1,28 @@
 package Server;
 
-import ComunicationProtocol.CliCommandMsg;
-import ComunicationProtocol.CommandType;
-import ComunicationProtocol.SubCommandType;
+import CommunicationProtocol.CommandMsg;
+import CommunicationProtocol.CommandType;
+import CommunicationProtocol.SantoriniInfo.Info;
+import CommunicationProtocol.SantoriniInfo.PlayerInfo;
 import Controller.Controller;
-import Model.Game;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Class representing the server
+ * Class representing the Server
  */
 public class Server {
     private static final int PORT_NUM = 5555;
     private static ServerSocket server;
-    private static Object lock = new Object();
+    private static final Object lock = new Object();
+    private static Controller controller;
 
     /**
-     * Configure the server and at the end close if there's nothing to do
-     * @param args
+     * Main method that configures the server
+     * Handle possible ServerSocket issues
+     * @param args standard parameter of main method
      */
     public static void main(String[] args){
         try {
@@ -34,6 +35,7 @@ public class Server {
                     try{
                         lock.wait();
                     }catch (InterruptedException e){
+                        System.out.println("[6] - Controller Update");
                     }
                 }
             }
@@ -47,14 +49,15 @@ public class Server {
     }
 
     /**
-     * Starting the Controller in a different thread
+     * Starts the Game by creating the Controller and assigning a new Thread to it
      */
     public static void GameSetting(){
-        new Thread(new Controller()).start();
+        controller = new Controller();
+        new Thread(controller).start();
     }
 
     /**
-     * Updating message
+     * Update message called by the Controller when the Game finishes
      */
     public static void UpdateServer(){
         synchronized (lock){
@@ -63,18 +66,16 @@ public class Server {
     }
 
     /**
-     * Shut down the server
+     * Shuts down the server, communicating it also to the Clients connected
      */
     public static void ServerClose(){
         try {
-            if(Game.getInstance().getController().getActive().get()) {
-                ArrayList<Integer> list = new ArrayList<>();
-                list.add(1);
-                for (ClientHandler handler : Game.getInstance().getController().getHandlers()) {
-                    handler.WriteMessage(new CliCommandMsg(CommandType.CLOSE, SubCommandType.DEFAULT, null, null, null, list));
+            if(controller.getActive().get()) {
+                for (ClientHandler handler : controller.getHandlers()) {
+                    handler.WriteMessage(new CommandMsg(CommandType.CLOSE_SERVER, null));
                 }
             }
-            Game.getInstance().getController().setActive(new AtomicBoolean(false));
+            controller.setActive(new AtomicBoolean(false));
             server.close();
         } catch (IOException e1) {
             System.out.println("Unable to close the Server Socket properly");
@@ -82,19 +83,17 @@ public class Server {
     }
 
     /**
-     * Manage an unexpected game close( client disconnected)
-     * @param disconnected
+     * Manage an unexpected Game Closure (Client disconnection)
+     * @param disconnected ClientHandler of the Client who disconnected
      */
     public static void AnomalousGameClose(ClientHandler disconnected){
-        System.out.println("[Z] - Anomalous Disconnection of player n°" + Game.getInstance().getController().getHandlers().indexOf(disconnected));
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(-1);
-        list.add(Game.getInstance().getController().getHandlers().indexOf(disconnected));
-        Game.getInstance().getController().getHandlers().remove(disconnected);
-        for(ClientHandler handler : Game.getInstance().getController().getHandlers()){
-            handler.WriteMessage(new CliCommandMsg(CommandType.CLOSE, SubCommandType.DEFAULT, null, null, null, list));
+        System.out.println("[Z] - Anomalous Disconnection of player n°" + controller.getHandlers().indexOf(disconnected));
+        Info info = new Info(new PlayerInfo(disconnected));
+        controller.getHandlers().remove(disconnected);
+        for(ClientHandler handler : controller.getHandlers()){
+            handler.WriteMessage(new CommandMsg(CommandType.CLOSE_ANOMALOUS, info));
         }
-        Game.getInstance().getController().setActive(new AtomicBoolean(false));
+        controller.setActive(new AtomicBoolean(false));
     }
 
     public static ServerSocket getServer() {

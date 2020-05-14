@@ -11,6 +11,9 @@ import java.util.ArrayList;
  */
 public class Hestia extends GodCard {
 
+    /**
+     * Constructor of the God
+     */
     public Hestia(){
         this.setName("Hestia");
         this.setPower("You can build twice, but the second building must not be on a Border position");
@@ -33,56 +36,50 @@ public class Hestia extends GodCard {
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().selectWorkerPhase();
-            //getOwner().movePhase();
-            canDoSomething = false;
         }
         else {
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){
             Game.getInstance().getController().BuildPhase(getOwner());
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().buildPhase();
         }
         else {
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
         }
-        if (getOwner().getSelectedWorker().CanBuild()){ //Costruisce una seconda volta
+        if (getOwner().getSelectedWorker().CanBuild()){
             Game.getInstance().getController().BuildPhase(getOwner());
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().buildPhase();
         }
         else {
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
         }
         return true;
     }
 
+    /**
+     * Checks if it has performed building
+     * @return true or false
+     */
     @Override
     public boolean myBuild(){
         if(getOwner().getSelectedWorker()!=null){
-            if (getOwner().getSelectedWorker().isDidBuild()){
-                return true;
-            }
+            return getOwner().getSelectedWorker().isDidBuild();
         }
         return false;
     }
 
     /**
      * If built remove the border boxes
-     * @param adjacentBoxes
-     * @return
+     * @param adjacentBoxes ArrayList of valid boxes
+     * @return ArrayList of updated boxes
      */
     @Override
     public ArrayList<Box> specialBuilding(ArrayList<Box> adjacentBoxes){

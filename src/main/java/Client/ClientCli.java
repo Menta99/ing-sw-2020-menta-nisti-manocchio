@@ -8,48 +8,38 @@ import java.net.Socket;
 import java.util.Scanner;
 
 /**
- * Class representing a client
+ * Client class which implements Command Line Interface
  */
-public class Client implements Runnable{
+public class ClientCli implements Runnable{
     private static final int PORT_NUM = 5555;
     private static final String IP = "127.0.0.1";
     private Socket server;
-    private ConnectionHandler handler;
-    private Cli cli;
-    private boolean layout;//false = cli -- true = gui
+    private final Cli cli;
 
     /**
-     * Constructor of the class
-     * @param layout
+     * Constructor of the class, creates the instance of the Command Line Interface
      */
-    public Client(boolean layout){
-        if(layout){
-            System.out.println("Not yet implemented, stay tuned");
-            this.cli = new Cli();
-            this.layout = !layout;
-        }
-        else {
-            this.cli = new Cli();
-            this.layout = layout;
-        }
+    public ClientCli(){
+        this.cli = new Cli();
     }
 
     /**
-     * Launching a new client
-     * @param args
+     * Main method, wait player's confirm, then launches the Client execution
+     * @param args standard parameter for main method
      */
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
-        boolean input = false;
-        System.out.println("0) Cli\n1) Gui");
-        if(keyboard.nextLine().equalsIgnoreCase("1")){
-            input = true;
+        System.out.println("Press enter to Connect");
+        while(!keyboard.nextLine().equals("")){
         }
-        new Client(input).run();
+        new ClientCli().run();
     }
 
     /**
-     * Trying connect to the server
+     * Try to connect to a Server on an established port
+     * Then enters in a loop till the Socket is open
+     * At the end terminates the client execution
+     * Handles fail during connection
      */
     @Override
     public void run() {
@@ -71,17 +61,15 @@ public class Client implements Runnable{
     }
 
     /**
-     * Managing a new connection from the client
-     * @param server
+     * Set up the client connection, creating the ConnectionHandler and starting it
+     * @param server Socket of the connection with the Server
      */
     public void SetUpClient(Socket server){
-        ConnectionHandler helper = new ConnectionHandler(server, this);
-        new Thread(helper).start();
-        this.handler = helper;
+        new Thread(new ConnectionHandler(server, this)).start();
     }
 
     /**
-     * Shutting down the client
+     * Shuts down the client
      */
     public void CloseClient(){
         try {
@@ -92,15 +80,6 @@ public class Client implements Runnable{
     }
 
     public View getView(){
-        if(layout){
-            return null;//gui
-        }
-        else{
-            return cli;
-        }
-    }
-
-    public boolean isLayout() {
-        return layout;
+        return cli;
     }
 }

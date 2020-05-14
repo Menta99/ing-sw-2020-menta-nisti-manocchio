@@ -11,14 +11,14 @@ public enum Colors {
     PURPLE("\u001B[35m"),
     RESET("\u001B[0m");
 
-    private String color;
+    private final String color;
 
     /**
      * Setter of a color
-     * @param color's the color you desires
+     * @param color is the color you desire
      */
     Colors(String color){
-        this.color=color;
+        this.color = color;
     }
 
     /**

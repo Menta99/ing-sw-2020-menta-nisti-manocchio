@@ -1,8 +1,8 @@
 package Model;
 
-import ComunicationProtocol.CliCommandMsg;
+import CommunicationProtocol.*;
+import CommunicationProtocol.SantoriniInfo.*;
 import Controller.Controller;
-import Model.Godcards.GodCard;
 import View.CLI.Cli;
 import VirtualView.VirtualView;
 import org.junit.After;
@@ -20,7 +20,7 @@ public class RandomMapGenerator {
     VirtualView virtual;
     Controller controller;
     Cli cli;
-    CliCommandMsg msg;
+    CommandMsg msg;
     Random rand = new Random();
     int i,j,k;
 
@@ -66,12 +66,16 @@ public class RandomMapGenerator {
 
     @Test
     public void Exe(){
+        CommandMsg msg;
         for (int i = 0; i < 50; i++){
             GenerateRandomField();
             System.out.println("PLAYING WITH: \n" + match.getActiveCards().get(0).getName() + "\n" + match.getActiveCards().get(1).getName() + "\n" + match.getActiveCards().get(2).getName());
-            cli.ShowMap(virtual.MapInfo(true, false));
-            cli.ShowMap(virtual.MapInfo(false, false));
-            cli.ShowMap(virtual.MapInfo(false,  true));
+            msg = new CommandMsg(CommandType.UPDATE_ACTION, new Info(virtual.MapInfo(true, false)));
+            cli.UpdateHandler(msg);
+            msg = new CommandMsg(CommandType.UPDATE_ACTION, new Info(virtual.MapInfo(false, false)));
+            cli.UpdateHandler(msg);
+            msg = new CommandMsg(CommandType.UPDATE_ACTION, new Info(virtual.MapInfo(false, true)));
+            cli.UpdateHandler(msg);
             tearDown();
             setUp();
         }

@@ -32,9 +32,8 @@ public class Prometeo extends GodCard {
         }
         if (canDoSomething) {
             Worker candidate;
-            while(getOwner().getSelectedWorker()==null) {  //Select Phase with condition canBuild instead of canMove
+            while(getOwner().getSelectedWorker()==null) {
                 candidate = Game.getInstance().getController().VirtualAskWorker();
-                //candidate = getOwner().getController().askForWorker(getOwner().isView());
                 if (candidate.CanBuild()) {
                     getOwner().setSelectedWorker(candidate);
                 }
@@ -43,53 +42,47 @@ public class Prometeo extends GodCard {
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().buildPhase();
-            canDoSomething = false;
         }
         else {
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanMove()){
             Game.getInstance().getController().MovePhase(getOwner());
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().movePhase();
         }
         else{
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){
             Game.getInstance().getController().BuildPhase(getOwner());
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().buildPhase();
         }
         else {
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
         }
         return true;
     }
 
+    /**
+     * Checks if it has performed movement
+     * @return true or false
+     */
     @Override
     public boolean myMovement(){
-        if (getOwner().isUsePower()){
-            return true;
-        }
-        return false;
+        return getOwner().isUsePower();
     }
 
     /**
      * If you use the power you can't climb
-     * @param adjacentBoxes
-     * @return
+     * @param adjacentBoxes ArrayList of valid boxes
+     * @return ArrayList of updated boxes
      */
     @Override
     public ArrayList<Box> specialMovement(ArrayList<Box> adjacentBoxes){

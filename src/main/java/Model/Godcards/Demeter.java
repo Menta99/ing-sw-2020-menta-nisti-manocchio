@@ -36,57 +36,49 @@ public class Demeter extends GodCard {
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().selectWorkerPhase();
-            //getOwner().movePhase();
-            canDoSomething = false;
         }
         else {
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
         }
         if (getOwner().getSelectedWorker().CanBuild()){
             Game.getInstance().getController().BuildPhase(getOwner());
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().buildPhase();
         }
         else {
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
         }
-        if (getOwner().getSelectedWorker().CanBuild()){ //Costruisce una seconda volta
+        if (getOwner().getSelectedWorker().CanBuild()){
             Game.getInstance().getController().BuildPhase(getOwner());
             if(!Game.getInstance().getController().getActive().get()){
                 return false;
             }
-            //getOwner().buildPhase();
         }
         else {
             Game.getInstance().getController().PlayerLose(getOwner());
             return false;
-            //getOwner().lose();
         }
         return true;
     }
 
-
+    /**
+     * Check if it has performed the building
+     * @return true or false
+     */
     @Override
     public boolean myBuild(){
-        if(getOwner().getSelectedWorker()==null){
+        if(getOwner().getSelectedWorker() == null){
             return false;
         }
-        if (getOwner().getSelectedWorker().isDidBuild()) {
-            return true;
-        }
-        return false;
+        return getOwner().getSelectedWorker().isDidBuild();
     }
 
     /**
      * If built, remove the box where did build
-     * @param adjacentBoxes
+     * @param adjacentBoxes ArrayList of valid boxes
      * @return adjacentBoxes without box where he built
      */
     @Override

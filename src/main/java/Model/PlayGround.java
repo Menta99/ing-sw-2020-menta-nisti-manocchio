@@ -64,13 +64,13 @@ public class PlayGround {
         }
     }
 
-    /**
-     * Getter of the Board Size
-     */
     public int getSIZE() {
         return SIZE;
     }
 
+    /**
+     * Load the previous map when restarting an interrupted game
+     */
     public void loadMap(ArrayList<String> gameData){
         Box myBox;
         for (int i=0; i < PlayGround.getInstance().getSIZE(); i++){

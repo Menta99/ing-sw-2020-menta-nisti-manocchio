@@ -1,17 +1,23 @@
 package View.CLI;
 
 import Client.ConnectionHandler;
-import ComunicationProtocol.*;
+import CommunicationProtocol.CommandMsg;
+import CommunicationProtocol.SantoriniInfo.BoxInfo;
+import CommunicationProtocol.SantoriniInfo.GodInfo;
+import CommunicationProtocol.SantoriniInfo.PlayerInfo;
+import CommunicationProtocol.ServerMsg;
 import Model.PawnType;
-import View.*;
+import View.Colors;
+import View.View;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Class representing the command line interface
+ * Class representing the Command Line Interface
  */
-public class Cli extends View {
-    private Scanner scanner;
+public class Cli implements View {
+    private final Scanner scanner;
     private BoxInfo[][] map;
     private GodInfo[] gods;
     private PlayerInfo[] players;
@@ -25,11 +31,11 @@ public class Cli extends View {
     }
 
     /**
-     * Handler for CommandType Name
-     * @param command
-     * @param client
+     * Handler for CommandType family Name
+     * @param command CommandMsg send by the Server
+     * @param client reference to the ConnectionHandler
      */
-    public void NameHandler(CliCommandMsg command, ConnectionHandler client){
+    public void NameHandler(CommandMsg command, ConnectionHandler client){
         Display(command);
         boolean found = false;
         String msg = scanner.nextLine().trim();
@@ -40,10 +46,11 @@ public class Cli extends View {
             }
             else{
                 found = true;
-                if(command.getPlayers() != null) {
-                    for (PlayerInfo player : command.getPlayers()) {
+                if(command.getInfo() != null) {
+                    for (PlayerInfo player : command.getInfo().getPlayers()) {
                         if (player.getName().equalsIgnoreCase(msg)) {
                             found = false;
+                            break;
                         }
                     }
                     if (!found) {
@@ -58,11 +65,11 @@ public class Cli extends View {
     }
 
     /**
-     * Handler for CommandType First
-     * @param command
-     * @param client
+     * Handler for CommandType family First
+     * @param command CommandMsg send by the Server
+     * @param client reference to the ConnectionHandler
      */
-    public void FirstHandler(CliCommandMsg command, ConnectionHandler client){
+    public void FirstHandler(CommandMsg command, ConnectionHandler client){
         Display(command);
         ArrayList<Integer> output = new ArrayList<>();
         String line = scanner.nextLine().trim();
@@ -72,15 +79,14 @@ public class Cli extends View {
         }
         output.add(Integer.parseInt(line));
         client.WriteMessage(new ServerMsg(output));
-    } //ready
-
+    }
 
     /**
-     * Handler for CommandType Number
-     * @param command
-     * @param client
+     * Handler for CommandType family Number
+     * @param command CommandMsg send by the Server
+     * @param client reference to the ConnectionHandler
      */
-    public void NumberHandler(CliCommandMsg command, ConnectionHandler client){
+    public void NumberHandler(CommandMsg command, ConnectionHandler client){
         Display(command);
         ArrayList<Integer> output = new ArrayList<>();
         boolean found = false;
@@ -89,8 +95,8 @@ public class Cli extends View {
         while (!found){
             if(line.matches("\\d+")){
                 result = Integer.parseInt(line);
-                if(result > -1 && result < command.getList().size()){
-                    output.add(command.getList().get(result));
+                if(result > -1 && result < command.getInfo().getGods().length){
+                    output.add(command.getInfo().getGods()[result].getPosition());
                     found = true;
                 }
                 else {
@@ -104,14 +110,14 @@ public class Cli extends View {
             }
         }
         client.WriteMessage(new ServerMsg(output));
-    }//ready
+    }
 
     /**
-     * Handler for CommandType Coordinates
-     * @param command
-     * @param client
+     * Handler for CommandType family Pose
+     * @param command CommandMsg send by the Server
+     * @param client reference to the ConnectionHandler
      */
-    public void CoordinatesHandler(CliCommandMsg command, ConnectionHandler client){
+    public void PoseHandler(CommandMsg command, ConnectionHandler client){
         Display(command);
         ArrayList<Integer> coordinates = new ArrayList<>();
         System.out.println("Insert the coordinates");
@@ -143,14 +149,14 @@ public class Cli extends View {
             }
         }
         client.WriteMessage(new ServerMsg(coordinates));
-    }//ready
+    }
 
     /**
-     * Handler for CommandType Answer
-     * @param command
-     * @param client
+     * Handler for CommandType family Answer
+     * @param command CommandMsg send by the Server
+     * @param client reference to the ConnectionHandler
      */
-    public void AnswerHandler(CliCommandMsg command, ConnectionHandler client){
+    public void AnswerHandler(CommandMsg command, ConnectionHandler client){
         Display(command);
         String msg = scanner.nextLine().trim();
         while ((!msg.equalsIgnoreCase("yes") && !msg.equalsIgnoreCase("no"))){
@@ -158,19 +164,19 @@ public class Cli extends View {
             msg = scanner.nextLine().trim();
         }
         client.WriteMessage(new ServerMsg(msg));
-    }//ready
+    }
 
     /**
-     * Handler for CommandType God
-     * @param command
-     * @param client
+     * Handler for CommandType family God
+     * @param command CommandMsg send by the Server
+     * @param client reference to the ConnectionHandler
      */
-    public void GodHandler(CliCommandMsg command, ConnectionHandler client){
+    public void GodHandler(CommandMsg command, ConnectionHandler client){
         Display(command);
         ArrayList<Integer> index = new ArrayList<>();
         int number;
         String line;
-        while (index.size() < command.getList().get(0)){
+        while (index.size() < command.getInfo().getPlayers().length){
             line = scanner.nextLine().trim();
             if(line.matches("\\d+")) {
                 number = Integer.parseInt(line);
@@ -192,74 +198,75 @@ public class Cli extends View {
             }
         }
         client.WriteMessage(new ServerMsg(index));
-    }//ready
+    }
 
     /**
-     * Print a updating message
-     * @param command
+     * Handler for CommandType family Update
+     * @param command CommandMsg send by the Server
      */
-    public void UpdateHandler(CliCommandMsg command){
-        map = command.getMap();
-        ShowMap(map);
+    public void UpdateHandler(CommandMsg command){
+        map = command.getInfo().getGrid();
+        ShowMap();
         Display(command);
-    }//ready
+    }
 
     /**
-     * Closing a ClientHandler...
-     * @param command
-     * @param client
+     * Handler for CommandType family Close
+     * @param command CommandMsg send by the Server
+     * @param client reference to the ConnectionHandler
      */
-    public void CloseHandler(CliCommandMsg command, ConnectionHandler client){
+    public void CloseHandler(CommandMsg command, ConnectionHandler client){
         Display(command);
         client.setActive(false);
-    }//ready
+    }
 
     /**
-     * Handler for CommandType Communication
-     * @param command
+     * Handler for CommandType family Communication
+     * @param command CommandMsg send by the Server
      */
-    public void CommunicationHandler(CliCommandMsg command){
-        switch (command.getSubCommandType()){
-            case DEFAULT:
+    public void CommunicationHandler(CommandMsg command){
+        switch (command.getCommandType()){
+            case COM_WELCOME:
+                WelcomeScreen();
+                gods = command.getInfo().getGods();
+                players = command.getInfo().getPlayers();
                 break;
-            case WELCOME:
-                if (command.getList().get(0)==0) {
-                    WelcomeScreen();
-                }
-                gods = command.getGods();
-                players = command.getPlayers();
+            case COM_RESTART:
+                gods = command.getInfo().getGods();
+                players = command.getInfo().getPlayers();
                 break;
-            case IN_GAME_GOD:
-                GodInGame(command.getList());
+            case COM_GODS:
+                GodInGame(command.getInfo().getGods());
                 break;
-            case PLAYER_GOD:
-                PlayerGod(command.getPlayers());
+            case COM_CHOSEN:
+                PlayerGod(command.getInfo().getPlayers());
                 for (PlayerInfo user : players) {
                     System.out.println("Player: " + user.getColor() + user.getName() + Colors.RESET + " GodCard: " + gods[user.getGod()].getName());
                 }
                 break;
-            case WAIT:
+            case COM_WAIT_CHOICE:
                 System.out.println("Waiting the other player's choice");
                 break;
-            case NOT_VALID:
-                if(command.getList().get(0) == 0){
-                    System.out.println("Not a valid destination, retry");
-                }
-                else {
-                    System.out.println("Not a valid worker, retry");
-                }
+            case COM_WAIT_LOBBY:
+                System.out.println("Waiting the other players in the Lobby");
                 break;
-            case LOSE:
-                System.out.println("You lose Dumbo");
+            case COM_INVALID_WORKER:
+                System.out.println("Not a valid worker, retry");
+                break;
+            case COM_INVALID_POS:
+                System.out.println("Not a valid destination, retry");
+                break;
+            case COM_LOSE:
+                System.out.println("You lose, Dumbos");
                 break;
         }
-    }//ready
+    }
 
     /**
-     * Print the msg messages
-     * @param command
+     * Displays the corresponding messages of each message
+     * @param command CommandMsg send by the Server
      */
-    public void Display(CliCommandMsg command){
+    public void Display(CommandMsg command){
         switch (command.getCommandType()){
             case NAME:
                 System.out.println("Insert your NickName");
@@ -267,38 +274,28 @@ public class Cli extends View {
             case FIRST:
                 System.out.println("You are the Challenger!\nTell me the Number of Players of this Match");
                 break;
-            case COORDINATES:
-                switch (command.getList().get(0)){
-                    case 0:
-                        System.out.println("Where do you want to place your Worker?");
-                        break;
-                    case 1:
-                        System.out.println("Select one of your Workers");
-                        break;
-                    case 2:
-                        System.out.println("Where do you want to Move?");
-                        break;
-                    case 3:
-                        System.out.println("Where do you want to Build?");
-                        break;
-                    default:
-                        break;
-                }
+            case POS_INITIAL:
+                System.out.println("Where do you want to place your Worker?");
+                break;
+            case POS_WORKER:
+                System.out.println("Select one of your Workers");
+                break;
+            case POS_MOVE:
+                System.out.println("Where do you want to Move?");
+                break;
+            case POS_BUILD:
+                System.out.println("Where do you want to Build?");
                 break;
             case NUMBER:
-                for(Integer god : command.getList()){
-                    System.out.println("Insert " + command.getList().indexOf(god) + " to get " + gods[god].getName());
+                for(int i = 0; i < command.getInfo().getGods().length; i++){
+                    System.out.println("Insert " + i + " to get " + command.getInfo().getGods()[i].getName());
                 }
                 break;
-            case ANSWER:
-                switch (command.getList().get(0)){
-                    case 0:
-                        System.out.println("Would you like to use your divinity Power? \nyes / no");
-                        break;
-                    case 1:
-                        System.out.println("Would you like to resume your previous Game? \nyes / no");
-                        break;
-                }
+            case ANS_POWER:
+                System.out.println("Would you like to use your divinity Power? \nyes / no");
+                break;
+            case ANS_RESTART:
+                System.out.println("Would you like to resume your previous Game? \nyes / no");
                 break;
             case GOD:
                 System.out.println("These are the gods available :");
@@ -308,55 +305,48 @@ public class Cli extends View {
                 System.out.println("Please " + players[0].getColor() + players[0].getName() + Colors.RESET
                         + " Select " + players.length + " GodCards indicating their numbers");
                 break;
-            case CLOSE:
-                switch (command.getList().get(0)) {
-                    case -1:
-                        System.out.println(players[command.getList().get(1)].getColor() + players[command.getList().get(1)].getName() + Colors.RESET + " disconnected\nEndGame");
-                        break;
-                    case 0:
-                        System.out.println("Server is down");
-                        break;
-                    case 1:
-                        PlayerInfo winner = players[command.getList().get(1)];
-                        if (nickname.equalsIgnoreCase(winner.getName())) {
-                            System.out.println("You have won\nCongratulations");
-                        } else {
-                            System.out.println(winner.getColor() + winner.getName() + Colors.RESET + " has won!\nEverybody clap your hands!");
-                        }
-                        break;
-                    case 2:
-                        System.out.println("A game is already started, try later");
-                        break;
+            case CLOSE_ANOMALOUS:
+                PlayerInfo player = command.getInfo().getPlayers()[0];
+                System.out.println(player.getColor() + player.getName() + Colors.RESET + " disconnected\nEndGame");
+                break;
+            case CLOSE_NORMAL:
+                PlayerInfo winner = command.getInfo().getPlayers()[0];
+                if (nickname.equalsIgnoreCase(winner.getName())) {
+                    System.out.println("You have won\nCongratulations");
+                } else {
+                    System.out.println(winner.getColor() + winner.getName() + Colors.RESET + " has won!\nEverybody clap your hands!");
                 }
                 break;
-            case UPDATE:
-                if(command.getList() != null){
-                    PlayerInfo actual = players[command.getList().get(0)];
-                    if(actual.getName().equalsIgnoreCase(nickname)){
-                        if(command.getList().get(1)!=0) {
-                            System.out.println(actual.getColor() + actual.getName() + Colors.RESET + " Turn Start!");
-                        }
-                    }
-                    else {
-                        if (command.getList().get(1) == 0) {
-                            System.out.println("Look at " + actual + actual.getName() + Colors.RESET + "'s move");
-                        }
-                        else {
-                            System.out.println(actual.getColor() + actual.getName() + Colors.RESET + " is playing\nWait your Turn!");
-                        }
+            case CLOSE_RESTART:
+                System.out.println("A game is already started, try later");
+                break;
+            case CLOSE_SERVER:
+                System.out.println("Server is down");
+                break;
+            case UPDATE_ACTION:
+                if(command.getInfo().getPlayers()!=null){
+                    PlayerInfo user = command.getInfo().getPlayers()[0];
+                    if(!user.getName().equalsIgnoreCase(nickname)){
+                        System.out.println("Look at " + user.getColor() + user.getName() + Colors.RESET + "'s move");
                     }
                 }
                 break;
-            case COMMUNICATION:
+            case UPDATE_TURN:
+                PlayerInfo actual = command.getInfo().getPlayers()[0];
+                if(actual.getName().equalsIgnoreCase(nickname)){
+                    System.out.println(actual.getColor() + actual.getName() + Colors.RESET + " Turn Start!");
+                }
+                else {
+                    System.out.println(actual.getColor() + actual.getName() + Colors.RESET + " is playing\nWait your Turn!");
+                }
                 break;
         }
-    }//ready
+    }
 
     /**
      * Print the game's map
-     * @param map
      */
-    public void ShowMap(BoxInfo[][] map){
+    public void ShowMap(){
         String line = "";
         ArrayList<String> output = new ArrayList<>();
         output.add("          X: ⇉     Y: ⇊     \n");
@@ -388,14 +378,18 @@ public class Cli extends View {
         for(String string : output){
             System.out.println(string);
         }
-    }//ready
+    }
 
     /**
      * Updates the god list, marking the active cards
-     * @param list
+     * @param godInfo Array of GodInfo
      */
-    public void GodInGame(ArrayList<Integer> list){
+    public void GodInGame(GodInfo[] godInfo){
         GodInfo[] update = new GodInfo[14];
+        ArrayList<Integer> list = new ArrayList<>();
+        for(GodInfo info : godInfo){
+            list.add(info.getPosition());
+        }
         for(GodInfo god : gods){
             if(list.contains(god.getPosition())){
                 update[god.getPosition()] = new GodInfo(god.getPosition(), god.getName(), god.getPower(), true);
@@ -405,11 +399,11 @@ public class Cli extends View {
             }
         }
         gods = update;
-    }//ready
+    }
 
     /**
      * Updates the player list, inserting the respective god
-     * @param playerInfo
+     * @param playerInfo Array of PlayerInfo
      */
     public void PlayerGod(PlayerInfo[] playerInfo){
         PlayerInfo[] update = new PlayerInfo[players.length];

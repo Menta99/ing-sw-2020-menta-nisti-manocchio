@@ -31,7 +31,7 @@ public class Apollo extends  GodCard{
         for(Player enemy : Game.getInstance().getPlayer()){
             if (!enemy.isLoser()) {
                 for (Worker workers : enemy.getWorkers()) {
-                    if (workers.getPosition().equals(dest)) {  //Trova l'operaio nemico nella casella di destinazione
+                    if (workers.getPosition().equals(dest)) {
                         enemyWorker = workers;
                         dest.getStructure().remove(enemyWorker);
                     }
@@ -48,11 +48,11 @@ public class Apollo extends  GodCard{
         worker.setMoved(true);
         enemyWorker.setPosition(position);
         position.getStructure().add(enemyWorker);
-        if((position.getStructure().size()<=4 && dest.getStructure().size()>=5) || worker.getOwner().getCard().myVictoryCondition()){//Parto da un qualsiasi piano minore del terzo e arrivo in un terzo piano non occupato oppure occupato ma posso spingere l'avversario
+        if((position.getStructure().size()<=4 && dest.getStructure().size()>=5) || worker.getOwner().getCard().myVictoryCondition()){
             boolean enemyWinCondition = false;
             for (Player enemy : Game.getInstance().getPlayer()) {
                 if (!enemy.equals(worker.getOwner()) && !enemy.isLoser()) {
-                    enemyWinCondition = enemyWinCondition || enemy.getCard().enemyVictoryCondition(dest); //CHECKS RESTRIZIONI GODS NEMICI
+                    enemyWinCondition = enemyWinCondition || enemy.getCard().enemyVictoryCondition(dest);
                     if(!enemyWinCondition){
                         this.getOwner().setWinner(true);
                     }
@@ -62,6 +62,11 @@ public class Apollo extends  GodCard{
         return true;
     }
 
+    /**
+     * Ask if the god can move other's worker
+     * @param dest Box to analyze
+     * @return true or false
+     */
     @Override
     public boolean canMoveOthers(Box dest){ return true; }
 }

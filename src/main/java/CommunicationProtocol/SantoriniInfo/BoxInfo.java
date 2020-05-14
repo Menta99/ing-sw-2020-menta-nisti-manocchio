@@ -1,4 +1,4 @@
-package ComunicationProtocol;
+package CommunicationProtocol.SantoriniInfo;
 
 import Model.PawnType;
 import View.Colors;
@@ -6,20 +6,20 @@ import View.Colors;
 import java.io.Serializable;
 
 /**
- * Class representing a box in an update map
+ * Immutable Class containing box information
  */
 public class BoxInfo implements Serializable {
-    private int height;
-    private PawnType lastBuilding;
-    private Colors workerColor;
-    private Colors boxColor;
+    private final int height;
+    private final PawnType lastBuilding;
+    private final Colors workerColor;
+    private final Colors boxColor;
 
     /**
      * Constructor of the class
-     * @param height
-     * @param lastBuilding
-     * @param workerColor
-     * @param boxColor
+     * @param height the size of the box
+     * @param lastBuilding the last building in the box
+     * @param workerColor the color of the worker, if present
+     * @param boxColor the color of the box, for the different phases
      */
     public BoxInfo(int height, PawnType lastBuilding, Colors workerColor, Colors boxColor){
         this.height = height;

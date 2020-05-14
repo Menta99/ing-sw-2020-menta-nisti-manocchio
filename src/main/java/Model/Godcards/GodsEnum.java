@@ -1,7 +1,7 @@
 package Model.Godcards;
 
 /**
- * Enumeration class of implemented godcards
+ * Enumeration class of implemented GodCard
  */
 public enum GodsEnum {
         APOLLO (0),
@@ -18,9 +18,9 @@ public enum GodsEnum {
         PROMETEO (11),
         TRITON (12),
         ZEUS (13);
-        private int index;
+        private final int index;
 
-        private GodsEnum(int index){
+        GodsEnum(int index){
                 this.index = index;
         }
 
