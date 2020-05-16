@@ -33,6 +33,7 @@ public class ClientCli implements Runnable{
         while(!keyboard.nextLine().equals("")){
         }
         new ClientCli().run();
+
     }
 
     /**

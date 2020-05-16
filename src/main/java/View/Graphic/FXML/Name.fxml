@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="801.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.GuiController">
+   <children>
+      <ImageView fx:id="background" fitHeight="600.0" fitWidth="801.0" layoutY="-1.0">
+         <image>
+            <Image url="@../../../../resources/Odyssey-Olympus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="238.0" fitWidth="300.0" layoutX="251.0" layoutY="173.0">
+         <image>
+            <Image url="@../../../../resources/endgame_victorywin.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="nickfield" layoutX="307.0" layoutY="280.0" prefHeight="34.0" prefWidth="183.0" promptText="Insert your nickname" />
+      <ImageView fx:id="confirmbtn" fitHeight="40.0" fitWidth="183.0" layoutX="307.0" layoutY="332.0">
+         <image>
+            <Image url="@../../../../resources/btn_blue.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="trumpets" fitHeight="87.0" fitWidth="122.0" layoutX="309.0" layoutY="188.0">
+         <image>
+            <Image url="@../../../../resources/endgame_victorytrumpets.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="362.0" layoutY="329.0" prefHeight="40.0" prefWidth="73.0" text="Confirm" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

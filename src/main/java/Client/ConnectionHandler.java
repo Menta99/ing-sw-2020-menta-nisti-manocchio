@@ -3,6 +3,7 @@ package Client;
 import CommunicationProtocol.CommandMsg;
 import CommunicationProtocol.ServerMsg;
 import View.CLI.Cli;
+import View.Graphic.Gui;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,6 +17,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ConnectionHandler implements Runnable{
     private final ClientCli client;
     private final Cli cli;
+    private final ClientGui clientGui;
+    private final Gui gui;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private AtomicBoolean active;
@@ -29,6 +32,8 @@ public class ConnectionHandler implements Runnable{
     public ConnectionHandler(Socket server, ClientCli client){
         this.client = client;
         this.cli = (Cli) client.getView();
+        this.clientGui=null;
+        this.gui=null;
         this.active = new AtomicBoolean(true);
         try {
             in = new ObjectInputStream(server.getInputStream());
@@ -37,6 +42,26 @@ public class ConnectionHandler implements Runnable{
             System.err.println("Unable to open the Streams (ConnectionHandler)");
         }
     }
+
+
+    public ConnectionHandler(Socket server,ClientGui client){
+        this.clientGui = client;
+        this.gui=(Gui) client.getView();
+        this.cli=null;
+        this.client=null;
+        this.active = new AtomicBoolean(true);
+        try {
+            in = new ObjectInputStream(server.getInputStream());
+            out = new ObjectOutputStream(server.getOutputStream());
+        } catch (IOException e) {
+            System.err.println("Unable to open the Streams (ConnectionHandler)");
+        }
+    }
+
+
+
+
+
 
     /**
      * Handles the communication with the Server, receiving and processing the messages
@@ -50,6 +75,10 @@ public class ConnectionHandler implements Runnable{
                 CliHandleCommand(command);
             }
         }
+        else{ //gui
+
+        }
+
     }
 
     /**
