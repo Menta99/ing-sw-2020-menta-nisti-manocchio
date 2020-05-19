@@ -17,14 +17,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ConnectionHandler implements Runnable{
     private final ClientCli client;
     private final Cli cli;
-    private final ClientGui clientGui;
     private final Gui gui;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private AtomicBoolean active;
 
     /**
-     * Constructor of the class
+     * Constructor of the class (CLI case)
      * Handles connection error during Stream creation
      * @param server Socket of the connection with the Server
      * @param client Instance of the Client of which is responsible for
@@ -32,8 +31,7 @@ public class ConnectionHandler implements Runnable{
     public ConnectionHandler(Socket server, ClientCli client){
         this.client = client;
         this.cli = (Cli) client.getView();
-        this.clientGui=null;
-        this.gui=null;
+        this.gui = null;
         this.active = new AtomicBoolean(true);
         try {
             in = new ObjectInputStream(server.getInputStream());
@@ -43,12 +41,16 @@ public class ConnectionHandler implements Runnable{
         }
     }
 
-
-    public ConnectionHandler(Socket server,ClientGui client){
-        this.clientGui = client;
-        this.gui=(Gui) client.getView();
+    /**
+     * Constructor of the class (GUI case)
+     * Handles connection error during Stream creation
+     * @param server Socket of the connection with the Server
+     * @param gui Instance of the Gui of which is responsible for
+     */
+    public ConnectionHandler(Socket server, Gui gui){
         this.cli=null;
         this.client=null;
+        this.gui = gui;
         this.active = new AtomicBoolean(true);
         try {
             in = new ObjectInputStream(server.getInputStream());
@@ -57,26 +59,25 @@ public class ConnectionHandler implements Runnable{
             System.err.println("Unable to open the Streams (ConnectionHandler)");
         }
     }
-
-
-
-
-
 
     /**
      * Handles the communication with the Server, receiving and processing the messages
      */
     @Override
     public void run() {
-        if(client.getView() instanceof Cli) {
+        if(cli != null) {
             CommandMsg command;
             while (active.get()) {
                 command = CliReceiveCommand();
                 CliHandleCommand(command);
             }
         }
-        else{ //gui
-
+        else{
+            CommandMsg command;
+            while (active.get()) {
+                command = CliReceiveCommand();
+                GuiHandleCommand(command);
+            }
         }
 
     }
@@ -93,7 +94,9 @@ public class ConnectionHandler implements Runnable{
         } catch (IOException e) {
             System.err.println("Problems with the Stream\nThe Server is probably down");
             active.set(false);
-            client.CloseClient();
+            if(client!=null) {
+                client.CloseClient();
+            }
         } catch (ClassNotFoundException e) {
             System.err.println("Invalid Class, not a CliCommandMsg");
         }
@@ -101,7 +104,7 @@ public class ConnectionHandler implements Runnable{
     }
 
     /**
-     * Handles the message from the server
+     * Handles the message from the server (CLI)
      * Invokes the relative method to act properly
      * @param command the CommandMsg from the Server
      */
@@ -159,6 +162,64 @@ public class ConnectionHandler implements Runnable{
     }
 
     /**
+     * Handles the message from the server (GUI)
+     * Invokes the relative method to act properly
+     * @param command the CommandMsg from the Server
+     */
+    public void GuiHandleCommand(CommandMsg command){
+        if(command != null) {
+            switch (command.getCommandType()) {
+                case NAME:
+                    gui.NameHandler(command, this);
+                    break;
+                case FIRST:
+                    //cli.FirstHandler(command, this);
+                    break;
+                case GOD:
+                    //cli.GodHandler(command, this);
+                    break;
+                case NUMBER:
+                    //cli.NumberHandler(command, this);
+                    break;
+                case POS_INITIAL:
+                case POS_WORKER:
+                case POS_MOVE:
+                case POS_BUILD:
+                    //cli.PoseHandler(command, this);
+                    break;
+                case ANS_RESTART:
+                case ANS_POWER:
+                    //cli.AnswerHandler(command, this);
+                    break;
+                case COM_WELCOME:
+                case COM_RESTART:
+                case COM_GODS:
+                case COM_CHOSEN:
+                case COM_WAIT_CHOICE:
+                case COM_WAIT_LOBBY:
+                case COM_INVALID_WORKER:
+                case COM_INVALID_POS:
+                case COM_LOSE:
+                    //cli.CommunicationHandler(command);
+                    break;
+                case UPDATE_TURN:
+                case UPDATE_ACTION:
+                    //cli.UpdateHandler(command);
+                    break;
+                case CLOSE_ANOMALOUS:
+                case CLOSE_NORMAL:
+                case CLOSE_RESTART:
+                case CLOSE_SERVER:
+                    //cli.CloseHandler(command, this);
+                    //client.CloseClient();
+                    break;
+                case DEFAULT:
+                    break;
+            }
+        }
+    }
+
+    /**
      * Writes a message to the Server
      * Handles the connection problem scenario
      * @param msg the ServerMsg to send
@@ -169,7 +230,9 @@ public class ConnectionHandler implements Runnable{
         } catch (IOException e) {
             System.err.println("Unable to write message\nThe Server is probably down");
             active.set(false);
-            client.CloseClient();
+            if(client!=null) {
+                client.CloseClient();
+            }
         }
     }
 

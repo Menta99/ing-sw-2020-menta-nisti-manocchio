@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="801.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.GuiController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="801.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.Controller.NameController">
    <children>
       <ImageView fx:id="background" fitHeight="600.0" fitWidth="801.0" layoutY="-1.0">
          <image>
@@ -19,8 +19,8 @@
             <Image url="@../../../../resources/endgame_victorywin.png" />
          </image>
       </ImageView>
-      <TextField fx:id="nickfield" layoutX="307.0" layoutY="280.0" prefHeight="34.0" prefWidth="183.0" promptText="Insert your nickname" />
-      <ImageView fx:id="confirmbtn" fitHeight="40.0" fitWidth="183.0" layoutX="307.0" layoutY="332.0">
+      <TextField fx:id="nickfield" focusTraversable="false" layoutX="307.0" layoutY="280.0" prefHeight="34.0" prefWidth="183.0" promptText="Insert your nickname" />
+      <ImageView fx:id="confirmbtn" fitHeight="40.0" fitWidth="183.0" layoutX="307.0" layoutY="332.0" onMouseClicked="#CheckName">
          <image>
             <Image url="@../../../../resources/btn_blue.png" />
          </image>

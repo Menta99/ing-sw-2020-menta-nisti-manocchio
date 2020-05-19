@@ -3,7 +3,6 @@ package Controller.SavedData;
 import Model.Game;
 import Model.Player;
 
-import javax.imageio.IIOException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -46,16 +45,11 @@ public class GameData {
         File gameInformation = new File("temp\\savedGame.txt");
         try{
         FileWriter myWriter = new FileWriter(gameInformation);
-        try {
             myWriter.write(toString());
             myWriter.close();
         }
         catch (IOException e){
             System.out.println("Cannot write on File" + gameInformation);
-        }
-        }
-        catch (IIOException e1){
-            System.out.println("Can't open File" + gameInformation);
         }
     }
 

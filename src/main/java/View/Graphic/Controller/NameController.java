@@ -1,0 +1,56 @@
+package View.Graphic.Controller;
+
+import Client.ConnectionHandler;
+import CommunicationProtocol.CommandMsg;
+import CommunicationProtocol.SantoriniInfo.PlayerInfo;
+import CommunicationProtocol.ServerMsg;
+import View.Graphic.Gui;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+
+public class NameController implements GuiController {
+    private Gui gui;
+    private CommandMsg command;
+    private ConnectionHandler client;
+    @FXML
+    private TextField nickfield;
+
+    public void setGui(Gui gui) {
+        this.gui = gui;
+    }
+
+    public void CheckName(MouseEvent e){
+        boolean found = false;
+        String msg = nickfield.getText().trim();
+        nickfield.clear();
+        if(msg.equals("")){
+            nickfield.setFocusTraversable(false);
+            nickfield.setPromptText("Insert a non-void name");
+        }
+        else{
+            found = true;
+            if(command.getInfo() != null) {
+                for (PlayerInfo player : command.getInfo().getPlayers()) {
+                    if (player.getName().equalsIgnoreCase(msg)) {
+                        found = false;
+                        break;
+                    }
+                }
+                if (!found) {
+                    nickfield.setFocusTraversable(false);
+                    nickfield.setPromptText("Name already chosen");
+                }
+            }
+        }
+        if(found){
+            gui.setNickname(msg);
+            client.WriteMessage(new ServerMsg(msg));
+        }
+    }
+
+    public void SetUp(CommandMsg command, ConnectionHandler client){
+        this.command = command;
+        this.client = client;
+    }
+}
