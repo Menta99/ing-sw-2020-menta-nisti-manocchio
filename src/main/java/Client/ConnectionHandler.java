@@ -173,13 +173,13 @@ public class ConnectionHandler implements Runnable{
                     gui.NameHandler(command, this);
                     break;
                 case FIRST:
-                    //cli.FirstHandler(command, this);
+                    gui.FirstHandler(command, this);
                     break;
                 case GOD:
-                    //cli.GodHandler(command, this);
+                    gui.GodHandler(command, this);
                     break;
                 case NUMBER:
-                    //cli.NumberHandler(command, this);
+                    gui.NumberHandler(command, this);
                     break;
                 case POS_INITIAL:
                 case POS_WORKER:
@@ -189,7 +189,7 @@ public class ConnectionHandler implements Runnable{
                     break;
                 case ANS_RESTART:
                 case ANS_POWER:
-                    //cli.AnswerHandler(command, this);
+                    gui.AnswerHandler(command, this);
                     break;
                 case COM_WELCOME:
                 case COM_RESTART:
@@ -200,7 +200,7 @@ public class ConnectionHandler implements Runnable{
                 case COM_INVALID_WORKER:
                 case COM_INVALID_POS:
                 case COM_LOSE:
-                    //cli.CommunicationHandler(command);
+                    gui.CommunicationHandler(command,this);
                     break;
                 case UPDATE_TURN:
                 case UPDATE_ACTION:

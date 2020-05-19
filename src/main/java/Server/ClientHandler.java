@@ -148,7 +148,7 @@ public class ClientHandler implements Runnable{
                 active.set(false);
             }
             else{
-                System.out.println("[W] - Message sent to player n°" + playerNum);
+                System.out.println("[W] - Message sent to player n°" + playerNum + " of type " + msg.getCommandType());
             }
         } catch (IOException e) {
             System.err.println("Unable to send the StringMessage");

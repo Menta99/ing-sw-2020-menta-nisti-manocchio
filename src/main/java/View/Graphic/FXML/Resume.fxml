@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="801.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.Controller.ResumeController">
+   <children>
+      <ImageView fx:id="background" fitHeight="600.0" fitWidth="801.0" layoutY="-1.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/Odyssey-Olympus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="238.0" fitWidth="300.0" layoutX="251.0" layoutY="173.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/endgame_victorywin.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="trumpets" fitHeight="87.0" fitWidth="122.0" layoutX="309.0" layoutY="188.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/endgame_victorytrumpets.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="40.0" fitWidth="90.0" layoutX="306.0" layoutY="333.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/btn_blue_pressed.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="button_yes" fitHeight="40.0" fitWidth="90.0" layoutX="306.0" layoutY="333.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/btn_blue.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </ImageView>
+      <Label fx:id="confirm_label" alignment="CENTER" layoutX="309.0" layoutY="282.0" prefHeight="34.0" prefWidth="185.0" text="Resume Game?" textAlignment="CENTER">
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </Label>
+      <ImageView fitHeight="40.0" fitWidth="90.0" layoutX="402.0" layoutY="333.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/btn_blue_pressed.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="button_no" fitHeight="40.0" fitWidth="90.0" layoutX="402.0" layoutY="333.0">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+         <image>
+            <Image url="@../../../../resources/Texture2D/btn_blue.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="yes" alignment="CENTER" contentDisplay="TOP" layoutX="306.0" layoutY="330.0" onMouseClicked="#select" onMousePressed="#press" onMouseReleased="#release" prefHeight="40.0" prefWidth="90.0" text="Yes" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <Label fx:id="no" alignment="CENTER" contentDisplay="TOP" layoutX="402.0" layoutY="330.0" onMouseClicked="#select" onMousePressed="#press" onMouseReleased="#release" prefHeight="40.0" prefWidth="90.0" text="No" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+   </children>
+</Pane>

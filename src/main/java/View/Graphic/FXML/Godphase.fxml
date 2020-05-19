@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.Controller.SelectGodController">
+   <children>
+      <ImageView fx:id="apollofull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0043_god_and_hero_cards_0013_apollo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="artemisfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0054_god_and_hero_cards_0002_Artemis.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="athenafull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0052_god_and_hero_cards_0004_Athena.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="atlasfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0053_god_and_hero_cards_0003_Atlas.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="chronusfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0027_god_and_hero_cards_0029_Chronus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="demeterfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0050_god_and_hero_cards_0006_Demeter.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="hephaestusfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0009_god_and_hero_cards_0047_Hephaestus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="herafull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0033_god_and_hero_cards_0023_hera.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="hestiafull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0017_god_and_hero_cards_0039_Hestia.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="minotaurfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0008_god_and_hero_cards_0048_Minotaur.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="panfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0046_god_and_hero_cards_0010_Pan.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="prometeofull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0004_god_and_hero_cards_0052_Prometheus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="tritonfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0028_god_and_hero_cards_0028_triton.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="zeusfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0014_god_and_hero_cards_0042_zeus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="anonymousfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/full_0000s_0000_god_and_hero_cards_0057_Human.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="800.0" fitWidth="300.0" layoutX="500.0" layoutY="-100.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/bg_panelEdgeRight.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="lftbanner" fitHeight="800.0" fitWidth="300.0" layoutY="-100.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/bg_panelEdgeLeft.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="800.0" fitWidth="250.0" layoutX="275.0" layoutY="-100.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/fg_panel2.png" />
+         </image>
+      </ImageView>
+      <GridPane fx:id="grid" layoutX="525.0" layoutY="52.0" prefHeight="420.0" prefWidth="237.0" translateY="60.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="58.75" prefWidth="58.75" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="58.75" prefWidth="58.75" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="58.75" prefWidth="58.75" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="58.75" prefWidth="58.75" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="105.0" prefHeight="105.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="105.0" prefHeight="105.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="105.0" prefHeight="105.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="105.0" prefHeight="105.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fx:id="apolloicon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0043_god_and_hero_cards_0013_apollo.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="artemisicon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show" GridPane.columnIndex="1">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0054_god_and_hero_cards_0002_Artemis.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="athenaicon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show" GridPane.columnIndex="2">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0052_god_and_hero_cards_0004_Athena.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="atlasicon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show" GridPane.columnIndex="3">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0053_god_and_hero_cards_0003_Atlas.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="chronusicon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0027_god_and_hero_cards_0029_Chronus.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="demetericon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0050_god_and_hero_cards_0006_Demeter.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="hephaestusicon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0009_god_and_hero_cards_0047_Hephaestus.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="heraicon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0033_god_and_hero_cards_0023_hera.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="hestiaicon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0017_god_and_hero_cards_0039_Hestia.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="minotauricon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0008_god_and_hero_cards_0048_Minotaur.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="panicon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0046_god_and_hero_cards_0010_Pan.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="prometeoicon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0004_god_and_hero_cards_0052_Prometheus.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="tritonicon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0028_god_and_hero_cards_0028_triton.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="zeusicon" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#show" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/_0000s_0014_god_and_hero_cards_0042_zeus.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_apollo" fitHeight="105.0" fitWidth="58.75">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_artemis" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="1">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_athena" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="2">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_atlas" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="3">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_chronus" fitHeight="105.0" fitWidth="58.75" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_demeter" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_hephaestus" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_hera" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_hestia" fitHeight="105.0" fitWidth="58.75" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_minotaur" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_pan" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_prometeo" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_triton" fitHeight="105.0" fitWidth="58.75" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cornice_zeus" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/clp_frame_white_cut.png" />
+               </image>
+            </ImageView>
+         </children>
+      </GridPane>
+      <ImageView fitHeight="80.0" fitWidth="230.0" layoutX="35.0" layoutY="58.0" translateY="60.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/gameGodFrameName1.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="godname" alignment="CENTER" layoutX="76.0" layoutY="66.0" prefHeight="43.0" prefWidth="157.0" textAlignment="CENTER" translateY="60.0">
+         <font>
+            <Font name="Century" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="godpower" alignment="TOP_CENTER" layoutX="49.0" layoutY="138.0" prefHeight="329.0" prefWidth="214.0" textAlignment="CENTER" translateY="60.0" wrapText="true">
+         <font>
+            <Font name="Century" size="24.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

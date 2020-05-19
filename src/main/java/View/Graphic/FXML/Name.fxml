@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -7,33 +13,47 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="801.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.Controller.NameController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="801.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.Controller.NameController">
    <children>
       <ImageView fx:id="background" fitHeight="600.0" fitWidth="801.0" layoutY="-1.0">
          <image>
-            <Image url="@../../../../resources/Odyssey-Olympus.png" />
+            <Image url="@../../../../resources/Texture2D/Odyssey-Olympus.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="238.0" fitWidth="300.0" layoutX="251.0" layoutY="173.0">
          <image>
-            <Image url="@../../../../resources/endgame_victorywin.png" />
+            <Image url="@../../../../resources/Texture2D/endgame_victorywin.png" />
          </image>
       </ImageView>
-      <TextField fx:id="nickfield" focusTraversable="false" layoutX="307.0" layoutY="280.0" prefHeight="34.0" prefWidth="183.0" promptText="Insert your nickname" />
-      <ImageView fx:id="confirmbtn" fitHeight="40.0" fitWidth="183.0" layoutX="307.0" layoutY="332.0" onMouseClicked="#CheckName">
+      <TextField fx:id="nickfield" focusTraversable="false" layoutX="307.0" layoutY="280.0" prefHeight="34.0" prefWidth="183.0" promptText="Insert your nickname">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></TextField>
+      <ImageView fx:id="confirmbtn" fitHeight="40.0" fitWidth="185.0" layoutX="306.0" layoutY="333.0">
          <image>
-            <Image url="@../../../../resources/btn_blue.png" />
+            <Image url="@../../../../resources/Texture2D/btn_blue.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </ImageView>
+      <ImageView fx:id="pressed_btn" fitHeight="40.0" fitWidth="185.0" layoutX="306.0" layoutY="333.0" opacity="0.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/btn_blue_pressed.png" />
          </image>
       </ImageView>
       <ImageView fx:id="trumpets" fitHeight="87.0" fitWidth="122.0" layoutX="309.0" layoutY="188.0">
          <image>
-            <Image url="@../../../../resources/endgame_victorytrumpets.png" />
+            <Image url="@../../../../resources/Texture2D/endgame_victorytrumpets.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="362.0" layoutY="329.0" prefHeight="40.0" prefWidth="73.0" text="Confirm" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="confirm_label" alignment="CENTER" layoutX="306.0" layoutY="333.0" onMouseClicked="#CheckName" onMousePressed="#pressButton" onMouseReleased="#releaseButton" prefHeight="34.0" prefWidth="185.0" text="Confirm" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Times New Roman" size="18.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Label>
    </children>
 </Pane>
