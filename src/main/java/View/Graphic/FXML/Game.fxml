@@ -1,0 +1,1173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.Controller.GameController">
+   <children>
+      <ImageView fitHeight="600.0" fitWidth="200.0" layoutX="-0.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/cm_bg.png" />
+         </image>
+         <effect>
+            <ColorAdjust brightness="0.1" contrast="0.05" />
+         </effect>
+      </ImageView>
+      <ImageView fitHeight="600.0" fitWidth="640.0" layoutX="170.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/clp_bg.png" />
+         </image>
+      </ImageView>
+      <Group layoutX="215.0" layoutY="25.0">
+         <children>
+            <ImageView fitHeight="550.0" fitWidth="550.0">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/map.png" />
+               </image>
+            </ImageView>
+            <GridPane fx:id="gridPane" layoutX="2.0" layoutY="5.0" prefHeight="540.0" prefWidth="540.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Group fx:id="cell_00">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_10" GridPane.columnIndex="1">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_20" GridPane.columnIndex="2">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_30" GridPane.columnIndex="3">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_40" GridPane.columnIndex="4">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_01" GridPane.rowIndex="1">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_11" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_21" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_31" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_41" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_02" GridPane.rowIndex="2">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_12" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_22" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_32" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_42" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_03" GridPane.rowIndex="3">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_13" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_23" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_33" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_43" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_04" GridPane.rowIndex="4">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_14" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_24" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_34" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group fx:id="cell_44" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="52.0" layoutY="469.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="62.0" layoutY="479.0" opacity="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/texture_0.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="64.0" layoutY="482.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/player_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="DODGERBLUE" layoutX="94.0" layoutY="512.0" opacity="0.0" radius="25.0" stroke="BLACK" strokeType="INSIDE">
+                           <effect>
+                              <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
+                           </effect>
+                        </Circle>
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                           <image>
+                              <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+               </children>
+            </GridPane>
+         </children>
+      </Group>
+      <ImageView fitHeight="200.0" fitWidth="142.0" layoutX="25.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="142.0" layoutX="25.0" layoutY="200.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="142.0" layoutX="25.0" layoutY="400.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="god_0" fitHeight="100.0" fitWidth="100.0" layoutX="47.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="god_1" fitHeight="100.0" fitWidth="100.0" layoutX="46.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="god_2" fitHeight="100.0" fitWidth="100.0" layoutX="47.0" layoutY="422.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="name_0" alignment="CENTER" layoutX="47.0" layoutY="126.0" prefHeight="27.0" prefWidth="100.0">
+         <font>
+            <Font name="Times New Roman" size="20.0" />
+         </font></Label>
+      <Label fx:id="god_name_0" alignment="CENTER" layoutX="47.0" layoutY="150.0" prefHeight="27.0" prefWidth="100.0">
+         <font>
+            <Font name="Times New Roman" size="20.0" />
+         </font></Label>
+      <Label fx:id="name_1" alignment="CENTER" layoutX="46.0" layoutY="325.0" prefHeight="27.0" prefWidth="100.0">
+         <font>
+            <Font name="Times New Roman" size="20.0" />
+         </font></Label>
+      <Label fx:id="god_name_1" alignment="CENTER" layoutX="46.0" layoutY="354.0" prefHeight="27.0" prefWidth="100.0">
+         <font>
+            <Font name="Times New Roman" size="20.0" />
+         </font></Label>
+      <Label fx:id="name_2" alignment="CENTER" layoutX="47.0" layoutY="529.0" prefHeight="27.0" prefWidth="100.0">
+         <font>
+            <Font name="Times New Roman" size="20.0" />
+         </font></Label>
+      <Label fx:id="god_name_2" alignment="CENTER" layoutX="46.0" layoutY="556.0" prefHeight="27.0" prefWidth="100.0">
+         <font>
+            <Font name="Times New Roman" size="20.0" />
+         </font></Label>
+   </children>
+</AnchorPane>

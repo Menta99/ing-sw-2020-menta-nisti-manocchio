@@ -40,6 +40,7 @@ public class Gui extends Application implements View {
     private Scene waitChoiceScene;
     private Scene godPickScene;
     private Scene confirmGodScene;
+    private Scene gameScene;
     private WelcomeController welcomeController;
     private ErrorWelcomeController errorWelcomeController;
     private NameController nameController;
@@ -50,6 +51,7 @@ public class Gui extends Application implements View {
     private WaitChoiceController waitChoiceController;
     private GodPickController godPickController;
     private ConfirmGodController confirmGodController;
+    private GameController gameController;
 
     private String nickname;
     private BoxInfo[][] map;
@@ -134,6 +136,10 @@ public class Gui extends Application implements View {
             root = loader.load();
             confirmGodController = loader.getController();
             confirmGodScene = new Scene(root, 300, 100);
+            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Game.fxml").toURI().toURL());
+            root = loader.load();
+            gameController = loader.getController();
+            gameScene = new Scene(root, 800, 600);
         }
         catch (IOException e){
             System.err.println("problems initScenes");
@@ -151,6 +157,7 @@ public class Gui extends Application implements View {
         waitChoiceController.setGui(this);
         godPickController.setGui(this);
         confirmGodController.setGui(this);
+        gameController.setGui(this);
     }
 
     public void Connect(){
@@ -207,10 +214,9 @@ public class Gui extends Application implements View {
                 GodInGame(command.getInfo().getGods());
                 break;
             case COM_CHOSEN:
-                //PlayerGod(command.getInfo().getPlayers());
-                //for (PlayerInfo user : players) {
-                //   System.out.println("Player: " + user.getColor() + user.getName() + Colors.RESET + " GodCard: " + gods[user.getGod()].getName());
-                //}
+                PlayerGod(command.getInfo().getPlayers());
+                Platform.runLater(() -> SwitchScene(gameScene));
+                gameController.SetUp(command, client);
                 break;
             case COM_WAIT_CHOICE:
                 //System.out.println("Waiting the other player's choice");
