@@ -32,7 +32,7 @@ public class NameController implements GuiController {
         String msg = nickfield.getText().trim();
         nickfield.clear();
         if(msg.equals("")){
-            nickfield.setFocusTraversable(false);
+            confirm_label.requestFocus();
             nickfield.setPromptText("Insert a non-void name");
         }
         else{
@@ -45,7 +45,7 @@ public class NameController implements GuiController {
                     }
                 }
                 if (!found) {
-                    nickfield.setFocusTraversable(false);
+                    confirm_label.requestFocus();
                     nickfield.setPromptText("Name already chosen");
                 }
             }

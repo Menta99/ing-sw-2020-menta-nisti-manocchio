@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -60,13 +61,11 @@ public class SelectGodController implements GuiController{
     public void select(MouseEvent e){
         Node source = (Node)e.getSource();
         int number = grid.getChildren().indexOf(source);
-        /*int x = number%4;
-        int y = number/4;*/
         if (!index.contains(number)){
             index.add(number);
             grid.getChildren().get(number + 14).setEffect(frame);
             if (index.size() == command.getInfo().getPlayers().length){
-                client.WriteMessage(new ServerMsg(index));
+                gui.Confirm(client);
             }
         }
     }
@@ -79,6 +78,13 @@ public class SelectGodController implements GuiController{
                 image.setOpacity(0);
                 grid.getChildren().get(full.indexOf(image)).setEffect(null);
             }
+        }
+    }
+
+    public void reset(){
+        index = new ArrayList<>();
+        for(int i = 14; i < grid.getChildren().size(); i++){
+            grid.getChildren().get(i).setEffect(null);
         }
     }
 
@@ -95,5 +101,10 @@ public class SelectGodController implements GuiController{
                 full.add((ImageView)image);
             }
         }
+        full.remove(anonymousfull);
+    }
+
+    public ArrayList<Integer> getIndex() {
+        return index;
     }
 }

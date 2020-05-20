@@ -27,6 +27,7 @@ public class GodPickController implements Initializable, GuiController {
     private ConnectionHandler client;
     private ArrayList<Integer> index = new ArrayList<>();
     private ArrayList<ImageView> full = new ArrayList<>();
+    private ArrayList<ImageView> active = new ArrayList<>();
 
     @FXML
     ImageView apolloicon, athenaicon, artemisicon, atlasicon, chronusicon, demetericon, hephaestusicon, heraicon, hestiaicon, minotauricon, panicon, prometeoicon, tritonicon, zeusicon;
@@ -62,11 +63,15 @@ public class GodPickController implements Initializable, GuiController {
 
 
     public void hideOthers(int index){
+        ImageView icon;
         anonymousfull.setOpacity(0);
         for (ImageView image : full){
             if (full.indexOf(image)!=index){
                 image.setOpacity(0);
-                grid.getChildren().get(full.indexOf(image)).setEffect(null);
+                icon = (ImageView) grid.getChildren().get(full.indexOf(image));
+                if(active.contains(icon)){
+                    icon.setEffect(null);
+                }
             }
         }
     }
@@ -84,11 +89,13 @@ public class GodPickController implements Initializable, GuiController {
                 full.add((ImageView)image);
             }
         }
+        full.remove(anonymousfull);
         for (GodInfo god : command.getInfo().getGods()){
+            active.add((ImageView) grid.getChildren().get(god.getPosition()));
             grid.getChildren().get(god.getPosition()).setDisable(false);
             grid.getChildren().get(god.getPosition()+14).setDisable(false);
-            grid.getChildren().get(god.getPosition()).setOpacity(1);
-            grid.getChildren().get(god.getPosition()+14).setOpacity(1);
+            grid.getChildren().get(god.getPosition()).setEffect(null);
+            grid.getChildren().get(god.getPosition()+14).setEffect(null);
         }
     }
 

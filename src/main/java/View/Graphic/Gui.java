@@ -10,6 +10,7 @@ import View.Graphic.Controller.*;
 import View.View;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -38,6 +39,7 @@ public class Gui extends Application implements View {
     private Scene resumeScene;
     private Scene waitChoiceScene;
     private Scene godPickScene;
+    private Scene confirmGodScene;
     private WelcomeController welcomeController;
     private ErrorWelcomeController errorWelcomeController;
     private NameController nameController;
@@ -47,6 +49,7 @@ public class Gui extends Application implements View {
     private ResumeController resumeController;
     private WaitChoiceController waitChoiceController;
     private GodPickController godPickController;
+    private ConfirmGodController confirmGodController;
 
     private String nickname;
     private BoxInfo[][] map;
@@ -77,6 +80,15 @@ public class Gui extends Application implements View {
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.setScene(errorWelcomeScene);
         //dialog.setOnCloseRequest(e -> primaryStage.close());
+        dialog.showAndWait();
+    }
+
+    public void Confirm(ConnectionHandler client){
+        confirmGodController.SetUp(client, selectGodController);
+        dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setScene(confirmGodScene);
+        dialog.setOnCloseRequest(e -> e.consume());
         dialog.showAndWait();
     }
 
@@ -118,7 +130,10 @@ public class Gui extends Application implements View {
             root = loader.load();
             resumeController = loader.getController();
             resumeScene = new Scene(root, 800, 600);
-
+            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/ConfirmGod.fxml").toURI().toURL());
+            root = loader.load();
+            confirmGodController = loader.getController();
+            confirmGodScene = new Scene(root, 300, 100);
         }
         catch (IOException e){
             System.err.println("problems initScenes");
@@ -135,6 +150,7 @@ public class Gui extends Application implements View {
         resumeController.setGui(this);
         waitChoiceController.setGui(this);
         godPickController.setGui(this);
+        confirmGodController.setGui(this);
     }
 
     public void Connect(){
@@ -228,7 +244,6 @@ public class Gui extends Application implements View {
         selectGodController.SetUp(command, client);
     }
 
-
     /**
      * Updates the god list, marking the active cards
      * @param godInfo Array of GodInfo
@@ -261,7 +276,6 @@ public class Gui extends Application implements View {
         }
         players = update;
     }
-
 
     public Stage getPrimaryStage() {
         return primaryStage;
