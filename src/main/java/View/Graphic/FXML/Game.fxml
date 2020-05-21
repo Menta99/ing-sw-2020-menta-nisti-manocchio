@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.layout.*?>
-<?import java.lang.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.Controller.GameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.Controller.GameController">
    <children>
       <ImageView fitHeight="600.0" fitWidth="200.0" layoutX="-0.0">
          <image>
@@ -48,7 +51,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Group fx:id="cell_00">
+                  <Group fx:id="cell_00" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -84,14 +87,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_10" GridPane.columnIndex="1">
+                  <Group fx:id="cell_10" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="1">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -127,14 +130,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_20" GridPane.columnIndex="2">
+                  <Group fx:id="cell_20" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="2">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -170,14 +173,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_30" GridPane.columnIndex="3">
+                  <Group fx:id="cell_30" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="3">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -213,14 +216,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_40" GridPane.columnIndex="4">
+                  <Group fx:id="cell_40" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="4">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -256,14 +259,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_01" GridPane.rowIndex="1">
+                  <Group fx:id="cell_01" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.rowIndex="1">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -299,14 +302,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_11" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Group fx:id="cell_11" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -342,14 +345,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_21" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Group fx:id="cell_21" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -385,14 +388,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_31" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <Group fx:id="cell_31" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -428,14 +431,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_41" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                  <Group fx:id="cell_41" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="4" GridPane.rowIndex="1">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -471,14 +474,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_02" GridPane.rowIndex="2">
+                  <Group fx:id="cell_02" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.rowIndex="2">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -514,14 +517,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_12" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Group fx:id="cell_12" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -557,14 +560,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_22" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <Group fx:id="cell_22" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -600,14 +603,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_32" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                  <Group fx:id="cell_32" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="3" GridPane.rowIndex="2">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -643,14 +646,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_42" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                  <Group fx:id="cell_42" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="4" GridPane.rowIndex="2">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -686,14 +689,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_03" GridPane.rowIndex="3">
+                  <Group fx:id="cell_03" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.rowIndex="3">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -729,14 +732,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_13" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <Group fx:id="cell_13" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -772,14 +775,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_23" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                  <Group fx:id="cell_23" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="2" GridPane.rowIndex="3">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -815,14 +818,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_33" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                  <Group fx:id="cell_33" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="3" GridPane.rowIndex="3">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -858,14 +861,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_43" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                  <Group fx:id="cell_43" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="4" GridPane.rowIndex="3">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -901,14 +904,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_04" GridPane.rowIndex="4">
+                  <Group fx:id="cell_04" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.rowIndex="4">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -944,14 +947,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_14" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Group fx:id="cell_14" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -987,14 +990,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_24" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                  <Group fx:id="cell_24" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="2" GridPane.rowIndex="4">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -1030,14 +1033,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_34" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                  <Group fx:id="cell_34" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="3" GridPane.rowIndex="4">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -1073,14 +1076,14 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Group>
-                  <Group fx:id="cell_44" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                  <Group fx:id="cell_44" disable="true" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="4" GridPane.rowIndex="4">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="44.0" layoutY="461.0" opacity="0.0">
                            <effect>
@@ -1116,7 +1119,7 @@
                               <InnerShadow blurType="GAUSSIAN" height="50.0" radius="24.5" width="50.0" />
                            </effect>
                         </Circle>
-                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" opacity="0.0">
+                        <ImageView fitHeight="108.0" fitWidth="108.0" layoutX="40.0" layoutY="457.0" onMouseClicked="#SendBox" opacity="0.0">
                            <image>
                               <Image url="@../../../../resources/Texture2D/playermoveindicator_blue.png" />
                            </image>

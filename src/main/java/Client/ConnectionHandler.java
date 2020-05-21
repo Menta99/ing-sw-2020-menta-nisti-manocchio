@@ -185,7 +185,7 @@ public class ConnectionHandler implements Runnable{
                 case POS_WORKER:
                 case POS_MOVE:
                 case POS_BUILD:
-                    //cli.PoseHandler(command, this);
+                    gui.PoseHandler(command, this);
                     break;
                 case ANS_RESTART:
                 case ANS_POWER:
@@ -204,7 +204,7 @@ public class ConnectionHandler implements Runnable{
                     break;
                 case UPDATE_TURN:
                 case UPDATE_ACTION:
-                    //cli.UpdateHandler(command);
+                    gui.UpdateHandler(command, this);
                     break;
                 case CLOSE_ANOMALOUS:
                 case CLOSE_NORMAL:

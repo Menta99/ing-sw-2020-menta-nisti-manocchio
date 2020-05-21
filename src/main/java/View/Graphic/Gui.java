@@ -2,20 +2,21 @@ package View.Graphic;
 
 import Client.ConnectionHandler;
 import CommunicationProtocol.CommandMsg;
+import CommunicationProtocol.CommandType;
 import CommunicationProtocol.SantoriniInfo.BoxInfo;
 import CommunicationProtocol.SantoriniInfo.GodInfo;
 import CommunicationProtocol.SantoriniInfo.PlayerInfo;
-import CommunicationProtocol.ServerMsg;
 import View.Graphic.Controller.*;
 import View.View;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 import java.io.File;
@@ -39,7 +40,7 @@ public class Gui extends Application implements View {
     private Scene resumeScene;
     private Scene waitChoiceScene;
     private Scene godPickScene;
-    private Scene confirmGodScene;
+    private Scene confirmScene;
     private Scene gameScene;
     private WelcomeController welcomeController;
     private ErrorWelcomeController errorWelcomeController;
@@ -50,7 +51,7 @@ public class Gui extends Application implements View {
     private ResumeController resumeController;
     private WaitChoiceController waitChoiceController;
     private GodPickController godPickController;
-    private ConfirmGodController confirmGodController;
+    private ConfirmController confirmController;
     private GameController gameController;
 
     private String nickname;
@@ -79,18 +80,22 @@ public class Gui extends Application implements View {
 
     public void ConnectionError(){
         dialog = new Stage();
+        dialog.initStyle(StageStyle.TRANSPARENT);
         dialog.initModality(Modality.APPLICATION_MODAL);
+        errorWelcomeScene.setFill(Color.TRANSPARENT);
+        errorWelcomeScene.getRoot().setStyle("-fx-background-color: rgba(255, 255, 255, 0);");
         dialog.setScene(errorWelcomeScene);
-        //dialog.setOnCloseRequest(e -> primaryStage.close());
         dialog.showAndWait();
     }
 
-    public void Confirm(ConnectionHandler client){
-        confirmGodController.SetUp(client, selectGodController);
+    public void Confirm(CommandMsg command, ConnectionHandler client){
+        confirmController.SetUp(client, selectGodController, command);
         dialog = new Stage();
+        dialog.initStyle(StageStyle.TRANSPARENT);
         dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.setScene(confirmGodScene);
-        dialog.setOnCloseRequest(e -> e.consume());
+        confirmScene.setFill(Color.TRANSPARENT);
+        confirmScene.getRoot().setStyle("-fx-background-color: rgba(255, 255, 255, 0);");
+        dialog.setScene(confirmScene);
         dialog.showAndWait();
     }
 
@@ -103,7 +108,7 @@ public class Gui extends Application implements View {
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/WelcomeError.fxml").toURI().toURL());
             root = loader.load();
             errorWelcomeController = loader.getController();
-            errorWelcomeScene = new Scene(root, 360, 100);
+            errorWelcomeScene = new Scene(root, 250, 278);
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Name.fxml").toURI().toURL());
             root = loader.load();
             nameController = loader.getController();
@@ -132,10 +137,10 @@ public class Gui extends Application implements View {
             root = loader.load();
             resumeController = loader.getController();
             resumeScene = new Scene(root, 800, 600);
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/ConfirmGod.fxml").toURI().toURL());
+            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Confirm.fxml").toURI().toURL());
             root = loader.load();
-            confirmGodController = loader.getController();
-            confirmGodScene = new Scene(root, 300, 100);
+            confirmController = loader.getController();
+            confirmScene = new Scene(root, 250, 278);
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Game.fxml").toURI().toURL());
             root = loader.load();
             gameController = loader.getController();
@@ -156,7 +161,7 @@ public class Gui extends Application implements View {
         resumeController.setGui(this);
         waitChoiceController.setGui(this);
         godPickController.setGui(this);
-        confirmGodController.setGui(this);
+        confirmController.setGui(this);
         gameController.setGui(this);
     }
 
@@ -209,6 +214,10 @@ public class Gui extends Application implements View {
             case COM_RESTART:
                 gods = command.getInfo().getGods();
                 players = command.getInfo().getPlayers();
+                if(command.getCommandType() == CommandType.COM_RESTART){
+                    Platform.runLater(() -> SwitchScene(gameScene));
+                    gameController.SetUp(command, client);
+                }
                 break;
             case COM_GODS:
                 GodInGame(command.getInfo().getGods());
@@ -241,13 +250,27 @@ public class Gui extends Application implements View {
     }
 
     public void AnswerHandler(CommandMsg command, ConnectionHandler client){
-        Platform.runLater(() -> SwitchScene(resumeScene));
-        resumeController.SetUp(command, client);
+        if(command.getCommandType() == CommandType.ANS_POWER){
+            Platform.runLater(() -> Confirm(command, client));
+        }
+        else {
+            Platform.runLater(() -> SwitchScene(resumeScene));
+            resumeController.SetUp(command, client);
+        }
     }
 
     public void GodHandler(CommandMsg command, ConnectionHandler client){
         Platform.runLater(() -> SwitchScene(selectGodScene));
         selectGodController.SetUp(command, client);
+    }
+
+    public void PoseHandler(CommandMsg command, ConnectionHandler client){
+        gameController.SetUpPose(command, client);
+    }
+
+    public void UpdateHandler(CommandMsg command, ConnectionHandler client){
+        map = command.getInfo().getGrid();
+        gameController.UpdateMap();
     }
 
     /**

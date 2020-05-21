@@ -65,11 +65,10 @@ public class SelectGodController implements GuiController{
             index.add(number);
             grid.getChildren().get(number + 14).setEffect(frame);
             if (index.size() == command.getInfo().getPlayers().length){
-                gui.Confirm(client);
+                gui.Confirm(command, client);
             }
         }
     }
-
 
     public void hideOthers(int index){
         anonymousfull.setOpacity(0);

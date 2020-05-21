@@ -180,7 +180,8 @@ public class Game {
         int playerDataIndex = GameData.Size() + MapData.Size() + 1;
         for (int i=0; i < playerNumber; i++){
             new Player(gameInfo.get(playerDataIndex));
-            card = new GodFactory().create(GodsEnum.valueOf((gameInfo.get(playerDataIndex+1).toUpperCase())));
+            //card = new GodFactory().create(GodsEnum.valueOf((gameInfo.get(playerDataIndex+1).toUpperCase())));
+            card = deck.getCardList().get(GodsEnum.valueOf((gameInfo.get(playerDataIndex+1).toUpperCase())).ordinal());
             card.setChosen(true);
             card.setPicked(true);
             card.setOwner(players.get(i));
@@ -194,7 +195,7 @@ public class Game {
     }
 
     public ArrayList<String> getSavedGame() {
-        String fileName = ("temp\\savedGame.txt");
+        String fileName = ("temp/savedGame.txt");
         ArrayList<String> gameData = new ArrayList<>();
         String singleData;
         try {

@@ -61,11 +61,11 @@ public class NameController implements GuiController {
         this.client = client;
     }
 
-    public void pressButton(){
+    public void pressButton(MouseEvent e){
         pressed_btn.setOpacity(1);
         confirm_label.setLayoutY(336);
     }
-    public void releaseButton(){
+    public void releaseButton(MouseEvent e){
         pressed_btn.setOpacity(0);
         confirm_label.setLayoutY(333);
     }
