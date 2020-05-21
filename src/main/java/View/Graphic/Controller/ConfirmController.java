@@ -58,7 +58,7 @@ public class ConfirmController implements GuiController{
         }
         else if(e.getSource() == no_lbl){
             if(command.getCommandType() == CommandType.ANS_POWER){
-                client.WriteMessage(new ServerMsg("yes"));
+                client.WriteMessage(new ServerMsg("no"));
             }
             else {
                 controller.reset();

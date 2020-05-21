@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="278.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.Controller.ErrorWelcomeController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="278.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.Controller.CommunicationController">
    <children>
-      <ImageView fitHeight="326.0" fitWidth="300.0" layoutX="-25.0" layoutY="-14.0">
+      <ImageView fx:id="greek" fitHeight="326.0" fitWidth="300.0" layoutX="-25.0" layoutY="-14.0">
          <image>
             <Image url="@../../../../resources/Texture2D/endgame_windowdefeat.png" />
          </image>
@@ -41,7 +41,7 @@
             <ColorAdjust brightness="-0.1" contrast="-0.2" saturation="-0.05" />
          </effect>
       </ImageView>
-      <Label fx:id="close_lbl1" alignment="CENTER" layoutX="25.0" layoutY="127.0" prefHeight="50.0" prefWidth="200.0" text="Server is down" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label fx:id="text_lbl" alignment="CENTER" layoutX="25.0" layoutY="127.0" prefHeight="50.0" prefWidth="200.0" text="Server is down" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font size="20.0" />
          </font>

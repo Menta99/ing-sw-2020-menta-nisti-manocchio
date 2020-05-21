@@ -28,28 +28,27 @@ public class Gui extends Application implements View {
     private final int PORT_NUM = 5555;
     private final String IP = "127.0.0.1";
     private Socket server;
+    ConnectionHandler handler;
 
     private Stage primaryStage;
     private Stage dialog;
     private Scene welcomeScene;
-    private Scene errorWelcomeScene;
+    private Scene CommunicationScene;
     private Scene nameScene;
     private Scene selectGodScene;
-    private Scene waitPlayerScene;
     private Scene numberScene;
     private Scene resumeScene;
-    private Scene waitChoiceScene;
+    private Scene waitScene;
     private Scene godPickScene;
     private Scene confirmScene;
     private Scene gameScene;
     private WelcomeController welcomeController;
-    private ErrorWelcomeController errorWelcomeController;
+    private CommunicationController communicationController;
     private NameController nameController;
     private SelectGodController selectGodController;
-    private WaitPlayerController waitPlayerController;
     private NumberController numberController;
     private ResumeController resumeController;
-    private WaitChoiceController waitChoiceController;
+    private WaitChoiceController waitController;
     private GodPickController godPickController;
     private ConfirmController confirmController;
     private GameController gameController;
@@ -78,13 +77,14 @@ public class Gui extends Application implements View {
         primaryStage.show();
     }
 
-    public void ConnectionError(){
+    public void Communication(CommandMsg command, ConnectionHandler client){
+        communicationController.SetUp(command, client);
         dialog = new Stage();
         dialog.initStyle(StageStyle.TRANSPARENT);
         dialog.initModality(Modality.APPLICATION_MODAL);
-        errorWelcomeScene.setFill(Color.TRANSPARENT);
-        errorWelcomeScene.getRoot().setStyle("-fx-background-color: rgba(255, 255, 255, 0);");
-        dialog.setScene(errorWelcomeScene);
+        CommunicationScene.setFill(Color.TRANSPARENT);
+        CommunicationScene.getRoot().setStyle("-fx-background-color: rgba(255, 255, 255, 0);");
+        dialog.setScene(CommunicationScene);
         dialog.showAndWait();
     }
 
@@ -105,10 +105,10 @@ public class Gui extends Application implements View {
             Parent root = loader.load();
             welcomeController = loader.getController();
             welcomeScene = new Scene(root, 800, 600);
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/WelcomeError.fxml").toURI().toURL());
+            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Communication.fxml").toURI().toURL());
             root = loader.load();
-            errorWelcomeController = loader.getController();
-            errorWelcomeScene = new Scene(root, 250, 278);
+            communicationController = loader.getController();
+            CommunicationScene = new Scene(root, 250, 278);
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Name.fxml").toURI().toURL());
             root = loader.load();
             nameController = loader.getController();
@@ -121,14 +121,10 @@ public class Gui extends Application implements View {
             root = loader.load();
             godPickController = loader.getController();
             godPickScene = new Scene(root, 800, 600);
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/WaitingPlayers.fxml").toURI().toURL());
-            root = loader.load();
-            waitPlayerController = loader.getController();
-            waitPlayerScene = new Scene(root, 800, 600);
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/WaitingChoice.fxml").toURI().toURL());
             root = loader.load();
-            waitChoiceController = loader.getController();
-            waitChoiceScene = new Scene(root, 800, 600);
+            waitController = loader.getController();
+            waitScene = new Scene(root, 800, 600);
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Number.fxml").toURI().toURL());
             root = loader.load();
             numberController = loader.getController();
@@ -153,13 +149,12 @@ public class Gui extends Application implements View {
 
     public void initControllers(){
         welcomeController.setGui(this);
-        errorWelcomeController.setGui(this);
+        communicationController.setGui(this);
         nameController.setGui(this);
-        waitPlayerController.setGui(this);
         selectGodController.setGui(this);
         numberController.setGui(this);
         resumeController.setGui(this);
-        waitChoiceController.setGui(this);
+        waitController.setGui(this);
         godPickController.setGui(this);
         confirmController.setGui(this);
         gameController.setGui(this);
@@ -172,20 +167,22 @@ public class Gui extends Application implements View {
                 SetUp(server);
             }
             else{
-                ConnectionError();
+                Communication(null, null);
             }
         } catch (IOException e) {
-            ConnectionError();
+            Communication(null, null);
         }
     }
 
     public void SetUp(Socket server){
-        new Thread(new ConnectionHandler(server, this)).start();
+        handler = new ConnectionHandler(server, this);
+        new Thread(handler).start();
     }
 
     public void CloseClient() {
         try {
             if(server!=null){
+                handler.setActive(false);
                 server.close();
             }
         } catch (IOException e) {
@@ -206,47 +203,6 @@ public class Gui extends Application implements View {
     public void NumberHandler(CommandMsg command, ConnectionHandler client){
         Platform.runLater(() -> SwitchScene(godPickScene));
         godPickController.SetUp(command, client);
-    }
-
-    public void CommunicationHandler(CommandMsg command, ConnectionHandler client) {
-        switch (command.getCommandType()) {
-            case COM_WELCOME:
-            case COM_RESTART:
-                gods = command.getInfo().getGods();
-                players = command.getInfo().getPlayers();
-                if(command.getCommandType() == CommandType.COM_RESTART){
-                    Platform.runLater(() -> SwitchScene(gameScene));
-                    gameController.SetUp(command, client);
-                }
-                break;
-            case COM_GODS:
-                GodInGame(command.getInfo().getGods());
-                break;
-            case COM_CHOSEN:
-                PlayerGod(command.getInfo().getPlayers());
-                Platform.runLater(() -> SwitchScene(gameScene));
-                gameController.SetUp(command, client);
-                break;
-            case COM_WAIT_CHOICE:
-                //System.out.println("Waiting the other player's choice");
-                Platform.runLater(() -> SwitchScene(waitChoiceScene));
-                waitChoiceController.SetUp(command, client);
-                break;
-            case COM_WAIT_LOBBY:
-                //System.out.println("Waiting the other players in the Lobby");
-                Platform.runLater(() -> SwitchScene(waitPlayerScene));
-                waitPlayerController.SetUp(command, client);
-                break;
-            case COM_INVALID_WORKER:
-                System.out.println("Not a valid worker, retry");
-                break;
-            case COM_INVALID_POS:
-                System.out.println("Not a valid destination, retry");
-                break;
-            case COM_LOSE:
-                System.out.println("You lose, Dumbos");
-                break;
-        }
     }
 
     public void AnswerHandler(CommandMsg command, ConnectionHandler client){
@@ -271,6 +227,49 @@ public class Gui extends Application implements View {
     public void UpdateHandler(CommandMsg command, ConnectionHandler client){
         map = command.getInfo().getGrid();
         gameController.UpdateMap();
+    }
+
+    public void CloseHandler(CommandMsg command, ConnectionHandler client){
+        Platform.runLater(() -> Communication(command, client));
+        client.setActive(false);
+    }
+
+    public void CommunicationHandler(CommandMsg command, ConnectionHandler client) {
+        switch (command.getCommandType()) {
+            case COM_WELCOME:
+            case COM_RESTART:
+                gods = command.getInfo().getGods();
+                players = command.getInfo().getPlayers();
+                if(command.getCommandType() == CommandType.COM_RESTART){
+                    Platform.runLater(() -> {
+                        SwitchScene(gameScene);
+                        gameController.SetUp(command, client);
+                    });
+                }
+                break;
+            case COM_GODS:
+                GodInGame(command.getInfo().getGods());
+                break;
+            case COM_CHOSEN:
+                PlayerGod(command.getInfo().getPlayers());
+                Platform.runLater(() -> {
+                    Platform.runLater(() -> SwitchScene(gameScene));
+                    gameController.SetUp(command, client);
+                });
+                break;
+            case COM_WAIT_CHOICE:
+            case COM_WAIT_LOBBY:
+                Platform.runLater(() -> {
+                    Platform.runLater(() -> SwitchScene(waitScene));
+                    waitController.SetUp(command, client);
+                });
+                break;
+            case COM_INVALID_WORKER:
+            case COM_INVALID_POS:
+            case COM_LOSE:
+                Platform.runLater(() -> Communication(command, client));
+                break;
+        }
     }
 
     /**

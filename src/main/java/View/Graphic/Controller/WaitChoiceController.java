@@ -2,11 +2,13 @@ package View.Graphic.Controller;
 
 import Client.ConnectionHandler;
 import CommunicationProtocol.CommandMsg;
+import CommunicationProtocol.CommandType;
 import View.Graphic.Gui;
 import javafx.animation.FadeTransition;
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -15,7 +17,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class WaitChoiceController implements Initializable, GuiController {
-
     private Gui gui;
     private CommandMsg command;
     private ConnectionHandler client;
@@ -24,7 +25,7 @@ public class WaitChoiceController implements Initializable, GuiController {
     @FXML
     AnchorPane lancetPane;
     @FXML
-    Text text;
+    Label text;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,5 +61,11 @@ public class WaitChoiceController implements Initializable, GuiController {
     public void SetUp(CommandMsg command, ConnectionHandler client){
         this.command = command;
         this.client = client;
+        if(command.getCommandType() == CommandType.COM_WAIT_LOBBY){
+            text.setText("Waiting for Players...");
+        }
+        else{
+            text.setText("Waiting other players' choice ...");
+        }
     }
 }

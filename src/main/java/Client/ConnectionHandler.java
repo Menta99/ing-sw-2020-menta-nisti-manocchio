@@ -210,8 +210,7 @@ public class ConnectionHandler implements Runnable{
                 case CLOSE_NORMAL:
                 case CLOSE_RESTART:
                 case CLOSE_SERVER:
-                    //cli.CloseHandler(command, this);
-                    //client.CloseClient();
+                    gui.CloseHandler(command, this);
                     break;
                 case DEFAULT:
                     break;
