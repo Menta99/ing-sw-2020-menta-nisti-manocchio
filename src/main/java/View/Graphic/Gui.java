@@ -32,6 +32,7 @@ public class Gui extends Application implements View {
 
     private Stage primaryStage;
     private Stage dialog;
+
     private Scene welcomeScene;
     private Scene CommunicationScene;
     private Scene nameScene;
@@ -42,6 +43,7 @@ public class Gui extends Application implements View {
     private Scene godPickScene;
     private Scene confirmScene;
     private Scene gameScene;
+
     private WelcomeController welcomeController;
     private CommunicationController communicationController;
     private NameController nameController;
@@ -191,18 +193,24 @@ public class Gui extends Application implements View {
     }
 
     public void NameHandler(CommandMsg command, ConnectionHandler client){
-        Platform.runLater(() -> SwitchScene(nameScene));
-        nameController.SetUp(command, client);
+        Platform.runLater(() -> {
+            SwitchScene(nameScene);
+            nameController.SetUp(command, client);
+        });
     }
 
     public void FirstHandler(CommandMsg command, ConnectionHandler client){
-        Platform.runLater(() -> SwitchScene(numberScene));
-        numberController.SetUp(command, client);
+        Platform.runLater(() -> {
+            SwitchScene(numberScene);
+            numberController.SetUp(command, client);
+        });
     }
 
     public void NumberHandler(CommandMsg command, ConnectionHandler client){
-        Platform.runLater(() -> SwitchScene(godPickScene));
-        godPickController.SetUp(command, client);
+        Platform.runLater(() -> {
+            SwitchScene(godPickScene);
+            godPickController.SetUp(command, client);
+        });
     }
 
     public void AnswerHandler(CommandMsg command, ConnectionHandler client){
@@ -210,23 +218,30 @@ public class Gui extends Application implements View {
             Platform.runLater(() -> Confirm(command, client));
         }
         else {
-            Platform.runLater(() -> SwitchScene(resumeScene));
-            resumeController.SetUp(command, client);
+            Platform.runLater(() -> {
+                SwitchScene(resumeScene);
+                resumeController.SetUp(command, client);
+            });
         }
     }
 
     public void GodHandler(CommandMsg command, ConnectionHandler client){
-        Platform.runLater(() -> SwitchScene(selectGodScene));
-        selectGodController.SetUp(command, client);
+        Platform.runLater(() -> {
+            SwitchScene(selectGodScene);
+            selectGodController.SetUp(command, client);
+        });
     }
 
     public void PoseHandler(CommandMsg command, ConnectionHandler client){
-        gameController.SetUpPose(command, client);
+        Platform.runLater(() -> gameController.SetUpPose(command, client));
     }
 
     public void UpdateHandler(CommandMsg command, ConnectionHandler client){
         map = command.getInfo().getGrid();
-        gameController.UpdateMap();
+        Platform.runLater(() -> {
+            gameController.UpdateMap();
+            gameController.setMessage(command);
+        });
     }
 
     public void CloseHandler(CommandMsg command, ConnectionHandler client){
