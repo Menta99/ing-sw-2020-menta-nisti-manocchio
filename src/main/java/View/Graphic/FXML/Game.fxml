@@ -213,47 +213,65 @@
             </Label>
          </children>
       </Group>
-      <ImageView fx:id="card_0" fitHeight="200.0" fitWidth="142.0" layoutX="25.0">
-         <image>
-            <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="card_1" fitHeight="200.0" fitWidth="142.0" layoutX="25.0" layoutY="200.0">
-         <image>
-            <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="card_2" fitHeight="200.0" fitWidth="142.0" layoutX="25.0" layoutY="400.0">
-         <image>
-            <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="god_0" fitHeight="100.0" fitWidth="100.0" layoutX="47.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="god_1" fitHeight="100.0" fitWidth="100.0" layoutX="46.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="god_2" fitHeight="100.0" fitWidth="100.0" layoutX="47.0" layoutY="422.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="name_0" alignment="CENTER" layoutX="47.0" layoutY="126.0" prefHeight="27.0" prefWidth="100.0">
-         <font>
-            <Font name="Georgia" size="20.0" />
-         </font></Label>
-      <Label fx:id="god_name_0" alignment="CENTER" layoutX="47.0" layoutY="150.0" prefHeight="27.0" prefWidth="100.0">
-         <font>
-            <Font name="Georgia" size="20.0" />
-         </font></Label>
-      <Label fx:id="name_1" alignment="CENTER" layoutX="46.0" layoutY="325.0" prefHeight="27.0" prefWidth="100.0">
-         <font>
-            <Font name="Georgia" size="20.0" />
-         </font></Label>
-      <Label fx:id="god_name_1" alignment="CENTER" layoutX="46.0" layoutY="354.0" prefHeight="27.0" prefWidth="100.0">
-         <font>
-            <Font name="Georgia" size="20.0" />
-         </font></Label>
-      <Label fx:id="name_2" alignment="CENTER" layoutX="47.0" layoutY="529.0" prefHeight="27.0" prefWidth="100.0">
-         <font>
-            <Font name="Georgia" size="20.0" />
-         </font></Label>
-      <Label fx:id="god_name_2" alignment="CENTER" layoutX="46.0" layoutY="556.0" prefHeight="27.0" prefWidth="100.0">
-         <font>
-            <Font name="Georgia" size="20.0" />
-         </font></Label>
+      <Group fx:id="player_0" layoutX="29.0" onMouseClicked="#Info" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus">
+         <children>
+            <ImageView fx:id="card_0" fitHeight="200.0" fitWidth="142.0">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="god_0" fitHeight="100.0" fitWidth="100.0" layoutX="21.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="name_0" alignment="CENTER" layoutX="21.0" layoutY="153.0" prefHeight="27.0" prefWidth="100.0">
+               <font>
+                  <Font name="Georgia" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="god_name_0" alignment="CENTER" layoutX="21.0" layoutY="127.0" prefHeight="27.0" prefWidth="100.0">
+               <font>
+                  <Font name="Georgia" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Group>
+      <Group fx:id="player_1" layoutX="29.0" layoutY="200.0" onMouseClicked="#Info" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus">
+         <children>
+            <ImageView fx:id="card_1" fitHeight="200.0" fitWidth="142.0">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="god_1" fitHeight="100.0" fitWidth="100.0" layoutX="21.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="name_1" alignment="CENTER" layoutX="21.0" layoutY="153.0" prefHeight="27.0" prefWidth="100.0">
+               <font>
+                  <Font name="Georgia" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="god_name_1" alignment="CENTER" layoutX="21.0" layoutY="127.0" prefHeight="27.0" prefWidth="100.0">
+               <font>
+                  <Font name="Georgia" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Group>
+      <Group fx:id="player_2" layoutY="400.0" onMouseClicked="#Info" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus">
+         <children>
+            <ImageView fx:id="card_2" fitHeight="200.0" fitWidth="142.0" layoutX="29.0">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="god_2" fitHeight="100.0" fitWidth="100.0" layoutX="51.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="name_2" alignment="CENTER" layoutX="50.0" layoutY="153.0" prefHeight="27.0" prefWidth="100.0">
+               <font>
+                  <Font name="Georgia" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="god_name_2" alignment="CENTER" layoutX="50.0" layoutY="127.0" prefHeight="27.0" prefWidth="100.0">
+               <font>
+                  <Font name="Georgia" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Group>
    </children>
 </AnchorPane>

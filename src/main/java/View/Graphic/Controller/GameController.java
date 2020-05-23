@@ -21,6 +21,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
 
@@ -30,7 +34,9 @@ public class GameController implements GuiController {
     @FXML
     Label name_0, name_1, name_2, god_name_0, god_name_1, god_name_2, message;
     @FXML
-    ImageView god_0, god_1, god_2, card_2;
+    ImageView god_0, god_1, god_2;
+    @FXML
+    Group player_0, player_1, player_2;
 
     private Gui gui;
     private CommandMsg command;
@@ -46,6 +52,11 @@ public class GameController implements GuiController {
         this.gui = gui;
     }
 
+    /**
+     * SetUp of the Game controller
+     * @param command message from the server containing information
+     * @param client reference to the ConnectionHandler of the Client
+     */
     public void SetUp(CommandMsg command, ConnectionHandler client) {
         this.command = command;
         this.client = client;
@@ -60,6 +71,11 @@ public class GameController implements GuiController {
         InitializeCards(gui.getPlayers());
     }
 
+    /**
+     * SetUp of the Game controller in the case of a Pose message
+     * @param command Pose message from the server containing the information
+     * @param client reference to the ConnectionHandler of the Client
+     */
     public void SetUpPose(CommandMsg command, ConnectionHandler client){
         this.command = command;
         this.client = client;
@@ -69,6 +85,10 @@ public class GameController implements GuiController {
         setMessage(command);
     }
 
+    /**
+     * Sends the box coordinates
+     * @param e interaction from the user
+     */
     public void SendBox(MouseEvent e){
         Group group = (Group) e.getSource();
         box.add(cells.indexOf(group)%5);
@@ -77,6 +97,9 @@ public class GameController implements GuiController {
         client.WriteMessage(new ServerMsg(box));
     }
 
+    /**
+     * Updates the map structure based on the information in the MapInfo[]
+     */
     public void UpdateMap(){
         BoxInfo box;
         for(Group group : cells){
@@ -93,6 +116,9 @@ public class GameController implements GuiController {
         }
     }
 
+    /**
+     * Enables the boxes which are intractable
+     */
     public void EnableBoxes(){
         BoxInfo box;
         for(Group group : cells){
@@ -123,6 +149,9 @@ public class GameController implements GuiController {
         }
     }
 
+    /**
+     * Disables the boxes at the end of the interaction
+     */
     public void DisableBoxes(){
         for(Group group : cells){
             group.setDisable(true);
@@ -130,6 +159,10 @@ public class GameController implements GuiController {
         }
     }
 
+    /**
+     * Change the focus of a box, when enters it glows, when exits is restored to normal effect
+     * @param e interaction from the user
+     */
     public void ChangeBoxFocus(MouseEvent e){
         Group group = (Group)e.getSource();
         if(group.getEffect() == null){
@@ -140,10 +173,15 @@ public class GameController implements GuiController {
         }
     }
 
+    /**
+     * Initialize the card info, with the corresponding image, god-name and player-name
+     * @param players Array of the players in the game
+     */
     public void InitializeCards(PlayerInfo[] players){
         int i = 0;
         if(players.length == 2){
-            card_2.setOpacity(0);
+            player_2.setDisable(true);
+            player_2.toBack();
         }
         for (PlayerInfo player : players) {
             switch (i) {
@@ -168,6 +206,11 @@ public class GameController implements GuiController {
         }
     }
 
+    /**
+     * Load a box that has a dome on top
+     * @param box box to load
+     * @param group cell from the grid pane to load
+     */
     public void LoadDome(BoxInfo box, Group group){
         CellType type = CellType.DOME;
         ImageView tower = (ImageView) group.getChildren().get(0);
@@ -196,6 +239,11 @@ public class GameController implements GuiController {
         }
     }
 
+    /**
+     * load a dome without a worker or a dome on top
+     * @param box box to load
+     * @param group cell from the grid pane to load
+     */
     public void LoadTower(BoxInfo box, Group group){
         CellType type = CellType.VOID;
         ImageView tower = (ImageView) group.getChildren().get(0);
@@ -241,6 +289,11 @@ public class GameController implements GuiController {
         worker.setImage(null);
     }
 
+    /**
+     * load a dome with a worker on top
+     * @param box box to load
+     * @param group cell from the grid pane to load
+     */
     public void LoadWorker(BoxInfo box, Group group){
         CellType towerType = CellType.VOID;
         CellType workerType = CellType.VOID;
@@ -303,6 +356,11 @@ public class GameController implements GuiController {
         }
     }
 
+    /**
+     * Load the box in the initial phase or in the select worker phase
+     * @param box box to load
+     * @param group cell from the grid pane to load
+     */
     public void LoadPosWorker(BoxInfo box, Group group){
         CellType towerType = CellType.VOID;
         ImageView tower = (ImageView) group.getChildren().get(0);
@@ -329,6 +387,10 @@ public class GameController implements GuiController {
         }
     }
 
+    /**
+     * Setup the message on the top label
+     * @param command message to elaborate
+     */
     public void setMessage(CommandMsg command){
         switch (command.getCommandType()){
             case POS_INITIAL:
@@ -361,5 +423,24 @@ public class GameController implements GuiController {
                 }
                 break;
         }
+    }
+
+    /**
+     * Creates a window with the information of the card selected
+     * @param e interaction from the user
+     */
+    public void Info(MouseEvent e){
+        int number;
+        Group group = (Group) e.getSource();
+        if(group == player_0) {
+            number = 0;
+        }
+        else if(group == player_1) {
+            number = 1;
+        }
+        else{
+            number = 2;
+        }
+        gui.CardInfo(number);
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
@@ -27,7 +28,7 @@
       </ImageView>
       <Label fx:id="close_lbl" alignment="CENTER" layoutX="25.0" layoutY="213.0" onMouseClicked="#Close" onMousePressed="#pressButton" onMouseReleased="#releaseButton" prefHeight="50.0" prefWidth="200.0" text="Close" textFill="WHITE">
          <font>
-            <Font size="20.0" />
+            <Font name="Georgia" size="20.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -41,13 +42,41 @@
             <ColorAdjust brightness="-0.1" contrast="-0.2" saturation="-0.05" />
          </effect>
       </ImageView>
-      <Label fx:id="text_lbl" alignment="CENTER" layoutX="25.0" layoutY="127.0" prefHeight="50.0" prefWidth="200.0" text="Server is down" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label fx:id="text_lbl" alignment="CENTER" layoutX="25.0" layoutY="126.0" prefHeight="50.0" prefWidth="200.0" text="Server is down" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
-            <Font size="20.0" />
+            <Font name="Georgia" size="20.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Label>
+      <Group fx:id="win_tr" layoutX="127.0" opacity="0.0">
+         <children>
+            <ImageView fitHeight="200.0" fitWidth="125.0" layoutX="-106.0" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../cells/win_left_tr.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="125.0" layoutX="-23.0" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/Cells/win_right_tr.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group fx:id="lose_tr" layoutX="127.0" opacity="0.0">
+         <children>
+            <ImageView fitHeight="200.0" fitWidth="125.0" layoutX="-107.0" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../cells/lose_left_tr.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="125.0" layoutX="-22.0" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/Cells/lose_right_tr.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
    </children>
 </Pane>

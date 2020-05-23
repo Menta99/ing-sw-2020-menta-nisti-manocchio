@@ -7,6 +7,7 @@ import CommunicationProtocol.SantoriniInfo.PlayerInfo;
 import View.Colors;
 import View.Graphic.Gui;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,6 +22,8 @@ public class CommunicationController implements GuiController {
     Label close_lbl, text_lbl;
     @FXML
     ImageView pressed_btn, greek;
+    @FXML
+    Group win_tr, lose_tr;
 
     public void setGui(Gui gui) {
         this.gui = gui;
@@ -28,6 +31,8 @@ public class CommunicationController implements GuiController {
 
     public void Close(MouseEvent e){
         gui.getDialog().close();
+        win_tr.setOpacity(0);
+        lose_tr.setOpacity(0);
         if(command == null) {
             gui.getPrimaryStage().close();
         }
@@ -61,6 +66,7 @@ public class CommunicationController implements GuiController {
                     text_lbl.setText("Invalid Worker");
                     break;
                 case COM_LOSE:
+                    lose_tr.setOpacity(1);
                     text_lbl.setText("You Lost!");
                     break;
                 case CLOSE_ANOMALOUS:
@@ -70,9 +76,11 @@ public class CommunicationController implements GuiController {
                 case CLOSE_NORMAL:
                     player = command.getInfo().getPlayers()[0];
                     if (gui.getNickname().equalsIgnoreCase(player.getName())) {
+                        win_tr.setOpacity(1);
                         greek.setImage(new Image("Texture2D/endgame_victorywin.png", true));
                         text_lbl.setText("You Won");
                     } else {
+                        lose_tr.setOpacity(1);
                         text_lbl.setText(player.getName() + " has Won!");
                     }
                     break;

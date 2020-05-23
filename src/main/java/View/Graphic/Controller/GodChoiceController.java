@@ -64,7 +64,7 @@ public class GodChoiceController implements GuiController{
             }
         }
         else{
-            query.setText("Select the Gods");
+            query.setText("Select " + command.getInfo().getPlayers().length + " Gods");
             for(Node node : grid.getChildren()){
                 node.setDisable(false);
                 node.setEffect(null);

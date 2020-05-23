@@ -39,6 +39,7 @@ public class Gui extends Application implements View {
     private Scene confirmScene;
     private Scene gameScene;
     private Scene godChoiceScene;
+    private Scene cardScene;
     private Scene loginScene;
 
     private WelcomeController welcomeController;
@@ -47,6 +48,7 @@ public class Gui extends Application implements View {
     private ConfirmController confirmController;
     private GameController gameController;
     private GodChoiceController godChoiceController;
+    private CardController cardController;
     private LoginController loginController;
 
     private String nickname;
@@ -97,6 +99,18 @@ public class Gui extends Application implements View {
         dialog.showAndWait();
     }
 
+    /**
+     * SetUp the pop up window with the cards information
+     * @param player number of player which belongs the card
+     */
+    public void CardInfo(int player){
+        cardController.SetUp(player);
+        dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setScene(cardScene);
+        dialog.showAndWait();
+    }
+
     public void initScenes(){
         try{
             FXMLLoader loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Welcome.fxml").toURI().toURL());
@@ -132,6 +146,10 @@ public class Gui extends Application implements View {
             root = loader.load();
             godChoiceController = loader.getController();
             godChoiceScene = new Scene(root, 800, 600);
+            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Card.fxml").toURI().toURL());
+            root = loader.load();
+            cardController = loader.getController();
+            cardScene = new Scene(root, 267, 400);
         }
         catch (IOException e){
             System.err.println("problems initScenes");
@@ -146,6 +164,7 @@ public class Gui extends Application implements View {
         confirmController.setGui(this);
         gameController.setGui(this);
         godChoiceController.setGui(this);
+        cardController.setGui(this);
     }
 
     public void Connect(){
