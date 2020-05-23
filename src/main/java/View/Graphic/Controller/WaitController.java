@@ -16,7 +16,7 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class WaitChoiceController implements Initializable, GuiController {
+public class WaitController implements Initializable, GuiController {
     private Gui gui;
     private CommandMsg command;
     private ConnectionHandler client;

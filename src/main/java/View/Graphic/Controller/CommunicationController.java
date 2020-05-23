@@ -61,23 +61,23 @@ public class CommunicationController implements GuiController {
                     text_lbl.setText("Invalid Worker");
                     break;
                 case COM_LOSE:
-                    text_lbl.setText("You Lose, Dumbo");
+                    text_lbl.setText("You Lost!");
                     break;
                 case CLOSE_ANOMALOUS:
                     player = command.getInfo().getPlayers()[0];
-                    text_lbl.setText(player.getName() + " disconnected\nEndGame");
+                    text_lbl.setText(player.getName() + " disconnected");
                     break;
                 case CLOSE_NORMAL:
                     player = command.getInfo().getPlayers()[0];
                     if (gui.getNickname().equalsIgnoreCase(player.getName())) {
                         greek.setImage(new Image("Texture2D/endgame_victorywin.png", true));
-                        text_lbl.setText("You have won\nCongratulations");
+                        text_lbl.setText("You Won");
                     } else {
-                        text_lbl.setText(player.getName() + " has won!\nClap your hands!");
+                        text_lbl.setText(player.getName() + " has Won!");
                     }
                     break;
                 case CLOSE_RESTART:
-                    text_lbl.setText("A game is already started, try later");
+                    text_lbl.setText("Game in Progress");
                     break;
                 case CLOSE_SERVER:
                     text_lbl.setText("Server is down");

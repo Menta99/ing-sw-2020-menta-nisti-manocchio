@@ -34,26 +34,20 @@ public class Gui extends Application implements View {
     private Stage dialog;
 
     private Scene welcomeScene;
-    private Scene CommunicationScene;
-    private Scene nameScene;
-    private Scene selectGodScene;
-    private Scene numberScene;
-    private Scene resumeScene;
+    private Scene communicationScene;
     private Scene waitScene;
-    private Scene godPickScene;
     private Scene confirmScene;
     private Scene gameScene;
+    private Scene godChoiceScene;
+    private Scene loginScene;
 
     private WelcomeController welcomeController;
     private CommunicationController communicationController;
-    private NameController nameController;
-    private SelectGodController selectGodController;
-    private NumberController numberController;
-    private ResumeController resumeController;
-    private WaitChoiceController waitController;
-    private GodPickController godPickController;
+    private WaitController waitController;
     private ConfirmController confirmController;
     private GameController gameController;
+    private GodChoiceController godChoiceController;
+    private LoginController loginController;
 
     private String nickname;
     private BoxInfo[][] map;
@@ -67,8 +61,10 @@ public class Gui extends Application implements View {
     @Override
     public void start(Stage primaryStage){
         this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Santorini");
         initScenes();
         initControllers();
+        this.primaryStage.setResizable(false);
         this.primaryStage.setScene(welcomeScene);
         this.primaryStage.setOnCloseRequest(e -> CloseClient());
         this.primaryStage.show();
@@ -84,14 +80,14 @@ public class Gui extends Application implements View {
         dialog = new Stage();
         dialog.initStyle(StageStyle.TRANSPARENT);
         dialog.initModality(Modality.APPLICATION_MODAL);
-        CommunicationScene.setFill(Color.TRANSPARENT);
-        CommunicationScene.getRoot().setStyle("-fx-background-color: rgba(255, 255, 255, 0);");
-        dialog.setScene(CommunicationScene);
+        communicationScene.setFill(Color.TRANSPARENT);
+        communicationScene.getRoot().setStyle("-fx-background-color: rgba(255, 255, 255, 0);");
+        dialog.setScene(communicationScene);
         dialog.showAndWait();
     }
 
-    public void Confirm(CommandMsg command, ConnectionHandler client){
-        confirmController.SetUp(client, selectGodController, command);
+    public void Confirm(CommandMsg command, ConnectionHandler client, GodChoiceController controller){
+        confirmController.SetUp(client, controller, command);
         dialog = new Stage();
         dialog.initStyle(StageStyle.TRANSPARENT);
         dialog.initModality(Modality.APPLICATION_MODAL);
@@ -107,42 +103,35 @@ public class Gui extends Application implements View {
             Parent root = loader.load();
             welcomeController = loader.getController();
             welcomeScene = new Scene(root, 800, 600);
+            //welcomeScene.setCursor(new ImageCursor(new Image("Texture2D/godpower_hand select.png", true)));
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Communication.fxml").toURI().toURL());
             root = loader.load();
             communicationController = loader.getController();
-            CommunicationScene = new Scene(root, 250, 278);
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Name.fxml").toURI().toURL());
+            communicationScene = new Scene(root, 250, 278);
+            //communicationScene.setCursor(new ImageCursor(new Image("Texture2D/godpower_hand select.png", true)));
+            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Login.fxml").toURI().toURL());
             root = loader.load();
-            nameController = loader.getController();
-            nameScene = new Scene(root, 800, 600);
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Godphase.fxml").toURI().toURL());
-            root = loader.load();
-            selectGodController = loader.getController();
-            selectGodScene = new Scene(root, 800, 600);
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/GodPickPhase.fxml").toURI().toURL());
-            root = loader.load();
-            godPickController = loader.getController();
-            godPickScene = new Scene(root, 800, 600);
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/WaitingChoice.fxml").toURI().toURL());
+            loginController = loader.getController();
+            loginScene = new Scene(root, 800, 600);
+            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Wait.fxml").toURI().toURL());
             root = loader.load();
             waitController = loader.getController();
             waitScene = new Scene(root, 800, 600);
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Number.fxml").toURI().toURL());
-            root = loader.load();
-            numberController = loader.getController();
-            numberScene = new Scene(root, 800, 600);
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Resume.fxml").toURI().toURL());
-            root = loader.load();
-            resumeController = loader.getController();
-            resumeScene = new Scene(root, 800, 600);
+            //waitScene.setCursor(new ImageCursor(new Image("Texture2D/godpower_hand select.png", true)));
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Confirm.fxml").toURI().toURL());
             root = loader.load();
             confirmController = loader.getController();
             confirmScene = new Scene(root, 250, 278);
+            //confirmScene.setCursor(new ImageCursor(new Image("Texture2D/godpower_hand select.png", true)));
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Game.fxml").toURI().toURL());
             root = loader.load();
             gameController = loader.getController();
             gameScene = new Scene(root, 800, 600);
+            //gameScene.setCursor(new ImageCursor(new Image("Texture2D/godpower_hand select.png", true)));
+            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/GodChoice.fxml").toURI().toURL());
+            root = loader.load();
+            godChoiceController = loader.getController();
+            godChoiceScene = new Scene(root, 800, 600);
         }
         catch (IOException e){
             System.err.println("problems initScenes");
@@ -152,14 +141,11 @@ public class Gui extends Application implements View {
     public void initControllers(){
         welcomeController.setGui(this);
         communicationController.setGui(this);
-        nameController.setGui(this);
-        selectGodController.setGui(this);
-        numberController.setGui(this);
-        resumeController.setGui(this);
+        loginController.setGui(this);
         waitController.setGui(this);
-        godPickController.setGui(this);
         confirmController.setGui(this);
         gameController.setGui(this);
+        godChoiceController.setGui(this);
     }
 
     public void Connect(){
@@ -194,41 +180,39 @@ public class Gui extends Application implements View {
 
     public void NameHandler(CommandMsg command, ConnectionHandler client){
         Platform.runLater(() -> {
-            SwitchScene(nameScene);
-            nameController.SetUp(command, client);
+            SwitchScene(loginScene);
+            loginController.SetUp(command, client);
         });
     }
 
     public void FirstHandler(CommandMsg command, ConnectionHandler client){
         Platform.runLater(() -> {
-            SwitchScene(numberScene);
-            numberController.SetUp(command, client);
+            loginController.SetUp(command, client);
         });
     }
 
     public void NumberHandler(CommandMsg command, ConnectionHandler client){
         Platform.runLater(() -> {
-            SwitchScene(godPickScene);
-            godPickController.SetUp(command, client);
+            SwitchScene(godChoiceScene);
+            godChoiceController.SetUp(command, client);
         });
     }
 
     public void AnswerHandler(CommandMsg command, ConnectionHandler client){
         if(command.getCommandType() == CommandType.ANS_POWER){
-            Platform.runLater(() -> Confirm(command, client));
+            Platform.runLater(() -> Confirm(command, client, null));
         }
         else {
             Platform.runLater(() -> {
-                SwitchScene(resumeScene);
-                resumeController.SetUp(command, client);
+                loginController.SetUp(command, client);
             });
         }
     }
 
     public void GodHandler(CommandMsg command, ConnectionHandler client){
         Platform.runLater(() -> {
-            SwitchScene(selectGodScene);
-            selectGodController.SetUp(command, client);
+            SwitchScene(godChoiceScene);
+            godChoiceController.SetUp(command, client);
         });
     }
 

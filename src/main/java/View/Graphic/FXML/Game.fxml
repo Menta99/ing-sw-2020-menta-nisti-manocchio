@@ -213,17 +213,17 @@
             </Label>
          </children>
       </Group>
-      <ImageView fitHeight="200.0" fitWidth="142.0" layoutX="25.0">
+      <ImageView fx:id="card_0" fitHeight="200.0" fitWidth="142.0" layoutX="25.0">
          <image>
             <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="142.0" layoutX="25.0" layoutY="200.0">
+      <ImageView fx:id="card_1" fitHeight="200.0" fitWidth="142.0" layoutX="25.0" layoutY="200.0">
          <image>
             <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="142.0" layoutX="25.0" layoutY="400.0">
+      <ImageView fx:id="card_2" fitHeight="200.0" fitWidth="142.0" layoutX="25.0" layoutY="400.0">
          <image>
             <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
          </image>

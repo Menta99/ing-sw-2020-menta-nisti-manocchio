@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="801.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.Controller.LoginController">
+   <children>
+      <ImageView fx:id="background" fitHeight="600.0" fitWidth="801.0" layoutY="-1.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/Odyssey-Olympus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="238.0" fitWidth="300.0" layoutX="251.0" layoutY="173.0">
+         <image>
+            <Image url="@../../../../resources/Texture2D/endgame_victorywin.png" />
+         </image>
+      </ImageView>
+      <Group fx:id="left_right" layoutX="307.0" layoutY="327.0">
+         <children>
+            <Label fx:id="query" alignment="CENTER" layoutY="-48.0" prefHeight="34.0" prefWidth="185.0" text="How many players?" textAlignment="CENTER">
+               <font>
+                  <Font name="Georgia" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </Label>
+            <ImageView fx:id="prs_btn_left" fitHeight="40.0" fitWidth="90.0" layoutY="4.0">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/btn_blue_pressed.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="btn_left" fitHeight="40.0" fitWidth="90.0" layoutY="4.0">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/btn_blue.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </ImageView>
+            <Label fx:id="lbl_left" alignment="CENTER" contentDisplay="TOP" onMouseClicked="#select" onMousePressed="#press" onMouseReleased="#release" prefHeight="40.0" prefWidth="90.0" text="2" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Georgia" size="20.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="prs_btn_right" fitHeight="40.0" fitWidth="90.0" layoutX="94.0" layoutY="4.0">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/btn_blue_pressed.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="btn_right" fitHeight="40.0" fitWidth="90.0" layoutX="94.0" layoutY="4.0">
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+               <image>
+                  <Image url="@../../../../resources/Texture2D/btn_blue.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lbl_right" alignment="CENTER" contentDisplay="TOP" layoutX="94.0" onMouseClicked="#select" onMousePressed="#press" onMouseReleased="#release" prefHeight="40.0" prefWidth="90.0" text="3" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Georgia" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Group>
+      <Group fx:id="name" layoutX="306.0" layoutY="333.0">
+         <children>
+            <TextField fx:id="nickField" focusTraversable="false" layoutY="-52.0" prefHeight="34.0" prefWidth="185.0" promptText="Insert your nickname">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+               <font>
+                  <Font name="Georgia" size="12.0" />
+               </font>
+            </TextField>
+            <ImageView fx:id="prs_confirm" fitHeight="40.0" fitWidth="186.0">
+               <image>
+                  <Image url="@../../../../resources/Texture2D/btn_blue_pressed.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="confirm" fitHeight="40.0" fitWidth="186.0">
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+               <image>
+                  <Image url="@../../../../resources/Texture2D/btn_blue.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lbl_center" alignment="CENTER" contentDisplay="TOP" layoutY="-3.0" onMouseClicked="#select" onMousePressed="#press" onMouseReleased="#release" prefHeight="40.0" prefWidth="186.0" text="Confirm" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Georgia" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Group>
+   </children>
+</Pane>

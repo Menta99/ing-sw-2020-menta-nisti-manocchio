@@ -27,7 +27,7 @@
       </ImageView>
       <Label fx:id="yes_lbl" alignment="CENTER" layoutX="26.0" layoutY="213.0" onMouseClicked="#select" onMousePressed="#press" onMouseReleased="#release" prefHeight="50.0" prefWidth="100.0" text="Yes" textFill="WHITE">
          <font>
-            <Font size="20.0" />
+            <Font name="Georgia" size="20.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -45,7 +45,7 @@
       </ImageView>
       <Label fx:id="no_lbl" alignment="CENTER" layoutX="125.0" layoutY="213.0" onMouseClicked="#select" onMousePressed="#press" onMouseReleased="#release" prefHeight="50.0" prefWidth="100.0" text="No" textFill="WHITE">
          <font>
-            <Font size="20.0" />
+            <Font name="Georgia" size="20.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -59,9 +59,9 @@
             <ColorAdjust brightness="-0.1" contrast="-0.2" saturation="-0.05" />
          </effect>
       </ImageView>
-      <Label fx:id="text_lbl" alignment="CENTER" layoutX="26.0" layoutY="127.0" prefHeight="50.0" prefWidth="200.0" text="Are you sure?" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label fx:id="text_lbl" alignment="CENTER" layoutX="26.0" layoutY="126.0" prefHeight="50.0" prefWidth="200.0" text="Are you sure?" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
-            <Font size="20.0" />
+            <Font name="Georgia" size="20.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />

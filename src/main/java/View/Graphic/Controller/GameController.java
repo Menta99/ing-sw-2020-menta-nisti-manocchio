@@ -30,7 +30,7 @@ public class GameController implements GuiController {
     @FXML
     Label name_0, name_1, name_2, god_name_0, god_name_1, god_name_2, message;
     @FXML
-    ImageView god_0, god_1, god_2;
+    ImageView god_0, god_1, god_2, card_2;
 
     private Gui gui;
     private CommandMsg command;
@@ -142,6 +142,9 @@ public class GameController implements GuiController {
 
     public void InitializeCards(PlayerInfo[] players){
         int i = 0;
+        if(players.length == 2){
+            card_2.setOpacity(0);
+        }
         for (PlayerInfo player : players) {
             switch (i) {
                 case 0:

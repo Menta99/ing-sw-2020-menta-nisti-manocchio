@@ -18,7 +18,7 @@ public class ConfirmController implements GuiController{
     private Gui gui;
     private ConnectionHandler client;
     private CommandMsg command;
-    private SelectGodController controller;
+    private GodChoiceController controller;
     @FXML
     Label yes_lbl, no_lbl, text_lbl;
     @FXML
@@ -53,6 +53,7 @@ public class ConfirmController implements GuiController{
             }
             else {
                 client.WriteMessage(new ServerMsg(controller.getIndex()));
+                controller.restore();
             }
             gui.getDialog().close();
         }
@@ -72,7 +73,7 @@ public class ConfirmController implements GuiController{
         this.gui = gui;
     }
 
-    public void SetUp(ConnectionHandler client, SelectGodController controller, CommandMsg command){
+    public void SetUp(ConnectionHandler client, GodChoiceController controller, CommandMsg command){
         this.client = client;
         this.controller = controller;
         this.command = command;

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.Controller.WaitChoiceController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphic.Controller.WaitController">
    <children>
       <ImageView fitHeight="600.0" fitWidth="809.0">
          <image>
@@ -25,7 +25,7 @@
       </ImageView>
       <Label fx:id="text" alignment="CENTER" layoutX="-4.0" layoutY="112.0" prefHeight="40.0" prefWidth="800.0" text="Waiting other Players' choice..." textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font name="Times New Roman" size="36.0" />
+            <Font name="Georgia" size="36.0" />
          </font>
       </Label>
       <AnchorPane fx:id="lancetPane" layoutX="300.0" layoutY="190.0" prefHeight="220.0" prefWidth="220.0">
