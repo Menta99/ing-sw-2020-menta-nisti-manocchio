@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * Class representing graphic user interface
+ */
 public class Gui extends Application implements View {
     private final int PORT_NUM = 5555;
     private final String IP = "127.0.0.1";
@@ -73,11 +76,20 @@ public class Gui extends Application implements View {
         this.primaryStage.show();
     }
 
+    /**
+     * Set the primary stage with an other new scene
+     * @param scene new scene to see
+     */
     public void SwitchScene(Scene scene){
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
+    /**
+     * Set the stage for the communication message
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void Communication(CommandMsg command, ConnectionHandler client){
         Platform.runLater(() -> {
             communicationController.SetUp(command, client);
@@ -91,6 +103,12 @@ public class Gui extends Application implements View {
         });
     }
 
+    /**
+     * Set the stage for the confirm message
+     * @param command message from server
+     * @param client object representing a client connected
+     * @param controller controller of GodChoice fxml file
+     */
     public void Confirm(CommandMsg command, ConnectionHandler client, GodChoiceController controller){
         Platform.runLater(() -> {
             confirmController.SetUp(client, controller, command);
@@ -119,6 +137,9 @@ public class Gui extends Application implements View {
         });
     }
 
+    /**
+     * Load the correct fxml file to show
+     */
     public void initScenes(){
         try{
             FXMLLoader loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Welcome.fxml").toURI().toURL());
@@ -159,6 +180,9 @@ public class Gui extends Application implements View {
         }
     }
 
+    /**
+     * Initialise the fxml controllers
+     */
     public void initControllers(){
         welcomeController.setGui(this);
         communicationController.setGui(this);
@@ -170,6 +194,9 @@ public class Gui extends Application implements View {
         cardController.setGui(this);
     }
 
+    /**
+     * Create a new connection with the server
+     */
     public void Connect(){
         try {
             server = new Socket(IP, PORT_NUM);
@@ -184,11 +211,18 @@ public class Gui extends Application implements View {
         }
     }
 
+    /**
+     * Create a new object for connection handling
+     * @param server
+     */
     public void SetUp(Socket server){
         handler = new ConnectionHandler(server, this);
         new Thread(handler).start();
     }
 
+    /**
+     * Shut down the server
+     */
     public void CloseClient() {
         try {
             if(server!=null){
@@ -200,6 +234,11 @@ public class Gui extends Application implements View {
         }
     }
 
+    /**
+     * Switch to loginScene
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void NameHandler(CommandMsg command, ConnectionHandler client){
         Platform.runLater(() -> {
             SwitchScene(loginScene);
@@ -207,12 +246,22 @@ public class Gui extends Application implements View {
         });
     }
 
+    /**
+     * Switch to challenger scene
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void FirstHandler(CommandMsg command, ConnectionHandler client){
         Platform.runLater(() -> {
             loginController.SetUp(command, client);
         });
     }
 
+    /**
+     * Switch to GodChoice scene
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void NumberHandler(CommandMsg command, ConnectionHandler client){
         Platform.runLater(() -> {
             SwitchScene(godChoiceScene);
@@ -220,6 +269,11 @@ public class Gui extends Application implements View {
         });
     }
 
+    /**
+     * Switch to confirm scene if answered yes
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void AnswerHandler(CommandMsg command, ConnectionHandler client){
         if(command.getCommandType() == CommandType.ANS_POWER){
             Platform.runLater(() -> Confirm(command, client, null));
@@ -231,6 +285,11 @@ public class Gui extends Application implements View {
         }
     }
 
+    /**
+     * Switch to GodChoice scene
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void GodHandler(CommandMsg command, ConnectionHandler client){
         Platform.runLater(() -> {
             SwitchScene(godChoiceScene);
@@ -238,10 +297,20 @@ public class Gui extends Application implements View {
         });
     }
 
+    /**
+     * Handle a new player move
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void PoseHandler(CommandMsg command, ConnectionHandler client){
         Platform.runLater(() -> gameController.SetUpPose(command, client));
     }
 
+    /**
+     * Update the map after a move
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void UpdateHandler(CommandMsg command, ConnectionHandler client){
         map = command.getInfo().getGrid();
         if(command.getCommandType() == CommandType.UPDATE_TURN) {
@@ -253,11 +322,21 @@ public class Gui extends Application implements View {
         });
     }
 
+    /**
+     * Manage the client's close
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void CloseHandler(CommandMsg command, ConnectionHandler client){
         Platform.runLater(() -> Communication(command, client));
         client.setActive(false);
     }
 
+    /**
+     * Select the correct scene based on messages from server
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void CommunicationHandler(CommandMsg command, ConnectionHandler client) {
         switch (command.getCommandType()) {
             case COM_WELCOME:

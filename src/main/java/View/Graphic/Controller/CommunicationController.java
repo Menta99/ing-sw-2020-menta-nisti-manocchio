@@ -13,6 +13,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Controller class for fxml Communication file
+ */
 public class CommunicationController implements GuiController {
     private Gui gui;
     private CommandMsg command;
@@ -29,6 +32,10 @@ public class CommunicationController implements GuiController {
         this.gui = gui;
     }
 
+    /**
+     * Close the primary stage if needed
+     * @param e User interaction
+     */
     public void Close(MouseEvent e){
         gui.getDialog().close();
         Switch();
@@ -53,6 +60,11 @@ public class CommunicationController implements GuiController {
         }
     }
 
+    /**
+     * Prints the correct message for every command
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void SetUp(CommandMsg command, ConnectionHandler client){
         this.command = command;
         this.client = client;
@@ -99,11 +111,19 @@ public class CommunicationController implements GuiController {
         }
     }
 
+    /**
+     * Modify opacity of button pressed
+     * @param e User interaction
+     */
     public void pressButton(MouseEvent e){
         pressed_btn.setOpacity(1);
         close_lbl.setLayoutY(216);
     }
 
+    /**
+     * Modify opacity of button released
+     * @param e User interaction
+     */
     public void releaseButton(MouseEvent e){
         pressed_btn.setOpacity(0);
         close_lbl.setLayoutY(213);

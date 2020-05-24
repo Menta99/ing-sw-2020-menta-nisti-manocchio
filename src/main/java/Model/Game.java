@@ -180,7 +180,6 @@ public class Game {
         int playerDataIndex = GameData.Size() + MapData.Size() + 1;
         for (int i=0; i < playerNumber; i++){
             new Player(gameInfo.get(playerDataIndex));
-            //card = new GodFactory().create(GodsEnum.valueOf((gameInfo.get(playerDataIndex+1).toUpperCase())));
             card = deck.getCardList().get(GodsEnum.valueOf((gameInfo.get(playerDataIndex+1).toUpperCase())).ordinal());
             card.setChosen(true);
             card.setPicked(true);

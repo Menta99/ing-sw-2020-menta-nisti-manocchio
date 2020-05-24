@@ -24,6 +24,10 @@ import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 
+
+/**
+ * Controller class for fxml Game file
+ */
 public class GameController implements GuiController {
     @FXML
     GridPane gridPane;

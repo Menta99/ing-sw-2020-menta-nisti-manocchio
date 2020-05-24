@@ -16,6 +16,9 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for Wait fxml file
+ */
 public class WaitController implements Initializable, GuiController {
     private Gui gui;
     private CommandMsg command;
@@ -33,6 +36,10 @@ public class WaitController implements Initializable, GuiController {
         fadeText();
     }
 
+    /**
+     * Create the correct clock's effect
+     * @param pane fxml component element
+     */
     private void setRotate(AnchorPane pane){
         RotateTransition rotateTransition = new RotateTransition(Duration.seconds(2), pane);
         rotateTransition.setByAngle(360);
@@ -40,6 +47,9 @@ public class WaitController implements Initializable, GuiController {
         rotateTransition.play();
     }
 
+    /**
+     * Set the correct effect for the waiting
+     */
     private void fadeText(){
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(2), text);
         fadeTransition.setFromValue(0.2);
@@ -54,6 +64,11 @@ public class WaitController implements Initializable, GuiController {
         this.gui = gui;
     }
 
+    /**
+     * Create the wait lobby
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void SetUp(CommandMsg command, ConnectionHandler client){
         this.command = command;
         this.client = client;

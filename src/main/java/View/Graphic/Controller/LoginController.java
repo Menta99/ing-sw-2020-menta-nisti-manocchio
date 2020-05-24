@@ -15,6 +15,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 
+/**
+ * Controller class for Login fxml file
+ */
 public class LoginController implements GuiController{
     private Gui gui;
     private CommandMsg command;
@@ -35,6 +38,11 @@ public class LoginController implements GuiController{
         this.gui = gui;
     }
 
+    /**
+     * Print the correct message based on situation
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void SetUp(CommandMsg command, ConnectionHandler client){
         this.command = command;
         this.client = client;
@@ -60,6 +68,9 @@ public class LoginController implements GuiController{
         }
     }
 
+    /**
+     * Set the correct option for some fxml group
+     */
     public void Switch(){
         if(single) {
             name.setDisable(false);
@@ -75,6 +86,10 @@ public class LoginController implements GuiController{
         }
     }
 
+    /**
+     * Modify opacity of button pressed
+     * @param e User interaction
+     */
     public void press(MouseEvent e){
         if(single) {
             confirm.setOpacity(0);
@@ -92,6 +107,10 @@ public class LoginController implements GuiController{
         }
     }
 
+    /**
+     * Modify opacity of button released
+     * @param e User interaction
+     */
     public void release(MouseEvent e){
         if(single) {
             confirm.setOpacity(1);
@@ -109,6 +128,10 @@ public class LoginController implements GuiController{
         }
     }
 
+    /**
+     * Check the information entered by the user
+     * @param e User Interaction
+     */
     public void select(MouseEvent e){
         switch (command.getCommandType()){
             case NAME:
@@ -123,6 +146,10 @@ public class LoginController implements GuiController{
         }
     }
 
+    /**
+     * Write the correct message based on player's choice
+     * @param node graphic element
+     */
     public void CheckRestart(Node node){
         if(node == lbl_left){
             client.WriteMessage(new ServerMsg("yes"));
@@ -132,6 +159,10 @@ public class LoginController implements GuiController{
         }
     }
 
+    /**
+     * Select the correct game's player based on challenger's choice
+     * @param node graphic element
+     */
     public void CheckFirst(Node node){
         ArrayList<Integer> output = new ArrayList<>();
         if(node == lbl_left){
@@ -143,6 +174,9 @@ public class LoginController implements GuiController{
         client.WriteMessage(new ServerMsg(output));
     }
 
+    /**
+     * Check if a valid nick was entered
+     */
     public void CheckName(){
         boolean found = false;
         String msg = nickField.getText().trim();

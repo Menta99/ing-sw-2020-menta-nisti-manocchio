@@ -14,6 +14,9 @@ import javafx.scene.input.MouseEvent;
 
 
 
+/**
+ * Controller class for fxml Confirm file
+ */
 public class ConfirmController implements GuiController{
     private Gui gui;
     private ConnectionHandler client;
@@ -25,6 +28,11 @@ public class ConfirmController implements GuiController{
     @FXML
     ImageView pressed_btn_yes, pressed_btn_no;
 
+
+    /**
+     * Modify opacity of button pressed
+     * @param e User interaction
+     */
     public void press(MouseEvent e){
         if(e.getSource() == yes_lbl){
             pressed_btn_yes.setOpacity(1);
@@ -36,6 +44,10 @@ public class ConfirmController implements GuiController{
         }
     }
 
+    /**
+     * Modify opacity of button released
+     * @param e User interaction
+     */
     public void release(MouseEvent e){
         if(e.getSource() == yes_lbl){
             pressed_btn_yes.setOpacity(0);
@@ -47,6 +59,10 @@ public class ConfirmController implements GuiController{
         }
     }
 
+    /**
+     * Send the correct message based on client action
+     * @param e User interaction
+     */
     public void select(MouseEvent e){
         if(e.getSource() == yes_lbl){
             if(command.getCommandType() == CommandType.ANS_POWER){
@@ -76,6 +92,12 @@ public class ConfirmController implements GuiController{
         this.gui = gui;
     }
 
+    /**
+     * Ask if you want to use your power
+     * @param client object representing a client connected
+     * @param controller controller of GodChoice fxml file
+     * @param command message from server
+     */
     public void SetUp(ConnectionHandler client, GodChoiceController controller, CommandMsg command){
         this.client = client;
         this.controller = controller;

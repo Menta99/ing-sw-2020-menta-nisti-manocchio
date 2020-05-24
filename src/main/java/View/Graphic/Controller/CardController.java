@@ -11,6 +11,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
+/**
+ * Controller class for fxml Card file
+ */
+
 public class CardController implements GuiController{
     private Gui gui;
 
@@ -26,6 +30,10 @@ public class CardController implements GuiController{
         this.gui = gui;
     }
 
+    /**
+     * Display the correct image with his name and a description of his power
+     * @param player number of player which belongs the card
+     */
     public void SetUp(int player){
         GodInfo card = gui.getGods()[gui.getPlayers()[player].getGod()];
         name.setText(card.getName());
@@ -34,6 +42,10 @@ public class CardController implements GuiController{
         god.setImage(new Image("Cells/GodCard/" + card.getName() + ".png", true));
     }
 
+    /**
+     * Picture a description of a God selected for the game
+     * @param e User Interaction
+     */
     public void ChangeFocus(MouseEvent e){
         TranslateTransition trans = new TranslateTransition();
         trans.setDuration(Duration.seconds(1.5));
@@ -47,16 +59,28 @@ public class CardController implements GuiController{
         trans.play();
     }
 
+    /**
+     * Modify opacity of button pressed
+     * @param e User interaction
+     */
     public void pressBtn(MouseEvent e){
         btn.setOpacity(0);
         close.setLayoutY(243);
     }
 
+    /**
+     * Modify opacity of button released
+     * @param e User interaction
+     */
     public void releaseBtn(MouseEvent e){
         btn.setOpacity(1);
         close.setLayoutY(240);
     }
 
+    /**
+     * Shut down the Dialog Pane when button close is pressed
+     * @param e User interaction
+     */
     public void Close(MouseEvent e){
         gui.getDialog().close();
     }

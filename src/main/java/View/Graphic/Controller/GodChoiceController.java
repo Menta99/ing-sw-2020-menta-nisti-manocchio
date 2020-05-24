@@ -18,6 +18,9 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
+/**
+ * Controller class for fxml GodChoice file
+ */
 public class GodChoiceController implements GuiController{
     private Gui gui;
     private CommandMsg command;
@@ -42,6 +45,11 @@ public class GodChoiceController implements GuiController{
         this.gui = gui;
     }
 
+    /**
+     * Prepare the choice of Gods
+     * @param command message from server
+     * @param client object representing a client connected
+     */
     public void SetUp(CommandMsg command, ConnectionHandler client){
         this.command = command;
         this.client = client;
@@ -71,6 +79,10 @@ public class GodChoiceController implements GuiController{
         }
     }
 
+    /**
+     * Select the correct font for every card
+     * @param e User Interaction
+     */
     public void ChangeBoxFocus(MouseEvent e){
         Node node = (Node)e.getSource();
         int index = grid.getChildren().indexOf(node);
@@ -92,6 +104,10 @@ public class GodChoiceController implements GuiController{
         }
     }
 
+    /**
+     * Take the user choice and ask confirm
+     * @param e User Interaction
+     */
     public void select(MouseEvent e){
         Node source = (Node)e.getSource();
         int number = grid.getChildren().indexOf(source);
@@ -111,6 +127,9 @@ public class GodChoiceController implements GuiController{
         }
     }
 
+    /**
+     * Reset all effect to null for every card
+     */
     public void reset(){
         index = new ArrayList<>();
         for(int i = 14; i < grid.getChildren().size(); i++){
@@ -118,6 +137,9 @@ public class GodChoiceController implements GuiController{
         }
     }
 
+    /**
+     * Reset the initial correct font
+     */
     public void restore(){
         for(Node node : grid.getChildren()){
             if(grid.getChildren().indexOf(node) < 14){
