@@ -1,0 +1,300 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Game</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Game (Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Game</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/ 23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95,9%
+  </span>
+  <span class="absValue">
+    (93/ 97)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Controller.Controller;
+<i>4</i>&nbsp;import Controller.SavedData.GameData;
+<i>5</i>&nbsp;import Controller.SavedData.MapData;
+<i>6</i>&nbsp;import Controller.SavedData.PlayerData;
+<i>7</i>&nbsp;import Controller.SavedData.WorkerData;
+<i>8</i>&nbsp;import Model.Godcards.GodCard;
+<i>9</i>&nbsp;import Model.Godcards.GodDeck;
+<i>10</i>&nbsp;import Model.Godcards.GodFactory;
+<i>11</i>&nbsp;import Model.Godcards.GodsEnum;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import java.io.BufferedReader;
+<i>14</i>&nbsp;import java.io.FileNotFoundException;
+<i>15</i>&nbsp;import java.io.FileReader;
+<i>16</i>&nbsp;import java.io.IOException;
+<i>17</i>&nbsp;import java.util.ArrayList;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;import static java.lang.Integer.parseInt;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;/**
+<i>22</i>&nbsp; * Class representing the game
+<i>23</i>&nbsp; */
+<i>24</i>&nbsp;public class Game {
+<b class="fc"><i>25</i>&nbsp;    private static Game instance = null;</b>
+<i>26</i>&nbsp;    private Controller controller;
+<i>27</i>&nbsp;    private int id;
+<i>28</i>&nbsp;    private ArrayList&lt;Player&gt; players;
+<i>29</i>&nbsp;    private Player actualPlayer;
+<i>30</i>&nbsp;    private final PlayGround map;
+<i>31</i>&nbsp;    private GodDeck deck;
+<i>32</i>&nbsp;    private ArrayList&lt;GodCard&gt; activeCards;
+<i>33</i>&nbsp;    private int actualTurn;
+<i>34</i>&nbsp;    private Player winner;
+<i>35</i>&nbsp;    private boolean gameFinished;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * Private Constructor of Game (Singleton)
+<i>39</i>&nbsp;     */
+<b class="fc"><i>40</i>&nbsp;    private Game() {</b>
+<b class="fc"><i>41</i>&nbsp;        this.id = -1;</b>
+<b class="fc"><i>42</i>&nbsp;        this.players = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>43</i>&nbsp;        this.actualPlayer = null;</b>
+<b class="fc"><i>44</i>&nbsp;        this.map = PlayGround.getInstance();</b>
+<b class="fc"><i>45</i>&nbsp;        this.deck = new GodDeck();</b>
+<b class="fc"><i>46</i>&nbsp;        this.activeCards = null;</b>
+<b class="fc"><i>47</i>&nbsp;        this.actualTurn = 0;</b>
+<b class="fc"><i>48</i>&nbsp;        this.winner = null;</b>
+<b class="fc"><i>49</i>&nbsp;        this.gameFinished = false;</b>
+<b class="fc"><i>50</i>&nbsp;    }</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    /**
+<i>53</i>&nbsp;     * Getter of the Game instance (Singleton), creates a new object if none is present
+<i>54</i>&nbsp;     * @return instance of Game
+<i>55</i>&nbsp;     */
+<i>56</i>&nbsp;    public static Game getInstance() {
+<b class="fc"><i>57</i>&nbsp;        if (instance == null) {</b>
+<b class="fc"><i>58</i>&nbsp;            instance = new Game();</b>
+<i>59</i>&nbsp;        }
+<b class="fc"><i>60</i>&nbsp;        return instance;</b>
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /**
+<i>64</i>&nbsp;     * Cleans the Game and the Playground, preparing them for a new game
+<i>65</i>&nbsp;     */
+<i>66</i>&nbsp;    public void CleanGame(){
+<b class="fc"><i>67</i>&nbsp;        this.id = -1;</b>
+<b class="fc"><i>68</i>&nbsp;        this.players = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>69</i>&nbsp;        this.actualPlayer = null;</b>
+<b class="fc"><i>70</i>&nbsp;        this.deck = new GodDeck();</b>
+<b class="fc"><i>71</i>&nbsp;        this.activeCards = null;</b>
+<b class="fc"><i>72</i>&nbsp;        this.actualTurn = 0;</b>
+<b class="fc"><i>73</i>&nbsp;        this.winner = null;</b>
+<b class="fc"><i>74</i>&nbsp;        this.gameFinished = false;</b>
+<b class="fc"><i>75</i>&nbsp;        this.map.Clean();</b>
+<b class="fc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * Increments the actualTurn by 1
+<i>80</i>&nbsp;     */
+<i>81</i>&nbsp;    public void IncrementActualTurn(){
+<b class="fc"><i>82</i>&nbsp;        this.actualTurn++;</b>
+<b class="fc"><i>83</i>&nbsp;    }</b>
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    /**
+<i>86</i>&nbsp;     * Extracts the active cards
+<i>87</i>&nbsp;     * @return true or false if it succeed
+<i>88</i>&nbsp;     */
+<i>89</i>&nbsp;    public boolean ExtractCard(ArrayList&lt;Integer&gt; index){
+<b class="fc"><i>90</i>&nbsp;        if (activeCards == null) {</b>
+<i>91</i>&nbsp;            try{
+<b class="fc"><i>92</i>&nbsp;                activeCards = this.getPlayer().get(0).Draw(this.getDeck(), index);</b>
+<i>93</i>&nbsp;            }
+<b class="fc"><i>94</i>&nbsp;            catch (IndexOutOfBoundsException e){</b>
+<b class="fc"><i>95</i>&nbsp;                e.printStackTrace();</b>
+<b class="fc"><i>96</i>&nbsp;                return false;</b>
+<b class="fc"><i>97</i>&nbsp;            }</b>
+<b class="fc"><i>98</i>&nbsp;            if (activeCards != null) {</b>
+<b class="fc"><i>99</i>&nbsp;                return true;</b>
+<i>100</i>&nbsp;            }
+<i>101</i>&nbsp;        }
+<b class="fc"><i>102</i>&nbsp;        return false;</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    public Controller getController() {
+<b class="fc"><i>106</i>&nbsp;        return controller;</b>
+<i>107</i>&nbsp;    }
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    public void setController(Controller controller) {
+<b class="fc"><i>110</i>&nbsp;        this.controller = controller;</b>
+<b class="fc"><i>111</i>&nbsp;    }</b>
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    public int getId() {
+<b class="fc"><i>114</i>&nbsp;        return this.id;</b>
+<i>115</i>&nbsp;    }
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;    public void setId(int id) {
+<b class="fc"><i>118</i>&nbsp;        this.id = id;</b>
+<b class="fc"><i>119</i>&nbsp;    }</b>
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    public ArrayList&lt;Player&gt; getPlayer() {
+<b class="fc"><i>122</i>&nbsp;        return this.players;</b>
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    public Player getActualPlayer() {
+<b class="fc"><i>126</i>&nbsp;        return this.actualPlayer;</b>
+<i>127</i>&nbsp;    }
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    public void setActualPlayer(Player actualPlayer) {
+<b class="fc"><i>130</i>&nbsp;        this.actualPlayer = actualPlayer;</b>
+<b class="fc"><i>131</i>&nbsp;    }</b>
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    public GodDeck getDeck() {
+<b class="fc"><i>134</i>&nbsp;        return this.deck;</b>
+<i>135</i>&nbsp;    }
+<i>136</i>&nbsp;
+<i>137</i>&nbsp;    public ArrayList&lt;GodCard&gt; getActiveCards() {
+<b class="fc"><i>138</i>&nbsp;        return this.activeCards;</b>
+<i>139</i>&nbsp;    }
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;    public int getActualTurn() {
+<b class="fc"><i>142</i>&nbsp;        return this.actualTurn;</b>
+<i>143</i>&nbsp;    }
+<i>144</i>&nbsp;
+<i>145</i>&nbsp;    public Player getWinner() {
+<b class="fc"><i>146</i>&nbsp;        return this.winner;</b>
+<i>147</i>&nbsp;    }
+<i>148</i>&nbsp;
+<i>149</i>&nbsp;    public void setWinner(Player winner) {
+<b class="fc"><i>150</i>&nbsp;        this.winner = winner;</b>
+<b class="fc"><i>151</i>&nbsp;    }</b>
+<i>152</i>&nbsp;
+<i>153</i>&nbsp;    public boolean isGameFinished() {
+<b class="fc"><i>154</i>&nbsp;        return this.gameFinished;</b>
+<i>155</i>&nbsp;    }
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;    public void setGameFinished(boolean gameFinished) {
+<b class="fc"><i>158</i>&nbsp;        this.gameFinished = gameFinished;</b>
+<b class="fc"><i>159</i>&nbsp;    }</b>
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;    public void loadGame(String name) {
+<b class="fc"><i>162</i>&nbsp;        ArrayList&lt;String&gt; gameData = getSavedGame(name);</b>
+<b class="fc"><i>163</i>&nbsp;        Game myGame = Game.getInstance();</b>
+<b class="fc"><i>164</i>&nbsp;        myGame.id = parseInt(gameData.get(0));</b>
+<b class="fc"><i>165</i>&nbsp;        myGame.actualTurn = parseInt(gameData.get(1));</b>
+<b class="fc"><i>166</i>&nbsp;        int playerNumber = parseInt(gameData.get(2));</b>
+<b class="fc"><i>167</i>&nbsp;        loadPlayers(playerNumber, gameData);</b>
+<b class="fc"><i>168</i>&nbsp;        for (Player player : players){</b>
+<b class="fc"><i>169</i>&nbsp;            if (!player.isLoser()){</b>
+<b class="fc"><i>170</i>&nbsp;                player.loadWorkers(gameData, players.indexOf(player));</b>
+<i>171</i>&nbsp;            }
+<b class="fc"><i>172</i>&nbsp;        }</b>
+<b class="fc"><i>173</i>&nbsp;        PlayGround.getInstance().loadMap(gameData);</b>
+<b class="fc"><i>174</i>&nbsp;        setActualPlayer(players.get(actualTurn % players.size()));</b>
+<b class="fc"><i>175</i>&nbsp;    }</b>
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;    public void loadPlayers(int playerNumber, ArrayList&lt;String&gt; gameInfo){
+<i>178</i>&nbsp;        GodCard card;
+<b class="fc"><i>179</i>&nbsp;        activeCards = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>180</i>&nbsp;        int playerDataIndex = GameData.Size() + MapData.Size() + 1;</b>
+<b class="fc"><i>181</i>&nbsp;        for (int i=0; i &lt; playerNumber; i++){</b>
+<b class="fc"><i>182</i>&nbsp;            new Player(gameInfo.get(playerDataIndex));</b>
+<b class="fc"><i>183</i>&nbsp;            card = deck.getCardList().get(GodsEnum.valueOf((gameInfo.get(playerDataIndex+1).toUpperCase())).ordinal());</b>
+<b class="fc"><i>184</i>&nbsp;            card.setChosen(true);</b>
+<b class="fc"><i>185</i>&nbsp;            card.setPicked(true);</b>
+<b class="fc"><i>186</i>&nbsp;            card.setOwner(players.get(i));</b>
+<b class="fc"><i>187</i>&nbsp;            players.get(i).setGod(card);</b>
+<b class="fc"><i>188</i>&nbsp;            Game.getInstance().getActiveCards().add(players.get(i).getCard());</b>
+<b class="fc"><i>189</i>&nbsp;            if (gameInfo.get(playerDataIndex-1).equals(&quot;1&quot;)){</b>
+<b class="nc"><i>190</i>&nbsp;                players.get(i).setLoser(true);</b>
+<i>191</i>&nbsp;            }
+<b class="fc"><i>192</i>&nbsp;            playerDataIndex += 2* WorkerData.Size() + PlayerData.Size(); //nextPlayerNickname</b>
+<i>193</i>&nbsp;        }
+<b class="fc"><i>194</i>&nbsp;    }</b>
+<i>195</i>&nbsp;
+<i>196</i>&nbsp;    public ArrayList&lt;String&gt; getSavedGame(String name) {
+<b class="fc"><i>197</i>&nbsp;        String fileName = (&quot;temp/&quot; + name + &quot;.txt&quot;);</b>
+<b class="fc"><i>198</i>&nbsp;        ArrayList&lt;String&gt; gameData = new ArrayList&lt;&gt;();</b>
+<i>199</i>&nbsp;        String singleData;
+<i>200</i>&nbsp;        try {
+<b class="fc"><i>201</i>&nbsp;            BufferedReader reader = new BufferedReader(new FileReader(fileName));</b>
+<i>202</i>&nbsp;            try {
+<b class="fc"><i>203</i>&nbsp;                while ((singleData = reader.readLine()) != null) {</b>
+<b class="fc"><i>204</i>&nbsp;                    gameData.add(singleData);</b>
+<i>205</i>&nbsp;                }
+<b class="fc"><i>206</i>&nbsp;                reader.close();</b>
+<b class="nc"><i>207</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>208</i>&nbsp;                System.out.println(&quot;Error during File read&quot;);</b>
+<b class="nc"><i>209</i>&nbsp;                return null;</b>
+<b class="fc"><i>210</i>&nbsp;            }</b>
+<b class="fc"><i>211</i>&nbsp;        } catch (FileNotFoundException e) {</b>
+<b class="fc"><i>212</i>&nbsp;            System.out.println(&quot;Unable to find data&quot;);</b>
+<b class="fc"><i>213</i>&nbsp;            return null;</b>
+<b class="fc"><i>214</i>&nbsp;        }</b>
+<b class="fc"><i>215</i>&nbsp;        return gameData;</b>
+<i>216</i>&nbsp;    }
+<i>217</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-24 20:10</div>
+</div>
+</body>
+</html>

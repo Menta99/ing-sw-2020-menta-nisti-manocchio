@@ -1,0 +1,551 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Cli</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">View.CLI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Cli (View.CLI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Cli</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (16/ 16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,6%
+  </span>
+  <span class="absValue">
+    (189/ 226)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Cli$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/ 17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,7%
+  </span>
+  <span class="absValue">
+    (190/ 227)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package View.CLI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Client.ConnectionHandler;
+<i>4</i>&nbsp;import CommunicationProtocol.CommandMsg;
+<i>5</i>&nbsp;import CommunicationProtocol.SantoriniInfo.BoxInfo;
+<i>6</i>&nbsp;import CommunicationProtocol.SantoriniInfo.GodInfo;
+<i>7</i>&nbsp;import CommunicationProtocol.SantoriniInfo.PlayerInfo;
+<i>8</i>&nbsp;import CommunicationProtocol.ServerMsg;
+<i>9</i>&nbsp;import Model.PawnType;
+<i>10</i>&nbsp;import View.Colors;
+<i>11</i>&nbsp;import View.View;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import java.io.File;
+<i>14</i>&nbsp;import java.io.FileInputStream;
+<i>15</i>&nbsp;import java.io.IOException;
+<i>16</i>&nbsp;import java.io.InputStream;
+<i>17</i>&nbsp;import java.util.ArrayList;
+<i>18</i>&nbsp;import java.util.Scanner;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;/**
+<i>21</i>&nbsp; * Class representing the Command Line Interface
+<i>22</i>&nbsp; */
+<i>23</i>&nbsp;public class Cli implements View {
+<i>24</i>&nbsp;    private final Scanner scanner;
+<i>25</i>&nbsp;    private BoxInfo[][] map;
+<i>26</i>&nbsp;    private GodInfo[] gods;
+<i>27</i>&nbsp;    private PlayerInfo[] players;
+<i>28</i>&nbsp;    private String nickname;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /**
+<i>31</i>&nbsp;     * Constructor of the class
+<i>32</i>&nbsp;     */
+<b class="fc"><i>33</i>&nbsp;    public Cli(){</b>
+<b class="fc"><i>34</i>&nbsp;        this.scanner = new Scanner(System.in);</b>
+<b class="fc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<b class="fc"><i>37</i>&nbsp;    public Cli(String file) throws IOException {</b>
+<b class="fc"><i>38</i>&nbsp;        File initialFile = new File(file);</b>
+<b class="fc"><i>39</i>&nbsp;        InputStream targetStream = new FileInputStream(initialFile);</b>
+<b class="fc"><i>40</i>&nbsp;        System.setIn(targetStream);</b>
+<b class="fc"><i>41</i>&nbsp;        scanner = new Scanner(System.in);</b>
+<b class="fc"><i>42</i>&nbsp;    }</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**
+<i>45</i>&nbsp;     * Handler for CommandType family Name
+<i>46</i>&nbsp;     * @param command CommandMsg send by the Server
+<i>47</i>&nbsp;     * @param client reference to the ConnectionHandler
+<i>48</i>&nbsp;     */
+<i>49</i>&nbsp;    public void NameHandler(CommandMsg command, ConnectionHandler client){
+<b class="fc"><i>50</i>&nbsp;        Display(command);</b>
+<b class="fc"><i>51</i>&nbsp;        boolean found = false;</b>
+<b class="fc"><i>52</i>&nbsp;        String msg = scanner.nextLine().trim();</b>
+<b class="fc"><i>53</i>&nbsp;        while(!found){</b>
+<b class="fc"><i>54</i>&nbsp;            if(msg.equalsIgnoreCase(&quot;&quot;)) {</b>
+<b class="nc"><i>55</i>&nbsp;                System.out.println(&quot;Insert a non-void name, retry&quot;);</b>
+<b class="nc"><i>56</i>&nbsp;                msg = scanner.nextLine().trim();</b>
+<i>57</i>&nbsp;            }
+<i>58</i>&nbsp;            else{
+<b class="fc"><i>59</i>&nbsp;                found = true;</b>
+<b class="fc"><i>60</i>&nbsp;                if(command.getInfo() != null) {</b>
+<b class="fc"><i>61</i>&nbsp;                    for (PlayerInfo player : command.getInfo().getPlayers()) {</b>
+<b class="fc"><i>62</i>&nbsp;                        if (player.getName().equalsIgnoreCase(msg)) {</b>
+<b class="nc"><i>63</i>&nbsp;                            found = false;</b>
+<b class="nc"><i>64</i>&nbsp;                            break;</b>
+<i>65</i>&nbsp;                        }
+<i>66</i>&nbsp;                    }
+<b class="fc"><i>67</i>&nbsp;                    if (!found) {</b>
+<b class="nc"><i>68</i>&nbsp;                        System.out.println(&quot;Name already chosen, retry&quot;);</b>
+<b class="nc"><i>69</i>&nbsp;                        msg = scanner.nextLine().trim();</b>
+<i>70</i>&nbsp;                    }
+<i>71</i>&nbsp;                }
+<i>72</i>&nbsp;            }
+<i>73</i>&nbsp;        }
+<b class="fc"><i>74</i>&nbsp;        nickname = msg;</b>
+<b class="fc"><i>75</i>&nbsp;        client.WriteMessage(new ServerMsg(msg));</b>
+<b class="fc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * Handler for CommandType family First
+<i>80</i>&nbsp;     * @param command CommandMsg send by the Server
+<i>81</i>&nbsp;     * @param client reference to the ConnectionHandler
+<i>82</i>&nbsp;     */
+<i>83</i>&nbsp;    public void FirstHandler(CommandMsg command, ConnectionHandler client){
+<b class="fc"><i>84</i>&nbsp;        Display(command);</b>
+<b class="fc"><i>85</i>&nbsp;        ArrayList&lt;Integer&gt; output = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>86</i>&nbsp;        String line = scanner.nextLine().trim();</b>
+<b class="fc"><i>87</i>&nbsp;        while(!line.equalsIgnoreCase(&quot;2&quot;) &amp;&amp; !line.equalsIgnoreCase(&quot;3&quot;)) {</b>
+<b class="nc"><i>88</i>&nbsp;            System.out.println(&quot;Invalid input, required &#39;2&#39; or &#39;3&#39;, retry&quot;);</b>
+<b class="nc"><i>89</i>&nbsp;            line = scanner.nextLine().trim();</b>
+<i>90</i>&nbsp;        }
+<b class="fc"><i>91</i>&nbsp;        output.add(Integer.parseInt(line));</b>
+<b class="fc"><i>92</i>&nbsp;        client.WriteMessage(new ServerMsg(output));</b>
+<b class="fc"><i>93</i>&nbsp;    }</b>
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    /**
+<i>96</i>&nbsp;     * Handler for CommandType family Number
+<i>97</i>&nbsp;     * @param command CommandMsg send by the Server
+<i>98</i>&nbsp;     * @param client reference to the ConnectionHandler
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    public void NumberHandler(CommandMsg command, ConnectionHandler client){
+<b class="fc"><i>101</i>&nbsp;        Display(command);</b>
+<b class="fc"><i>102</i>&nbsp;        ArrayList&lt;Integer&gt; output = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>103</i>&nbsp;        boolean found = false;</b>
+<i>104</i>&nbsp;        int result;
+<b class="fc"><i>105</i>&nbsp;        String line = scanner.nextLine().trim();</b>
+<b class="fc"><i>106</i>&nbsp;        while (!found){</b>
+<b class="fc"><i>107</i>&nbsp;            if(line.matches(&quot;\\d+&quot;)){</b>
+<b class="fc"><i>108</i>&nbsp;                result = Integer.parseInt(line);</b>
+<b class="fc"><i>109</i>&nbsp;                if(result &gt; -1 &amp;&amp; result &lt; command.getInfo().getGods().length){</b>
+<b class="fc"><i>110</i>&nbsp;                    output.add(command.getInfo().getGods()[result].getPosition());</b>
+<b class="fc"><i>111</i>&nbsp;                    found = true;</b>
+<i>112</i>&nbsp;                }
+<i>113</i>&nbsp;                else {
+<b class="nc"><i>114</i>&nbsp;                    System.out.println(&quot;Invalid index, retry&quot;);</b>
+<b class="nc"><i>115</i>&nbsp;                    line = scanner.nextLine().trim();</b>
+<i>116</i>&nbsp;                }
+<i>117</i>&nbsp;            }
+<i>118</i>&nbsp;            else{
+<b class="nc"><i>119</i>&nbsp;                System.out.println(&quot;Invalid input, required a number, retry&quot;);</b>
+<b class="nc"><i>120</i>&nbsp;                line = scanner.nextLine().trim();</b>
+<i>121</i>&nbsp;            }
+<i>122</i>&nbsp;        }
+<b class="fc"><i>123</i>&nbsp;        client.WriteMessage(new ServerMsg(output));</b>
+<b class="fc"><i>124</i>&nbsp;    }</b>
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;    /**
+<i>127</i>&nbsp;     * Handler for CommandType family Pose
+<i>128</i>&nbsp;     * @param command CommandMsg send by the Server
+<i>129</i>&nbsp;     * @param client reference to the ConnectionHandler
+<i>130</i>&nbsp;     */
+<i>131</i>&nbsp;    public void PoseHandler(CommandMsg command, ConnectionHandler client){
+<b class="fc"><i>132</i>&nbsp;        Display(command);</b>
+<b class="fc"><i>133</i>&nbsp;        ArrayList&lt;Integer&gt; coordinates = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>134</i>&nbsp;        System.out.println(&quot;Insert the coordinates&quot;);</b>
+<b class="fc"><i>135</i>&nbsp;        boolean found = false;</b>
+<i>136</i>&nbsp;        String x;
+<i>137</i>&nbsp;        String y;
+<i>138</i>&nbsp;        int result_x;
+<i>139</i>&nbsp;        int result_y;
+<b class="fc"><i>140</i>&nbsp;        String line = scanner.nextLine().trim();</b>
+<b class="fc"><i>141</i>&nbsp;        while (!found){</b>
+<b class="fc"><i>142</i>&nbsp;            if(line.matches(&quot;\\d+\\s+\\d+&quot;)){</b>
+<b class="fc"><i>143</i>&nbsp;                x = line.substring(0, line.indexOf(&#39; &#39;));</b>
+<b class="fc"><i>144</i>&nbsp;                y = line.substring(line.indexOf(x) + 1).trim();</b>
+<b class="fc"><i>145</i>&nbsp;                result_x = Integer.parseInt(x);</b>
+<b class="fc"><i>146</i>&nbsp;                result_y = Integer.parseInt(y);</b>
+<b class="fc"><i>147</i>&nbsp;                if((result_x &gt; -1) &amp;&amp; (result_x &lt; 5) &amp;&amp; (result_y &gt; -1) &amp;&amp; (result_y &lt; 5)){</b>
+<b class="fc"><i>148</i>&nbsp;                    coordinates.add(result_x);</b>
+<b class="fc"><i>149</i>&nbsp;                    coordinates.add(result_y);</b>
+<b class="fc"><i>150</i>&nbsp;                    found = true;</b>
+<i>151</i>&nbsp;                }
+<i>152</i>&nbsp;                else{
+<b class="nc"><i>153</i>&nbsp;                    System.out.println(&quot;Invalid index, required numbers between &#39;0&#39; and &#39;4&#39;, retry&quot;);</b>
+<b class="nc"><i>154</i>&nbsp;                    line = scanner.nextLine().trim();</b>
+<i>155</i>&nbsp;                }
+<i>156</i>&nbsp;            }
+<i>157</i>&nbsp;            else{
+<b class="nc"><i>158</i>&nbsp;                System.out.println(&quot;Invalid input, required two numbers, retry&quot;);</b>
+<b class="nc"><i>159</i>&nbsp;                line = scanner.nextLine().trim();</b>
+<i>160</i>&nbsp;            }
+<i>161</i>&nbsp;        }
+<b class="fc"><i>162</i>&nbsp;        client.WriteMessage(new ServerMsg(coordinates));</b>
+<b class="fc"><i>163</i>&nbsp;    }</b>
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;    /**
+<i>166</i>&nbsp;     * Handler for CommandType family Answer
+<i>167</i>&nbsp;     * @param command CommandMsg send by the Server
+<i>168</i>&nbsp;     * @param client reference to the ConnectionHandler
+<i>169</i>&nbsp;     */
+<i>170</i>&nbsp;    public void AnswerHandler(CommandMsg command, ConnectionHandler client){
+<b class="fc"><i>171</i>&nbsp;        Display(command);</b>
+<b class="fc"><i>172</i>&nbsp;        String msg = scanner.nextLine().trim();</b>
+<b class="fc"><i>173</i>&nbsp;        while ((!msg.equalsIgnoreCase(&quot;yes&quot;) &amp;&amp; !msg.equalsIgnoreCase(&quot;no&quot;))){</b>
+<b class="nc"><i>174</i>&nbsp;            System.out.println(&quot;Invalid input, required &#39;yes&#39; or &#39;no&#39;, retry&quot;);</b>
+<b class="nc"><i>175</i>&nbsp;            msg = scanner.nextLine().trim();</b>
+<i>176</i>&nbsp;        }
+<b class="fc"><i>177</i>&nbsp;        client.WriteMessage(new ServerMsg(msg));</b>
+<b class="fc"><i>178</i>&nbsp;    }</b>
+<i>179</i>&nbsp;
+<i>180</i>&nbsp;    /**
+<i>181</i>&nbsp;     * Handler for CommandType family God
+<i>182</i>&nbsp;     * @param command CommandMsg send by the Server
+<i>183</i>&nbsp;     * @param client reference to the ConnectionHandler
+<i>184</i>&nbsp;     */
+<i>185</i>&nbsp;    public void GodHandler(CommandMsg command, ConnectionHandler client){
+<b class="fc"><i>186</i>&nbsp;        Display(command);</b>
+<b class="fc"><i>187</i>&nbsp;        ArrayList&lt;Integer&gt; index = new ArrayList&lt;&gt;();</b>
+<i>188</i>&nbsp;        int number;
+<i>189</i>&nbsp;        String line;
+<b class="fc"><i>190</i>&nbsp;        while (index.size() &lt; command.getInfo().getPlayers().length){</b>
+<b class="fc"><i>191</i>&nbsp;            line = scanner.nextLine().trim();</b>
+<b class="fc"><i>192</i>&nbsp;            if(line.matches(&quot;\\d+&quot;)) {</b>
+<b class="fc"><i>193</i>&nbsp;                number = Integer.parseInt(line);</b>
+<b class="fc"><i>194</i>&nbsp;                if (number &gt; -1 &amp;&amp; number &lt; 14) {</b>
+<b class="fc"><i>195</i>&nbsp;                    if (!index.contains(number)) {</b>
+<b class="fc"><i>196</i>&nbsp;                        index.add(number);</b>
+<b class="fc"><i>197</i>&nbsp;                        System.out.println(&quot;God n°&quot; + number + &quot; added&quot;);</b>
+<i>198</i>&nbsp;                    }
+<i>199</i>&nbsp;                    else {
+<b class="nc"><i>200</i>&nbsp;                        System.out.println(&quot;Already selected God, retry&quot;);</b>
+<i>201</i>&nbsp;                    }
+<i>202</i>&nbsp;                }
+<i>203</i>&nbsp;                else {
+<b class="nc"><i>204</i>&nbsp;                    System.out.println(&quot;Index not valid, required number between 0 and 13&quot;);</b>
+<i>205</i>&nbsp;                }
+<i>206</i>&nbsp;            }
+<i>207</i>&nbsp;            else{
+<b class="nc"><i>208</i>&nbsp;                System.out.println(&quot;Invalid input, required a number, retry&quot;);</b>
+<i>209</i>&nbsp;            }
+<i>210</i>&nbsp;        }
+<b class="fc"><i>211</i>&nbsp;        client.WriteMessage(new ServerMsg(index));</b>
+<b class="fc"><i>212</i>&nbsp;    }</b>
+<i>213</i>&nbsp;
+<i>214</i>&nbsp;    /**
+<i>215</i>&nbsp;     * Handler for CommandType family Update
+<i>216</i>&nbsp;     * @param command CommandMsg send by the Server
+<i>217</i>&nbsp;     */
+<i>218</i>&nbsp;    public void UpdateHandler(CommandMsg command){
+<b class="fc"><i>219</i>&nbsp;        map = command.getInfo().getGrid();</b>
+<b class="fc"><i>220</i>&nbsp;        ShowMap();</b>
+<b class="fc"><i>221</i>&nbsp;        Display(command);</b>
+<b class="fc"><i>222</i>&nbsp;    }</b>
+<i>223</i>&nbsp;
+<i>224</i>&nbsp;    /**
+<i>225</i>&nbsp;     * Handler for CommandType family Close
+<i>226</i>&nbsp;     * @param command CommandMsg send by the Server
+<i>227</i>&nbsp;     * @param client reference to the ConnectionHandler
+<i>228</i>&nbsp;     */
+<i>229</i>&nbsp;    public void CloseHandler(CommandMsg command, ConnectionHandler client){
+<b class="fc"><i>230</i>&nbsp;        Display(command);</b>
+<b class="fc"><i>231</i>&nbsp;        client.setActive(false);</b>
+<b class="fc"><i>232</i>&nbsp;    }</b>
+<i>233</i>&nbsp;
+<i>234</i>&nbsp;    /**
+<i>235</i>&nbsp;     * Handler for CommandType family Communication
+<i>236</i>&nbsp;     * @param command CommandMsg send by the Server
+<i>237</i>&nbsp;     */
+<i>238</i>&nbsp;    public void CommunicationHandler(CommandMsg command){
+<b class="fc"><i>239</i>&nbsp;        switch (command.getCommandType()){</b>
+<i>240</i>&nbsp;            case COM_WELCOME:
+<b class="fc"><i>241</i>&nbsp;                WelcomeScreen();</b>
+<b class="fc"><i>242</i>&nbsp;                gods = command.getInfo().getGods();</b>
+<b class="fc"><i>243</i>&nbsp;                players = command.getInfo().getPlayers();</b>
+<b class="fc"><i>244</i>&nbsp;                break;</b>
+<i>245</i>&nbsp;            case COM_RESTART:
+<b class="nc"><i>246</i>&nbsp;                gods = command.getInfo().getGods();</b>
+<b class="nc"><i>247</i>&nbsp;                players = command.getInfo().getPlayers();</b>
+<b class="nc"><i>248</i>&nbsp;                break;</b>
+<i>249</i>&nbsp;            case COM_GODS:
+<b class="fc"><i>250</i>&nbsp;                GodInGame(command.getInfo().getGods());</b>
+<b class="fc"><i>251</i>&nbsp;                break;</b>
+<i>252</i>&nbsp;            case COM_CHOSEN:
+<b class="fc"><i>253</i>&nbsp;                PlayerGod(command.getInfo().getPlayers());</b>
+<b class="fc"><i>254</i>&nbsp;                for (PlayerInfo user : players) {</b>
+<b class="fc"><i>255</i>&nbsp;                    System.out.println(&quot;Player: &quot; + user.getColor() + user.getName() + Colors.RESET + &quot; GodCard: &quot; + gods[user.getGod()].getName());</b>
+<i>256</i>&nbsp;                }
+<b class="fc"><i>257</i>&nbsp;                break;</b>
+<i>258</i>&nbsp;            case COM_WAIT_CHOICE:
+<b class="fc"><i>259</i>&nbsp;                System.out.println(&quot;Waiting the other player&#39;s choice&quot;);</b>
+<b class="fc"><i>260</i>&nbsp;                break;</b>
+<i>261</i>&nbsp;            case COM_WAIT_LOBBY:
+<b class="fc"><i>262</i>&nbsp;                System.out.println(&quot;Waiting the other players in the Lobby&quot;);</b>
+<b class="fc"><i>263</i>&nbsp;                break;</b>
+<i>264</i>&nbsp;            case COM_INVALID_WORKER:
+<b class="nc"><i>265</i>&nbsp;                System.out.println(&quot;Not a valid worker, retry&quot;);</b>
+<b class="nc"><i>266</i>&nbsp;                break;</b>
+<i>267</i>&nbsp;            case COM_INVALID_POS:
+<b class="nc"><i>268</i>&nbsp;                System.out.println(&quot;Not a valid destination, retry&quot;);</b>
+<b class="nc"><i>269</i>&nbsp;                break;</b>
+<i>270</i>&nbsp;            case COM_LOSE:
+<b class="fc"><i>271</i>&nbsp;                System.out.println(&quot;You lose, Dumbos&quot;);</b>
+<i>272</i>&nbsp;                break;
+<i>273</i>&nbsp;        }
+<b class="fc"><i>274</i>&nbsp;    }</b>
+<i>275</i>&nbsp;
+<i>276</i>&nbsp;    /**
+<i>277</i>&nbsp;     * Displays the corresponding messages of each message
+<i>278</i>&nbsp;     * @param command CommandMsg send by the Server
+<i>279</i>&nbsp;     */
+<i>280</i>&nbsp;    public void Display(CommandMsg command){
+<b class="fc"><i>281</i>&nbsp;        switch (command.getCommandType()){</b>
+<i>282</i>&nbsp;            case NAME:
+<b class="fc"><i>283</i>&nbsp;                System.out.println(&quot;Insert your NickName&quot;);</b>
+<b class="fc"><i>284</i>&nbsp;                break;</b>
+<i>285</i>&nbsp;            case FIRST:
+<b class="fc"><i>286</i>&nbsp;                System.out.println(&quot;You are the Challenger!\nTell me the Number of Players of this Match&quot;);</b>
+<b class="fc"><i>287</i>&nbsp;                break;</b>
+<i>288</i>&nbsp;            case POS_INITIAL:
+<b class="fc"><i>289</i>&nbsp;                System.out.println(&quot;Where do you want to place your Worker?&quot;);</b>
+<b class="fc"><i>290</i>&nbsp;                break;</b>
+<i>291</i>&nbsp;            case POS_WORKER:
+<b class="fc"><i>292</i>&nbsp;                System.out.println(&quot;Select one of your Workers&quot;);</b>
+<b class="fc"><i>293</i>&nbsp;                break;</b>
+<i>294</i>&nbsp;            case POS_MOVE:
+<b class="fc"><i>295</i>&nbsp;                System.out.println(&quot;Where do you want to Move?&quot;);</b>
+<b class="fc"><i>296</i>&nbsp;                break;</b>
+<i>297</i>&nbsp;            case POS_BUILD:
+<b class="fc"><i>298</i>&nbsp;                System.out.println(&quot;Where do you want to Build?&quot;);</b>
+<b class="fc"><i>299</i>&nbsp;                break;</b>
+<i>300</i>&nbsp;            case NUMBER:
+<b class="fc"><i>301</i>&nbsp;                for(int i = 0; i &lt; command.getInfo().getGods().length; i++){</b>
+<b class="fc"><i>302</i>&nbsp;                    System.out.println(&quot;Insert &quot; + i + &quot; to get &quot; + command.getInfo().getGods()[i].getName());</b>
+<i>303</i>&nbsp;                }
+<b class="fc"><i>304</i>&nbsp;                break;</b>
+<i>305</i>&nbsp;            case ANS_POWER:
+<b class="fc"><i>306</i>&nbsp;                System.out.println(&quot;Would you like to use your divinity Power? \nyes / no&quot;);</b>
+<b class="fc"><i>307</i>&nbsp;                break;</b>
+<i>308</i>&nbsp;            case ANS_RESTART:
+<b class="nc"><i>309</i>&nbsp;                System.out.println(&quot;Would you like to resume your previous Game? \nyes / no&quot;);</b>
+<b class="nc"><i>310</i>&nbsp;                break;</b>
+<i>311</i>&nbsp;            case GOD:
+<b class="fc"><i>312</i>&nbsp;                System.out.println(&quot;These are the gods available :&quot;);</b>
+<b class="fc"><i>313</i>&nbsp;                for(GodInfo god : gods){</b>
+<b class="fc"><i>314</i>&nbsp;                    System.out.println(&quot;[&quot; + god.getPosition() + &quot;] &quot; + god.getName() + &quot; - &quot; + god.getPower());</b>
+<i>315</i>&nbsp;                }
+<b class="fc"><i>316</i>&nbsp;                System.out.println(&quot;Please &quot; + players[0].getColor() + players[0].getName() + Colors.RESET</b>
+<i>317</i>&nbsp;                        + &quot; Select &quot; + players.length + &quot; GodCards indicating their numbers&quot;);
+<b class="fc"><i>318</i>&nbsp;                break;</b>
+<i>319</i>&nbsp;            case CLOSE_ANOMALOUS:
+<b class="nc"><i>320</i>&nbsp;                PlayerInfo player = command.getInfo().getPlayers()[0];</b>
+<b class="nc"><i>321</i>&nbsp;                System.out.println(player.getColor() + player.getName() + Colors.RESET + &quot; disconnected\nEndGame&quot;);</b>
+<b class="nc"><i>322</i>&nbsp;                break;</b>
+<i>323</i>&nbsp;            case CLOSE_NORMAL:
+<b class="fc"><i>324</i>&nbsp;                PlayerInfo winner = command.getInfo().getPlayers()[0];</b>
+<b class="fc"><i>325</i>&nbsp;                if (nickname.equalsIgnoreCase(winner.getName())) {</b>
+<b class="fc"><i>326</i>&nbsp;                    System.out.println(&quot;You have won\nCongratulations&quot;);</b>
+<i>327</i>&nbsp;                } else {
+<b class="fc"><i>328</i>&nbsp;                    System.out.println(winner.getColor() + winner.getName() + Colors.RESET + &quot; has won!\nEverybody clap your hands!&quot;);</b>
+<i>329</i>&nbsp;                }
+<b class="fc"><i>330</i>&nbsp;                break;</b>
+<i>331</i>&nbsp;            case CLOSE_RESTART:
+<b class="nc"><i>332</i>&nbsp;                System.out.println(&quot;A game is already started, try later&quot;);</b>
+<b class="nc"><i>333</i>&nbsp;                break;</b>
+<i>334</i>&nbsp;            case CLOSE_SERVER:
+<b class="nc"><i>335</i>&nbsp;                System.out.println(&quot;Server is down&quot;);</b>
+<b class="nc"><i>336</i>&nbsp;                break;</b>
+<i>337</i>&nbsp;            case UPDATE_ACTION:
+<b class="fc"><i>338</i>&nbsp;                if(command.getInfo().getPlayers()!=null){</b>
+<b class="fc"><i>339</i>&nbsp;                    PlayerInfo user = command.getInfo().getPlayers()[0];</b>
+<b class="fc"><i>340</i>&nbsp;                    if(!user.getName().equalsIgnoreCase(nickname)){</b>
+<b class="fc"><i>341</i>&nbsp;                        System.out.println(&quot;Look at &quot; + user.getColor() + user.getName() + Colors.RESET + &quot;&#39;s move&quot;);</b>
+<i>342</i>&nbsp;                    }
+<b class="fc"><i>343</i>&nbsp;                }</b>
+<i>344</i>&nbsp;                break;
+<i>345</i>&nbsp;            case UPDATE_TURN:
+<b class="fc"><i>346</i>&nbsp;                PlayerInfo actual = command.getInfo().getPlayers()[0];</b>
+<b class="fc"><i>347</i>&nbsp;                if(actual.getName().equalsIgnoreCase(nickname)){</b>
+<b class="fc"><i>348</i>&nbsp;                    System.out.println(actual.getColor() + actual.getName() + Colors.RESET + &quot; Turn Start!&quot;);</b>
+<i>349</i>&nbsp;                }
+<i>350</i>&nbsp;                else {
+<b class="fc"><i>351</i>&nbsp;                    System.out.println(actual.getColor() + actual.getName() + Colors.RESET + &quot; is playing\nWait your Turn!&quot;);</b>
+<i>352</i>&nbsp;                }
+<i>353</i>&nbsp;                break;
+<i>354</i>&nbsp;        }
+<b class="fc"><i>355</i>&nbsp;    }</b>
+<i>356</i>&nbsp;
+<i>357</i>&nbsp;    /**
+<i>358</i>&nbsp;     * Print the game&#39;s map
+<i>359</i>&nbsp;     */
+<i>360</i>&nbsp;    public void ShowMap(){
+<b class="fc"><i>361</i>&nbsp;        String line = &quot;&quot;;</b>
+<b class="fc"><i>362</i>&nbsp;        ArrayList&lt;String&gt; output = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>363</i>&nbsp;        output.add(&quot;          X: ?     Y: ?     \n&quot;);</b>
+<b class="fc"><i>364</i>&nbsp;        output.add(&quot;  ???????????????????????????????&quot;);</b>
+<b class="fc"><i>365</i>&nbsp;        for(int i = 4; i &gt;= 0; i--){</b>
+<b class="fc"><i>366</i>&nbsp;            line = line.concat(i + &quot; ?&quot;);</b>
+<b class="fc"><i>367</i>&nbsp;            for(int j = 0; j &lt;= 4; j++){</b>
+<b class="fc"><i>368</i>&nbsp;                if (map[j][i].getLastBuilding() == PawnType.DOME) {</b>
+<b class="fc"><i>369</i>&nbsp;                    line = line.concat(&quot;  D  &quot;);</b>
+<b class="fc"><i>370</i>&nbsp;                } else if (map[j][i].getLastBuilding() == PawnType.WORKER) {</b>
+<b class="fc"><i>371</i>&nbsp;                    line = line.concat(map[j][i].getWorkerColor() + &quot; ?&quot; + Colors.RESET + &quot;:&quot;);</b>
+<b class="fc"><i>372</i>&nbsp;                    line = line.concat(map[j][i].getBoxColor() + &quot;&quot; + (map[j][i].getHeight() - 2) + Colors.RESET + &quot; &quot;);</b>
+<i>373</i>&nbsp;                } else{
+<b class="fc"><i>374</i>&nbsp;                    line = line.concat(&quot;  &quot; + map[j][i].getBoxColor() + &quot;&quot; + (map[j][i].getHeight() - 1) + Colors.RESET + &quot;  &quot;);</b>
+<i>375</i>&nbsp;                }
+<b class="fc"><i>376</i>&nbsp;                if (j != 4) {</b>
+<b class="fc"><i>377</i>&nbsp;                    line = line.concat(&quot; &quot;);</b>
+<i>378</i>&nbsp;                }
+<i>379</i>&nbsp;            }
+<b class="fc"><i>380</i>&nbsp;            line = line.concat(&quot;?&quot;);</b>
+<b class="fc"><i>381</i>&nbsp;            output.add(line);</b>
+<b class="fc"><i>382</i>&nbsp;            line = &quot;&quot;;</b>
+<b class="fc"><i>383</i>&nbsp;            if (i != 0) {</b>
+<b class="fc"><i>384</i>&nbsp;                output.add(&quot;  ?     ?     ?     ?     ?     ?&quot;);</b>
+<i>385</i>&nbsp;            }
+<i>386</i>&nbsp;        }
+<b class="fc"><i>387</i>&nbsp;        output.add(&quot;  ???????????????????????????????&quot;);</b>
+<b class="fc"><i>388</i>&nbsp;        output.add(&quot;     0     1     2     3     4   &quot;);</b>
+<b class="fc"><i>389</i>&nbsp;        for(String string : output){</b>
+<b class="fc"><i>390</i>&nbsp;            System.out.println(string);</b>
+<b class="fc"><i>391</i>&nbsp;        }</b>
+<b class="fc"><i>392</i>&nbsp;    }</b>
+<i>393</i>&nbsp;
+<i>394</i>&nbsp;    /**
+<i>395</i>&nbsp;     * Updates the god list, marking the active cards
+<i>396</i>&nbsp;     * @param godInfo Array of GodInfo
+<i>397</i>&nbsp;     */
+<i>398</i>&nbsp;    public void GodInGame(GodInfo[] godInfo){
+<b class="fc"><i>399</i>&nbsp;        GodInfo[] update = new GodInfo[14];</b>
+<b class="fc"><i>400</i>&nbsp;        ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>401</i>&nbsp;        for(GodInfo info : godInfo){</b>
+<b class="fc"><i>402</i>&nbsp;            list.add(info.getPosition());</b>
+<i>403</i>&nbsp;        }
+<b class="fc"><i>404</i>&nbsp;        for(GodInfo god : gods){</b>
+<b class="fc"><i>405</i>&nbsp;            if(list.contains(god.getPosition())){</b>
+<b class="fc"><i>406</i>&nbsp;                update[god.getPosition()] = new GodInfo(god.getPosition(), god.getName(), god.getPower(), true);</b>
+<i>407</i>&nbsp;            }
+<i>408</i>&nbsp;            else{
+<b class="fc"><i>409</i>&nbsp;                update[god.getPosition()] = new GodInfo(god.getPosition(), god.getName(), god.getPower(), false);</b>
+<i>410</i>&nbsp;            }
+<i>411</i>&nbsp;        }
+<b class="fc"><i>412</i>&nbsp;        gods = update;</b>
+<b class="fc"><i>413</i>&nbsp;    }</b>
+<i>414</i>&nbsp;
+<i>415</i>&nbsp;    /**
+<i>416</i>&nbsp;     * Updates the player list, inserting the respective god
+<i>417</i>&nbsp;     * @param playerInfo Array of PlayerInfo
+<i>418</i>&nbsp;     */
+<i>419</i>&nbsp;    public void PlayerGod(PlayerInfo[] playerInfo){
+<b class="fc"><i>420</i>&nbsp;        PlayerInfo[] update = new PlayerInfo[players.length];</b>
+<b class="fc"><i>421</i>&nbsp;        for(PlayerInfo user : players){</b>
+<b class="fc"><i>422</i>&nbsp;            update[user.getPosition()] = new PlayerInfo(user.getPosition(), user.getName(), user.getColor(), playerInfo[user.getPosition()].getGod());</b>
+<i>423</i>&nbsp;        }
+<b class="fc"><i>424</i>&nbsp;        players = update;</b>
+<b class="fc"><i>425</i>&nbsp;    }</b>
+<i>426</i>&nbsp;
+<i>427</i>&nbsp;    /**
+<i>428</i>&nbsp;     * Prints the Welcome Screen
+<i>429</i>&nbsp;     */
+<i>430</i>&nbsp;    public void WelcomeScreen() {
+<b class="fc"><i>431</i>&nbsp;        System.out.println(&quot;\n&quot;+ Colors.PURPLE + &quot;??????&quot; + Colors.YELLOW + &quot;??&quot; + Colors.PURPLE + &quot;??&quot;);</b>
+<b class="fc"><i>432</i>&nbsp;        System.out.println(&quot;??????&quot; + Colors.YELLOW + &quot;??&quot; + Colors.PURPLE + &quot;??&quot;);</b>
+<b class="fc"><i>433</i>&nbsp;        System.out.println(&quot;???????????????????????\n???????????????????????\n???????????????????????&quot;);</b>
+<b class="fc"><i>434</i>&nbsp;        System.out.println(Colors.YELLOW + &quot;?&quot; + Colors.PURPLE + &quot;??????????????????????&quot;);</b>
+<b class="fc"><i>435</i>&nbsp;        System.out.println(&quot;??????&quot; + Colors.YELLOW + &quot;??&quot; + Colors.PURPLE + &quot;?????&quot; + Colors.YELLOW + &quot;?????&quot; + Colors.PURPLE + &quot;??&quot;);</b>
+<b class="fc"><i>436</i>&nbsp;        System.out.println(&quot;??????&quot; + Colors.YELLOW + &quot;??&quot; + Colors.PURPLE + &quot;?????&quot; + Colors.YELLOW + &quot;????&quot; + Colors.PURPLE + &quot;????&quot;);</b>
+<b class="fc"><i>437</i>&nbsp;        System.out.println(&quot;???????????????????????????????&quot;);</b>
+<b class="fc"><i>438</i>&nbsp;        System.out.println(Colors.YELLOW + &quot;??&quot; + Colors.PURPLE + &quot;?????????????????????????????&quot;);</b>
+<b class="fc"><i>439</i>&nbsp;        System.out.println(Colors.YELLOW + &quot;??&quot; + Colors.PURPLE + &quot;?????????????????????????????&quot;);</b>
+<b class="fc"><i>440</i>&nbsp;        System.out.println(Colors.YELLOW + &quot;??&quot; + Colors.PURPLE + &quot;?????????????????????????????&quot; + Colors.RESET + &quot;\n&quot;);</b>
+<b class="fc"><i>441</i>&nbsp;    }</b>
+<i>442</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-24 20:10</div>
+</div>
+</body>
+</html>

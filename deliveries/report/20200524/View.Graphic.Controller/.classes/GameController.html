@@ -1,0 +1,556 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GameController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">View.Graphic.Controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GameController (View.Graphic.Controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 189)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GameController$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 191)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package View.Graphic.Controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Client.ConnectionHandler;
+<i>4</i>&nbsp;import CommunicationProtocol.CommandMsg;
+<i>5</i>&nbsp;import CommunicationProtocol.CommandType;
+<i>6</i>&nbsp;import CommunicationProtocol.SantoriniInfo.BoxInfo;
+<i>7</i>&nbsp;import CommunicationProtocol.SantoriniInfo.PlayerInfo;
+<i>8</i>&nbsp;import CommunicationProtocol.ServerMsg;
+<i>9</i>&nbsp;import Model.PawnType;
+<i>10</i>&nbsp;import View.CellType;
+<i>11</i>&nbsp;import View.Colors;
+<i>12</i>&nbsp;import View.Graphic.Gui;
+<i>13</i>&nbsp;import javafx.fxml.FXML;
+<i>14</i>&nbsp;import javafx.scene.Group;
+<i>15</i>&nbsp;import javafx.scene.Node;
+<i>16</i>&nbsp;import javafx.scene.control.Label;
+<i>17</i>&nbsp;import javafx.scene.effect.ColorAdjust;
+<i>18</i>&nbsp;import javafx.scene.effect.Effect;
+<i>19</i>&nbsp;import javafx.scene.effect.Glow;
+<i>20</i>&nbsp;import javafx.scene.image.Image;
+<i>21</i>&nbsp;import javafx.scene.image.ImageView;
+<i>22</i>&nbsp;import javafx.scene.input.MouseEvent;
+<i>23</i>&nbsp;import javafx.scene.layout.GridPane;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;import java.util.ArrayList;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;/**
+<i>29</i>&nbsp; * Controller class for fxml Game file
+<i>30</i>&nbsp; */
+<b class="nc"><i>31</i>&nbsp;public class GameController implements GuiController {</b>
+<i>32</i>&nbsp;    @FXML
+<i>33</i>&nbsp;    GridPane gridPane;
+<i>34</i>&nbsp;    @FXML
+<i>35</i>&nbsp;    Label name_0, name_1, name_2, god_name_0, god_name_1, god_name_2, message, turn;
+<i>36</i>&nbsp;    @FXML
+<i>37</i>&nbsp;    ImageView god_0, god_1, god_2;
+<i>38</i>&nbsp;    @FXML
+<i>39</i>&nbsp;    Group player_0, player_1, player_2;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    private Gui gui;
+<i>42</i>&nbsp;    private CommandMsg command;
+<i>43</i>&nbsp;    private ConnectionHandler client;
+<b class="nc"><i>44</i>&nbsp;    private ArrayList&lt;Group&gt; cells = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>45</i>&nbsp;    private ArrayList&lt;Integer&gt; box = new ArrayList&lt;&gt;();</b>
+<i>46</i>&nbsp;
+<b class="nc"><i>47</i>&nbsp;    private final Effect glow = new Glow();</b>
+<b class="nc"><i>48</i>&nbsp;    private final ArrayList&lt;Effect&gt; player_colors = new ArrayList&lt;&gt;();</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    @Override
+<i>51</i>&nbsp;    public void setGui(Gui gui) {
+<b class="nc"><i>52</i>&nbsp;        this.gui = gui;</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /**
+<i>56</i>&nbsp;     * SetUp of the Game controller
+<i>57</i>&nbsp;     * @param command message from the server containing information
+<i>58</i>&nbsp;     * @param client reference to the ConnectionHandler of the Client
+<i>59</i>&nbsp;     */
+<i>60</i>&nbsp;    public void SetUp(CommandMsg command, ConnectionHandler client) {
+<b class="nc"><i>61</i>&nbsp;        this.command = command;</b>
+<b class="nc"><i>62</i>&nbsp;        this.client = client;</b>
+<b class="nc"><i>63</i>&nbsp;        player_colors.add(new ColorAdjust(0.3, 0, 0, 0.3));</b>
+<b class="nc"><i>64</i>&nbsp;        player_colors.add(new ColorAdjust(-0.8, 0, 0, 0.3));</b>
+<b class="nc"><i>65</i>&nbsp;        player_colors.add(new ColorAdjust(0, 0, 0, 0));</b>
+<b class="nc"><i>66</i>&nbsp;        for (Node group : gridPane.getChildren()) {</b>
+<b class="nc"><i>67</i>&nbsp;            if (group.getId().startsWith(&quot;cell_&quot;)) {</b>
+<b class="nc"><i>68</i>&nbsp;                cells.add((Group) group);</b>
+<i>69</i>&nbsp;            }
+<b class="nc"><i>70</i>&nbsp;        }</b>
+<b class="nc"><i>71</i>&nbsp;        InitializeCards(gui.getPlayers());</b>
+<i>72</i>&nbsp;    }
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    /**
+<i>75</i>&nbsp;     * SetUp of the Game controller in the case of a Pose message
+<i>76</i>&nbsp;     * @param command Pose message from the server containing the information
+<i>77</i>&nbsp;     * @param client reference to the ConnectionHandler of the Client
+<i>78</i>&nbsp;     */
+<i>79</i>&nbsp;    public void SetUpPose(CommandMsg command, ConnectionHandler client){
+<b class="nc"><i>80</i>&nbsp;        this.command = command;</b>
+<b class="nc"><i>81</i>&nbsp;        this.client = client;</b>
+<b class="nc"><i>82</i>&nbsp;        this.box = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>83</i>&nbsp;        UpdateMap();</b>
+<b class="nc"><i>84</i>&nbsp;        EnableBoxes();</b>
+<b class="nc"><i>85</i>&nbsp;        setMessage(command);</b>
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /**
+<i>89</i>&nbsp;     * Sends the box coordinates
+<i>90</i>&nbsp;     * @param e interaction from the user
+<i>91</i>&nbsp;     */
+<i>92</i>&nbsp;    public void SendBox(MouseEvent e){
+<b class="nc"><i>93</i>&nbsp;        Group group = (Group) e.getSource();</b>
+<b class="nc"><i>94</i>&nbsp;        box.add(cells.indexOf(group)%5);</b>
+<b class="nc"><i>95</i>&nbsp;        box.add(cells.indexOf(group)/5);</b>
+<b class="nc"><i>96</i>&nbsp;        DisableBoxes();</b>
+<b class="nc"><i>97</i>&nbsp;        client.WriteMessage(new ServerMsg(box));</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    /**
+<i>101</i>&nbsp;     * Updates the map structure based on the information in the MapInfo[]
+<i>102</i>&nbsp;     */
+<i>103</i>&nbsp;    public void UpdateMap(){
+<b class="nc"><i>104</i>&nbsp;        turn.setText(&quot;Turn count : &quot; + gui.getTurnCount());</b>
+<i>105</i>&nbsp;        BoxInfo box;
+<b class="nc"><i>106</i>&nbsp;        for(Group group : cells){</b>
+<b class="nc"><i>107</i>&nbsp;            box = gui.getMap()[cells.indexOf(group)%5][cells.indexOf(group)/5];</b>
+<b class="nc"><i>108</i>&nbsp;            if(box.getLastBuilding() == PawnType.DOME){</b>
+<b class="nc"><i>109</i>&nbsp;                LoadDome(box, group);</b>
+<i>110</i>&nbsp;            }
+<b class="nc"><i>111</i>&nbsp;            else if (box.getLastBuilding() == PawnType.WORKER){</b>
+<b class="nc"><i>112</i>&nbsp;                LoadWorker(box, group);</b>
+<i>113</i>&nbsp;            }
+<i>114</i>&nbsp;            else{
+<b class="nc"><i>115</i>&nbsp;                LoadTower(box, group);</b>
+<i>116</i>&nbsp;            }
+<b class="nc"><i>117</i>&nbsp;        }</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;    /**
+<i>121</i>&nbsp;     * Enables the boxes which are intractable
+<i>122</i>&nbsp;     */
+<i>123</i>&nbsp;    public void EnableBoxes(){
+<i>124</i>&nbsp;        BoxInfo box;
+<b class="nc"><i>125</i>&nbsp;        for(Group group : cells){</b>
+<b class="nc"><i>126</i>&nbsp;            box = gui.getMap()[cells.indexOf(group)%5][cells.indexOf(group)/5];</b>
+<b class="nc"><i>127</i>&nbsp;            switch (command.getCommandType()){</b>
+<i>128</i>&nbsp;                case POS_INITIAL:
+<b class="nc"><i>129</i>&nbsp;                    if(box.getLastBuilding() != PawnType.WORKER){</b>
+<b class="nc"><i>130</i>&nbsp;                        LoadPosWorker(box, group);</b>
+<b class="nc"><i>131</i>&nbsp;                        group.setDisable(false);</b>
+<i>132</i>&nbsp;                    }
+<i>133</i>&nbsp;                    break;
+<i>134</i>&nbsp;                case POS_WORKER:
+<b class="nc"><i>135</i>&nbsp;                    if((box.getWorkerColor() != Colors.RESET) &amp;&amp; (gui.getPlayers()[box.getWorkerColor().ordinal()].getName().equalsIgnoreCase(gui.getNickname()))){</b>
+<b class="nc"><i>136</i>&nbsp;                        LoadPosWorker(box, group);</b>
+<b class="nc"><i>137</i>&nbsp;                        group.setDisable(false);</b>
+<i>138</i>&nbsp;                    }
+<i>139</i>&nbsp;                    break;
+<i>140</i>&nbsp;                case POS_MOVE:
+<i>141</i>&nbsp;                case POS_BUILD:
+<b class="nc"><i>142</i>&nbsp;                    if(box.getBoxColor() != Colors.RESET){</b>
+<b class="nc"><i>143</i>&nbsp;                        group.setDisable(false);</b>
+<b class="nc"><i>144</i>&nbsp;                        if(command.getCommandType() == CommandType.POS_BUILD){</b>
+<b class="nc"><i>145</i>&nbsp;                            group.getChildren().get(0).setEffect(new ColorAdjust(-0.9, 0, 0, 0.1));</b>
+<i>146</i>&nbsp;                        }
+<i>147</i>&nbsp;                    }
+<i>148</i>&nbsp;                    break;
+<i>149</i>&nbsp;            }
+<b class="nc"><i>150</i>&nbsp;        }</b>
+<i>151</i>&nbsp;    }
+<i>152</i>&nbsp;
+<i>153</i>&nbsp;    /**
+<i>154</i>&nbsp;     * Disables the boxes at the end of the interaction
+<i>155</i>&nbsp;     */
+<i>156</i>&nbsp;    public void DisableBoxes(){
+<b class="nc"><i>157</i>&nbsp;        for(Group group : cells){</b>
+<b class="nc"><i>158</i>&nbsp;            group.setDisable(true);</b>
+<b class="nc"><i>159</i>&nbsp;            group.getChildren().get(0).setEffect(null);</b>
+<b class="nc"><i>160</i>&nbsp;        }</b>
+<i>161</i>&nbsp;    }
+<i>162</i>&nbsp;
+<i>163</i>&nbsp;    /**
+<i>164</i>&nbsp;     * Change the focus of a box, when enters it glows, when exits is restored to normal effect
+<i>165</i>&nbsp;     * @param e interaction from the user
+<i>166</i>&nbsp;     */
+<i>167</i>&nbsp;    public void ChangeBoxFocus(MouseEvent e){
+<b class="nc"><i>168</i>&nbsp;        Group group = (Group)e.getSource();</b>
+<b class="nc"><i>169</i>&nbsp;        if(group.getEffect() == null){</b>
+<b class="nc"><i>170</i>&nbsp;            group.setEffect(glow);</b>
+<i>171</i>&nbsp;        }
+<i>172</i>&nbsp;        else{
+<b class="nc"><i>173</i>&nbsp;            group.setEffect(null);</b>
+<i>174</i>&nbsp;        }
+<i>175</i>&nbsp;    }
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;    /**
+<i>178</i>&nbsp;     * Initialize the card info, with the corresponding image, god-name and player-name
+<i>179</i>&nbsp;     * @param players Array of the players in the game
+<i>180</i>&nbsp;     */
+<i>181</i>&nbsp;    public void InitializeCards(PlayerInfo[] players){
+<b class="nc"><i>182</i>&nbsp;        int i = 0;</b>
+<b class="nc"><i>183</i>&nbsp;        if(players.length == 2){</b>
+<b class="nc"><i>184</i>&nbsp;            player_2.setDisable(true);</b>
+<b class="nc"><i>185</i>&nbsp;            player_2.toBack();</b>
+<i>186</i>&nbsp;        }
+<b class="nc"><i>187</i>&nbsp;        for (PlayerInfo player : players) {</b>
+<b class="nc"><i>188</i>&nbsp;            switch (i) {</b>
+<i>189</i>&nbsp;                case 0:
+<b class="nc"><i>190</i>&nbsp;                    name_0.setText(player.getName());</b>
+<b class="nc"><i>191</i>&nbsp;                    god_name_0.setText(gui.getGods()[player.getGod()].getName());</b>
+<b class="nc"><i>192</i>&nbsp;                    god_0.setImage(new Image(&quot;Cells/GodCard/&quot; + god_name_0.getText().trim() + &quot;_podium.png&quot;, true));</b>
+<b class="nc"><i>193</i>&nbsp;                    break;</b>
+<i>194</i>&nbsp;                case 1:
+<b class="nc"><i>195</i>&nbsp;                    name_1.setText(player.getName());</b>
+<b class="nc"><i>196</i>&nbsp;                    god_name_1.setText(gui.getGods()[player.getGod()].getName());</b>
+<b class="nc"><i>197</i>&nbsp;                    god_1.setImage(new Image(&quot;Cells/GodCard/&quot; + god_name_1.getText().trim() + &quot;_podium.png&quot;, true));</b>
+<b class="nc"><i>198</i>&nbsp;                    break;</b>
+<i>199</i>&nbsp;
+<i>200</i>&nbsp;                case 2:
+<b class="nc"><i>201</i>&nbsp;                    name_2.setText(player.getName());</b>
+<b class="nc"><i>202</i>&nbsp;                    god_name_2.setText(gui.getGods()[player.getGod()].getName());</b>
+<b class="nc"><i>203</i>&nbsp;                    god_2.setImage(new Image(&quot;Cells/GodCard/&quot; + god_name_2.getText().trim() + &quot;_podium.png&quot;, true));</b>
+<i>204</i>&nbsp;                    break;
+<i>205</i>&nbsp;            }
+<b class="nc"><i>206</i>&nbsp;            i++;</b>
+<i>207</i>&nbsp;        }
+<i>208</i>&nbsp;    }
+<i>209</i>&nbsp;
+<i>210</i>&nbsp;    /**
+<i>211</i>&nbsp;     * Load a box that has a dome on top
+<i>212</i>&nbsp;     * @param box box to load
+<i>213</i>&nbsp;     * @param group cell from the grid pane to load
+<i>214</i>&nbsp;     */
+<i>215</i>&nbsp;    public void LoadDome(BoxInfo box, Group group){
+<b class="nc"><i>216</i>&nbsp;        CellType type = CellType.DOME;</b>
+<b class="nc"><i>217</i>&nbsp;        ImageView tower = (ImageView) group.getChildren().get(0);</b>
+<b class="nc"><i>218</i>&nbsp;        ImageView worker = (ImageView) group.getChildren().get(1);</b>
+<b class="nc"><i>219</i>&nbsp;        switch (box.getHeight()){</b>
+<i>220</i>&nbsp;                case 2:
+<b class="nc"><i>221</i>&nbsp;                    type = CellType.DOME;</b>
+<b class="nc"><i>222</i>&nbsp;                    break;</b>
+<i>223</i>&nbsp;                case 3:
+<b class="nc"><i>224</i>&nbsp;                    type = CellType.LEVEL_1D;</b>
+<b class="nc"><i>225</i>&nbsp;                    break;</b>
+<i>226</i>&nbsp;                case 4:
+<b class="nc"><i>227</i>&nbsp;                    type = CellType.LEVEL_12D;</b>
+<b class="nc"><i>228</i>&nbsp;                    break;</b>
+<i>229</i>&nbsp;                case 5:
+<b class="nc"><i>230</i>&nbsp;                    type = CellType.LEVEL_123D;</b>
+<i>231</i>&nbsp;                    break;
+<i>232</i>&nbsp;        }
+<b class="nc"><i>233</i>&nbsp;        if(type == CellType.DOME){</b>
+<b class="nc"><i>234</i>&nbsp;            tower.setImage(null);</b>
+<b class="nc"><i>235</i>&nbsp;            worker.setImage(new Image(type.toString(), true));</b>
+<i>236</i>&nbsp;        }
+<i>237</i>&nbsp;        else {
+<b class="nc"><i>238</i>&nbsp;            tower.setImage(new Image(type.toString(), true));</b>
+<b class="nc"><i>239</i>&nbsp;            worker.setImage(null);</b>
+<i>240</i>&nbsp;        }
+<i>241</i>&nbsp;    }
+<i>242</i>&nbsp;
+<i>243</i>&nbsp;    /**
+<i>244</i>&nbsp;     * load a dome without a worker or a dome on top
+<i>245</i>&nbsp;     * @param box box to load
+<i>246</i>&nbsp;     * @param group cell from the grid pane to load
+<i>247</i>&nbsp;     */
+<i>248</i>&nbsp;    public void LoadTower(BoxInfo box, Group group){
+<b class="nc"><i>249</i>&nbsp;        CellType type = CellType.VOID;</b>
+<b class="nc"><i>250</i>&nbsp;        ImageView tower = (ImageView) group.getChildren().get(0);</b>
+<b class="nc"><i>251</i>&nbsp;        ImageView worker = (ImageView) group.getChildren().get(1);</b>
+<b class="nc"><i>252</i>&nbsp;        if(box.getBoxColor() != Colors.RESET){</b>
+<b class="nc"><i>253</i>&nbsp;            switch (box.getHeight()) {</b>
+<i>254</i>&nbsp;                case 1:
+<b class="nc"><i>255</i>&nbsp;                    type = CellType.GLOW;</b>
+<b class="nc"><i>256</i>&nbsp;                    break;</b>
+<i>257</i>&nbsp;                case 2:
+<b class="nc"><i>258</i>&nbsp;                    type = CellType.LEVEL_1_E;</b>
+<b class="nc"><i>259</i>&nbsp;                    break;</b>
+<i>260</i>&nbsp;                case 3:
+<b class="nc"><i>261</i>&nbsp;                    type = CellType.LEVEL_12_E;</b>
+<b class="nc"><i>262</i>&nbsp;                    break;</b>
+<i>263</i>&nbsp;                case 4:
+<b class="nc"><i>264</i>&nbsp;                    type = CellType.LEVEL_123_E;</b>
+<b class="nc"><i>265</i>&nbsp;                    break;</b>
+<i>266</i>&nbsp;            }
+<i>267</i>&nbsp;        }
+<i>268</i>&nbsp;        else {
+<b class="nc"><i>269</i>&nbsp;            switch (box.getHeight()) {</b>
+<i>270</i>&nbsp;                case 1:
+<b class="nc"><i>271</i>&nbsp;                    type = CellType.VOID;</b>
+<b class="nc"><i>272</i>&nbsp;                    break;</b>
+<i>273</i>&nbsp;                case 2:
+<b class="nc"><i>274</i>&nbsp;                    type = CellType.LEVEL_1;</b>
+<b class="nc"><i>275</i>&nbsp;                    break;</b>
+<i>276</i>&nbsp;                case 3:
+<b class="nc"><i>277</i>&nbsp;                    type = CellType.LEVEL_12;</b>
+<b class="nc"><i>278</i>&nbsp;                    break;</b>
+<i>279</i>&nbsp;                case 4:
+<b class="nc"><i>280</i>&nbsp;                    type = CellType.LEVEL_123;</b>
+<i>281</i>&nbsp;                    break;
+<i>282</i>&nbsp;            }
+<i>283</i>&nbsp;        }
+<b class="nc"><i>284</i>&nbsp;        if(type == CellType.VOID){</b>
+<b class="nc"><i>285</i>&nbsp;            tower.setImage(null);</b>
+<i>286</i>&nbsp;        }
+<i>287</i>&nbsp;        else {
+<b class="nc"><i>288</i>&nbsp;            tower.setImage(new Image(type.toString(), true));</b>
+<i>289</i>&nbsp;        }
+<b class="nc"><i>290</i>&nbsp;        worker.setImage(null);</b>
+<i>291</i>&nbsp;    }
+<i>292</i>&nbsp;
+<i>293</i>&nbsp;    /**
+<i>294</i>&nbsp;     * load a dome with a worker on top
+<i>295</i>&nbsp;     * @param box box to load
+<i>296</i>&nbsp;     * @param group cell from the grid pane to load
+<i>297</i>&nbsp;     */
+<i>298</i>&nbsp;    public void LoadWorker(BoxInfo box, Group group){
+<b class="nc"><i>299</i>&nbsp;        CellType towerType = CellType.VOID;</b>
+<b class="nc"><i>300</i>&nbsp;        CellType workerType = CellType.VOID;</b>
+<b class="nc"><i>301</i>&nbsp;        ImageView tower = (ImageView)group.getChildren().get(0);</b>
+<b class="nc"><i>302</i>&nbsp;        ImageView worker = (ImageView)group.getChildren().get(1);</b>
+<b class="nc"><i>303</i>&nbsp;        switch (box.getWorkerColor()){</b>
+<i>304</i>&nbsp;            case GREEN:
+<b class="nc"><i>305</i>&nbsp;                workerType = CellType.PLAYER_0;</b>
+<b class="nc"><i>306</i>&nbsp;                break;</b>
+<i>307</i>&nbsp;            case BLUE:
+<b class="nc"><i>308</i>&nbsp;                workerType = CellType.PLAYER_1;</b>
+<b class="nc"><i>309</i>&nbsp;                break;</b>
+<i>310</i>&nbsp;            case RED:
+<b class="nc"><i>311</i>&nbsp;                workerType = CellType.PLAYER_2;</b>
+<i>312</i>&nbsp;                break;
+<i>313</i>&nbsp;        }
+<b class="nc"><i>314</i>&nbsp;        if(box.getBoxColor() != Colors.RESET){</b>
+<b class="nc"><i>315</i>&nbsp;            switch (box.getHeight()){</b>
+<i>316</i>&nbsp;                case 2:
+<b class="nc"><i>317</i>&nbsp;                    towerType = CellType.GLOW;</b>
+<b class="nc"><i>318</i>&nbsp;                    break;</b>
+<i>319</i>&nbsp;                case 3:
+<b class="nc"><i>320</i>&nbsp;                    towerType = CellType.LEVEL_1_E;</b>
+<b class="nc"><i>321</i>&nbsp;                    break;</b>
+<i>322</i>&nbsp;                case 4:
+<b class="nc"><i>323</i>&nbsp;                    towerType = CellType.LEVEL_12_E;</b>
+<b class="nc"><i>324</i>&nbsp;                    break;</b>
+<i>325</i>&nbsp;                case 5:
+<b class="nc"><i>326</i>&nbsp;                    towerType = CellType.LEVEL_123_E;</b>
+<b class="nc"><i>327</i>&nbsp;                    break;</b>
+<i>328</i>&nbsp;            }
+<i>329</i>&nbsp;        }
+<i>330</i>&nbsp;        else{
+<b class="nc"><i>331</i>&nbsp;            switch (box.getHeight()){</b>
+<i>332</i>&nbsp;                case 2:
+<b class="nc"><i>333</i>&nbsp;                    towerType = CellType.VOID;</b>
+<b class="nc"><i>334</i>&nbsp;                    break;</b>
+<i>335</i>&nbsp;                case 3:
+<b class="nc"><i>336</i>&nbsp;                    towerType = CellType.LEVEL_1;</b>
+<b class="nc"><i>337</i>&nbsp;                    break;</b>
+<i>338</i>&nbsp;                case 4:
+<b class="nc"><i>339</i>&nbsp;                    towerType = CellType.LEVEL_12;</b>
+<b class="nc"><i>340</i>&nbsp;                    break;</b>
+<i>341</i>&nbsp;                case 5:
+<b class="nc"><i>342</i>&nbsp;                    towerType = CellType.LEVEL_123;</b>
+<i>343</i>&nbsp;                    break;
+<i>344</i>&nbsp;            }
+<i>345</i>&nbsp;        }
+<b class="nc"><i>346</i>&nbsp;        if(towerType == CellType.VOID){</b>
+<b class="nc"><i>347</i>&nbsp;            tower.setImage(null);</b>
+<i>348</i>&nbsp;        }
+<i>349</i>&nbsp;        else {
+<b class="nc"><i>350</i>&nbsp;            tower.setImage(new Image(towerType.toString(), true));</b>
+<i>351</i>&nbsp;        }
+<b class="nc"><i>352</i>&nbsp;        if(workerType == CellType.VOID){</b>
+<b class="nc"><i>353</i>&nbsp;            worker.setImage(null);</b>
+<i>354</i>&nbsp;        }
+<i>355</i>&nbsp;        else {
+<b class="nc"><i>356</i>&nbsp;            worker.setImage(new Image(workerType.toString(), true));</b>
+<i>357</i>&nbsp;        }
+<i>358</i>&nbsp;    }
+<i>359</i>&nbsp;
+<i>360</i>&nbsp;    /**
+<i>361</i>&nbsp;     * Load the box in the initial phase or in the select worker phase
+<i>362</i>&nbsp;     * @param box box to load
+<i>363</i>&nbsp;     * @param group cell from the grid pane to load
+<i>364</i>&nbsp;     */
+<i>365</i>&nbsp;    public void LoadPosWorker(BoxInfo box, Group group){
+<b class="nc"><i>366</i>&nbsp;        CellType towerType = CellType.VOID;</b>
+<b class="nc"><i>367</i>&nbsp;        ImageView tower = (ImageView) group.getChildren().get(0);</b>
+<b class="nc"><i>368</i>&nbsp;        switch (box.getHeight()){</b>
+<i>369</i>&nbsp;            case 1:
+<i>370</i>&nbsp;            case 2:
+<b class="nc"><i>371</i>&nbsp;                towerType = CellType.GLOW;</b>
+<b class="nc"><i>372</i>&nbsp;                break;</b>
+<i>373</i>&nbsp;            case 3:
+<b class="nc"><i>374</i>&nbsp;                towerType = CellType.LEVEL_1_E;</b>
+<b class="nc"><i>375</i>&nbsp;                break;</b>
+<i>376</i>&nbsp;            case 4:
+<b class="nc"><i>377</i>&nbsp;                towerType = CellType.LEVEL_12_E;</b>
+<b class="nc"><i>378</i>&nbsp;                break;</b>
+<i>379</i>&nbsp;            case 5:
+<b class="nc"><i>380</i>&nbsp;                towerType = CellType.LEVEL_123_E;</b>
+<i>381</i>&nbsp;                break;
+<i>382</i>&nbsp;        }
+<b class="nc"><i>383</i>&nbsp;        if(towerType == CellType.VOID){</b>
+<b class="nc"><i>384</i>&nbsp;            tower.setImage(null);</b>
+<i>385</i>&nbsp;        }
+<i>386</i>&nbsp;        else {
+<b class="nc"><i>387</i>&nbsp;            tower.setImage(new Image(towerType.toString(), true));</b>
+<i>388</i>&nbsp;        }
+<i>389</i>&nbsp;    }
+<i>390</i>&nbsp;
+<i>391</i>&nbsp;    /**
+<i>392</i>&nbsp;     * Setup the message on the top label
+<i>393</i>&nbsp;     * @param command message to elaborate
+<i>394</i>&nbsp;     */
+<i>395</i>&nbsp;    public void setMessage(CommandMsg command){
+<b class="nc"><i>396</i>&nbsp;        switch (command.getCommandType()){</b>
+<i>397</i>&nbsp;            case POS_INITIAL:
+<b class="nc"><i>398</i>&nbsp;                message.setText(&quot;Place your Workers&quot;);</b>
+<b class="nc"><i>399</i>&nbsp;                break;</b>
+<i>400</i>&nbsp;            case POS_WORKER:
+<b class="nc"><i>401</i>&nbsp;                message.setText(&quot;Select a Worker&quot;);</b>
+<b class="nc"><i>402</i>&nbsp;                break;</b>
+<i>403</i>&nbsp;            case POS_MOVE:
+<b class="nc"><i>404</i>&nbsp;                message.setText(&quot;Move Phase: Select a Box&quot;);</b>
+<b class="nc"><i>405</i>&nbsp;                break;</b>
+<i>406</i>&nbsp;            case POS_BUILD:
+<b class="nc"><i>407</i>&nbsp;                message.setText(&quot;Build Phase: Select a Box&quot;);</b>
+<b class="nc"><i>408</i>&nbsp;                break;</b>
+<i>409</i>&nbsp;            case UPDATE_ACTION:
+<b class="nc"><i>410</i>&nbsp;                if(command.getInfo().getPlayers()!=null){</b>
+<b class="nc"><i>411</i>&nbsp;                    PlayerInfo user = command.getInfo().getPlayers()[0];</b>
+<b class="nc"><i>412</i>&nbsp;                    if(!user.getName().equalsIgnoreCase(gui.getNickname())){</b>
+<b class="nc"><i>413</i>&nbsp;                        message.setText(&quot;Look at &quot; + user.getName() + &quot;&#39;s move&quot;);</b>
+<i>414</i>&nbsp;                    }
+<b class="nc"><i>415</i>&nbsp;                }</b>
+<i>416</i>&nbsp;                break;
+<i>417</i>&nbsp;            case UPDATE_TURN:
+<b class="nc"><i>418</i>&nbsp;                PlayerInfo actual = command.getInfo().getPlayers()[0];</b>
+<b class="nc"><i>419</i>&nbsp;                if(actual.getName().equalsIgnoreCase(gui.getNickname())){</b>
+<b class="nc"><i>420</i>&nbsp;                    message.setText(actual.getName() + &quot; is your Turn!&quot;);</b>
+<i>421</i>&nbsp;                }
+<i>422</i>&nbsp;                else {
+<b class="nc"><i>423</i>&nbsp;                    message.setText(actual.getName() + &quot;&#39;s playing, wait!&quot;);</b>
+<i>424</i>&nbsp;                }
+<i>425</i>&nbsp;                break;
+<i>426</i>&nbsp;        }
+<i>427</i>&nbsp;    }
+<i>428</i>&nbsp;
+<i>429</i>&nbsp;    /**
+<i>430</i>&nbsp;     * Creates a window with the information of the card selected
+<i>431</i>&nbsp;     * @param e interaction from the user
+<i>432</i>&nbsp;     */
+<i>433</i>&nbsp;    public void Info(MouseEvent e){
+<i>434</i>&nbsp;        int number;
+<b class="nc"><i>435</i>&nbsp;        Group group = (Group) e.getSource();</b>
+<b class="nc"><i>436</i>&nbsp;        if(group == player_0) {</b>
+<b class="nc"><i>437</i>&nbsp;            number = 0;</b>
+<i>438</i>&nbsp;        }
+<b class="nc"><i>439</i>&nbsp;        else if(group == player_1) {</b>
+<b class="nc"><i>440</i>&nbsp;            number = 1;</b>
+<i>441</i>&nbsp;        }
+<i>442</i>&nbsp;        else{
+<b class="nc"><i>443</i>&nbsp;            number = 2;</b>
+<i>444</i>&nbsp;        }
+<b class="nc"><i>445</i>&nbsp;        gui.CardInfo(number);</b>
+<i>446</i>&nbsp;    }
+<i>447</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-24 20:10</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,213 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GodCard</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Model.Godcards</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GodCard (Model.Godcards)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GodCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/ 23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (30/ 30)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Model.Godcards;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Model.Box;
+<i>4</i>&nbsp;import Model.Player;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.ArrayList;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Abstract class representing a God
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public abstract class GodCard {
+<i>12</i>&nbsp;    private String name;
+<i>13</i>&nbsp;    private String power;
+<b class="fc"><i>14</i>&nbsp;    private boolean activePower = false;</b>
+<i>15</i>&nbsp;    private Player owner;
+<i>16</i>&nbsp;    private boolean chosen;
+<i>17</i>&nbsp;    private boolean picked;
+<i>18</i>&nbsp;
+<b class="fc"><i>19</i>&nbsp;    protected GodCard() {</b>
+<b class="fc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public void setChosen(boolean state) {
+<b class="fc"><i>23</i>&nbsp;        this.chosen = state;</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    public boolean isChosen(){
+<b class="fc"><i>27</i>&nbsp;        return chosen;</b>
+<i>28</i>&nbsp;    }
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    public void setPicked(boolean state){
+<b class="fc"><i>31</i>&nbsp;        this.picked = state;</b>
+<b class="fc"><i>32</i>&nbsp;    }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public boolean isPicked(){
+<b class="fc"><i>35</i>&nbsp;        return picked;</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    public String getName(){
+<b class="fc"><i>39</i>&nbsp;        return name;</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<b class="fc"><i>42</i>&nbsp;    public void setName(String name){ this.name=name;}</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**
+<i>45</i>&nbsp;     * Standard implementation of a GodCard Functionality
+<i>46</i>&nbsp;     * @return false
+<i>47</i>&nbsp;     */
+<b class="fc"><i>48</i>&nbsp;    public boolean myMovement(){return false;}</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    /**
+<i>51</i>&nbsp;     * Standard implementation of a GodCard Functionality
+<i>52</i>&nbsp;     * @return false
+<i>53</i>&nbsp;     */
+<b class="fc"><i>54</i>&nbsp;    public boolean enemyMovement(){return false;}</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * Standard implementation of a GodCard Functionality
+<i>58</i>&nbsp;     * @return false
+<i>59</i>&nbsp;     */
+<b class="fc"><i>60</i>&nbsp;    public boolean myBuild(){return false;}</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    /**
+<i>63</i>&nbsp;     * Standard implementation of a GodCard Functionality
+<i>64</i>&nbsp;     * @return false
+<i>65</i>&nbsp;     */
+<b class="fc"><i>66</i>&nbsp;    public boolean myVictoryCondition(){return false;}</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * Standard implementation of a GodCard Functionality
+<i>70</i>&nbsp;     * @return false
+<i>71</i>&nbsp;     */
+<b class="fc"><i>72</i>&nbsp;    public boolean enemyVictoryCondition(Box dest){return false;}</b>
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    /**
+<i>75</i>&nbsp;     * Standard implementation of a GodCard Functionality
+<i>76</i>&nbsp;     * @return false
+<i>77</i>&nbsp;     */
+<b class="fc"><i>78</i>&nbsp;    public boolean activeSubroutine(){return false;}</b>
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    /**
+<i>81</i>&nbsp;     * Standard implementation of a GodCard Functionality
+<i>82</i>&nbsp;     * @return false
+<i>83</i>&nbsp;     */
+<b class="fc"><i>84</i>&nbsp;    public boolean canMoveOthers(Box dest){return false;}</b>
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    /**
+<i>87</i>&nbsp;     * Standard implementation of a GodCard Functionality
+<i>88</i>&nbsp;     * @param dest destination box
+<i>89</i>&nbsp;     * @return false
+<i>90</i>&nbsp;     */
+<b class="fc"><i>91</i>&nbsp;    public boolean moveOthers(Box dest){return false;}</b>
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    public void setOwner(Player owner) {
+<b class="fc"><i>94</i>&nbsp;        this.owner = owner;</b>
+<b class="fc"><i>95</i>&nbsp;    }</b>
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    public Player getOwner() {
+<b class="fc"><i>98</i>&nbsp;        return owner;</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    /**
+<i>102</i>&nbsp;     * Modifies the cells available for the movement
+<i>103</i>&nbsp;     * @param legalMoves ArrayList of valid boxes
+<i>104</i>&nbsp;     * @return Arraylist of updated boxes
+<i>105</i>&nbsp;     */
+<b class="fc"><i>106</i>&nbsp;    public ArrayList&lt;Box&gt; specialMovement(ArrayList&lt;Box&gt; legalMoves){return legalMoves;}</b>
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    /**
+<i>109</i>&nbsp;     * Modifies the cells available for the building
+<i>110</i>&nbsp;     * @param legalBuilding ArrayList of valid boxes
+<i>111</i>&nbsp;     * @return ArrayList of updated boxes
+<i>112</i>&nbsp;     */
+<b class="fc"><i>113</i>&nbsp;    public ArrayList&lt;Box&gt; specialBuilding(ArrayList&lt;Box&gt; legalBuilding){return legalBuilding;}</b>
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    public void setActivePower(boolean activePower) {
+<b class="fc"><i>116</i>&nbsp;        this.activePower = activePower;</b>
+<b class="fc"><i>117</i>&nbsp;    }</b>
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    public boolean isActivePower() {
+<b class="fc"><i>120</i>&nbsp;        return activePower;</b>
+<i>121</i>&nbsp;    }
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;    public String getPower() {
+<b class="fc"><i>124</i>&nbsp;        return power;</b>
+<i>125</i>&nbsp;    }
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    public void setPower(String power) {
+<b class="fc"><i>128</i>&nbsp;        this.power = power;</b>
+<b class="fc"><i>129</i>&nbsp;    }</b>
+<i>130</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-24 20:10</div>
+</div>
+</body>
+</html>
