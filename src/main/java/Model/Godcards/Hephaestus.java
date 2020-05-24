@@ -65,7 +65,7 @@ public class Hephaestus extends GodCard {
         if(getOwner().getSelectedWorker()==null){
             return false;
         }
-        return getOwner().getSelectedWorker().isDidBuild();
+        return getOwner().isUsePower();
     }
 
     /**

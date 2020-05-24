@@ -11,13 +11,13 @@ import View.View;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -52,6 +52,7 @@ public class Gui extends Application implements View {
     private LoginController loginController;
 
     private String nickname;
+    private int turnCount = 0;
     private BoxInfo[][] map;
     private GodInfo[] gods;
     private PlayerInfo[] players;
@@ -78,25 +79,29 @@ public class Gui extends Application implements View {
     }
 
     public void Communication(CommandMsg command, ConnectionHandler client){
-        communicationController.SetUp(command, client);
-        dialog = new Stage();
-        dialog.initStyle(StageStyle.TRANSPARENT);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        communicationScene.setFill(Color.TRANSPARENT);
-        communicationScene.getRoot().setStyle("-fx-background-color: rgba(255, 255, 255, 0);");
-        dialog.setScene(communicationScene);
-        dialog.showAndWait();
+        Platform.runLater(() -> {
+            communicationController.SetUp(command, client);
+            dialog = new Stage();
+            dialog.initStyle(StageStyle.TRANSPARENT);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            communicationScene.setFill(Color.TRANSPARENT);
+            communicationScene.getRoot().setStyle("-fx-background-color: rgba(255, 255, 255, 0);");
+            dialog.setScene(communicationScene);
+            dialog.showAndWait();
+        });
     }
 
     public void Confirm(CommandMsg command, ConnectionHandler client, GodChoiceController controller){
-        confirmController.SetUp(client, controller, command);
-        dialog = new Stage();
-        dialog.initStyle(StageStyle.TRANSPARENT);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        confirmScene.setFill(Color.TRANSPARENT);
-        confirmScene.getRoot().setStyle("-fx-background-color: rgba(255, 255, 255, 0);");
-        dialog.setScene(confirmScene);
-        dialog.showAndWait();
+        Platform.runLater(() -> {
+            confirmController.SetUp(client, controller, command);
+            dialog = new Stage();
+            dialog.initStyle(StageStyle.TRANSPARENT);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            confirmScene.setFill(Color.TRANSPARENT);
+            confirmScene.getRoot().setStyle("-fx-background-color: rgba(255, 255, 255, 0);");
+            dialog.setScene(confirmScene);
+            dialog.showAndWait();
+        });
     }
 
     /**
@@ -104,52 +109,50 @@ public class Gui extends Application implements View {
      * @param player number of player which belongs the card
      */
     public void CardInfo(int player){
-        cardController.SetUp(player);
-        dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.setScene(cardScene);
-        dialog.showAndWait();
+        Platform.runLater(() -> {
+            cardController.SetUp(player);
+            dialog = new Stage();
+            dialog.initStyle(StageStyle.TRANSPARENT);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.setScene(cardScene);
+            dialog.showAndWait();
+        });
     }
 
     public void initScenes(){
         try{
             FXMLLoader loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Welcome.fxml").toURI().toURL());
-            Parent root = loader.load();
+            welcomeScene = new Scene(loader.load(), 800, 600);
             welcomeController = loader.getController();
-            welcomeScene = new Scene(root, 800, 600);
-            //welcomeScene.setCursor(new ImageCursor(new Image("Texture2D/godpower_hand select.png", true)));
+            welcomeScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Communication.fxml").toURI().toURL());
-            root = loader.load();
+            communicationScene = new Scene(loader.load(), 250, 278);
             communicationController = loader.getController();
-            communicationScene = new Scene(root, 250, 278);
-            //communicationScene.setCursor(new ImageCursor(new Image("Texture2D/godpower_hand select.png", true)));
+            communicationScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Login.fxml").toURI().toURL());
-            root = loader.load();
+            loginScene = new Scene(loader.load(), 800, 600);
             loginController = loader.getController();
-            loginScene = new Scene(root, 800, 600);
+            loginScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Wait.fxml").toURI().toURL());
-            root = loader.load();
+            waitScene = new Scene(loader.load(), 800, 600);
             waitController = loader.getController();
-            waitScene = new Scene(root, 800, 600);
-            //waitScene.setCursor(new ImageCursor(new Image("Texture2D/godpower_hand select.png", true)));
+            waitScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Confirm.fxml").toURI().toURL());
-            root = loader.load();
+            confirmScene = new Scene(loader.load(), 250, 278);
             confirmController = loader.getController();
-            confirmScene = new Scene(root, 250, 278);
-            //confirmScene.setCursor(new ImageCursor(new Image("Texture2D/godpower_hand select.png", true)));
+            confirmScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Game.fxml").toURI().toURL());
-            root = loader.load();
+            gameScene = new Scene(loader.load(), 800, 600);
             gameController = loader.getController();
-            gameScene = new Scene(root, 800, 600);
-            //gameScene.setCursor(new ImageCursor(new Image("Texture2D/godpower_hand select.png", true)));
+            gameScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/GodChoice.fxml").toURI().toURL());
-            root = loader.load();
+            godChoiceScene = new Scene(loader.load(), 800, 600);
             godChoiceController = loader.getController();
-            godChoiceScene = new Scene(root, 800, 600);
+            godChoiceScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
             loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Card.fxml").toURI().toURL());
-            root = loader.load();
+            cardScene = new Scene(loader.load(), 267, 400);
             cardController = loader.getController();
-            cardScene = new Scene(root, 267, 400);
+            cardScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
         }
         catch (IOException e){
             System.err.println("problems initScenes");
@@ -241,6 +244,9 @@ public class Gui extends Application implements View {
 
     public void UpdateHandler(CommandMsg command, ConnectionHandler client){
         map = command.getInfo().getGrid();
+        if(command.getCommandType() == CommandType.UPDATE_TURN) {
+            turnCount++;
+        }
         Platform.runLater(() -> {
             gameController.UpdateMap();
             gameController.setMessage(command);
@@ -337,6 +343,10 @@ public class Gui extends Application implements View {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public int getTurnCount() {
+        return turnCount;
     }
 
     public GodInfo[] getGods() {

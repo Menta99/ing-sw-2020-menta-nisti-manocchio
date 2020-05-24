@@ -15,7 +15,7 @@
    <children>
       <ImageView fitHeight="600.0" fitWidth="200.0" layoutX="-0.0">
          <image>
-            <Image url="@../../../../resources/Texture2D/cm_bg.png" />
+            <Image url="@../../../../resources/Cells/Ambient/blue_panel.png" />
          </image>
          <effect>
             <ColorAdjust brightness="0.1" contrast="0.05" />
@@ -23,14 +23,14 @@
       </ImageView>
       <ImageView fitHeight="600.0" fitWidth="640.0" layoutX="170.0">
          <image>
-            <Image url="@../../../../resources/Texture2D/clp_bg.png" />
+            <Image url="@../../../../resources/Cells/Ambient/clp_bg.png" />
          </image>
       </ImageView>
       <Group layoutX="215.0" layoutY="25.0">
          <children>
             <ImageView fitHeight="550.0" fitWidth="550.0">
                <image>
-                  <Image url="@../../../../resources/Texture2D/map.png" />
+                  <Image url="@../../../../resources/Cells/Ambient/map.png" />
                </image>
             </ImageView>
             <GridPane fx:id="gridPane" layoutX="2.0" layoutY="5.0" prefHeight="540.0" prefWidth="540.0">
@@ -201,14 +201,24 @@
                   </Group>
                </children>
             </GridPane>
-            <ImageView fitHeight="66.0" fitWidth="309.0" layoutX="116.0" layoutY="-33.0">
+            <ImageView fitHeight="66.0" fitWidth="309.0" layoutX="116.0" layoutY="-30.0">
                <image>
-                  <Image url="@../../../../resources/Texture2D/gameGodFrameName2.png" />
+                  <Image url="@../../../../resources/Cells/Ambient/drape_red.png" />
                </image>
             </ImageView>
-            <Label fx:id="message" alignment="CENTER" layoutX="152.0" layoutY="-19.0" prefHeight="17.0" prefWidth="252.0" wrapText="true">
+            <Label fx:id="message" alignment="CENTER" layoutX="152.0" layoutY="-16.0" prefHeight="17.0" prefWidth="252.0" wrapText="true">
                <font>
-                  <Font name="Georgia" size="20.0" />
+                  <Font name="Georgia" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="drape_down_play" fitHeight="50.0" fitWidth="140.0" layoutX="194.0" layoutY="533.0" x="-1.0">
+               <image>
+                  <Image url="@../../../../resources/Cells/Ambient/drape_blue.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="turn" alignment="CENTER" layoutX="211.0" layoutY="537.0" prefHeight="27.0" prefWidth="109.0" text="Turn count : 0" textFill="WHITE">
+               <font>
+                  <Font name="Georgia" size="14.0" />
                </font>
             </Label>
          </children>
@@ -217,18 +227,28 @@
          <children>
             <ImageView fx:id="card_0" fitHeight="200.0" fitWidth="142.0">
                <image>
-                  <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
+                  <Image url="@../../../../resources/Cells/Ambient/card_panel.png" />
                </image>
             </ImageView>
             <ImageView fx:id="god_0" fitHeight="100.0" fitWidth="100.0" layoutX="21.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="name_0" alignment="CENTER" layoutX="21.0" layoutY="153.0" prefHeight="27.0" prefWidth="100.0">
+            <ImageView fx:id="drape_up_0" fitHeight="50.0" fitWidth="140.0" layoutX="-1.0" layoutY="1.0">
+               <image>
+                  <Image url="@../../../../resources/Cells/Ambient/drape_red.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="god_name_0" alignment="CENTER" layoutX="21.0" layoutY="5.0" prefHeight="27.0" prefWidth="100.0">
                <font>
-                  <Font name="Georgia" size="18.0" />
+                  <Font name="Georgia" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="god_name_0" alignment="CENTER" layoutX="21.0" layoutY="127.0" prefHeight="27.0" prefWidth="100.0">
+            <ImageView fx:id="drape_down_0" fitHeight="50.0" fitWidth="140.0" layoutX="-1.0" layoutY="112.0">
+               <image>
+                  <Image url="@../../../../resources/Cells/Ambient/drape_blue.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="name_0" alignment="CENTER" layoutX="21.0" layoutY="115.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE">
                <font>
-                  <Font name="Georgia" size="18.0" />
+                  <Font name="Georgia" size="14.0" />
                </font>
             </Label>
          </children>
@@ -237,18 +257,28 @@
          <children>
             <ImageView fx:id="card_1" fitHeight="200.0" fitWidth="142.0">
                <image>
-                  <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
+                  <Image url="@../../../../resources/Cells/Ambient/card_panel.png" />
                </image>
             </ImageView>
             <ImageView fx:id="god_1" fitHeight="100.0" fitWidth="100.0" layoutX="21.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="name_1" alignment="CENTER" layoutX="21.0" layoutY="153.0" prefHeight="27.0" prefWidth="100.0">
+            <ImageView fx:id="drape_up_1" fitHeight="50.0" fitWidth="140.0">
+               <image>
+                  <Image url="@../../../../resources/Cells/Ambient/drape_red.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="god_name_1" alignment="CENTER" layoutX="21.0" layoutY="5.0" prefHeight="27.0" prefWidth="100.0">
                <font>
-                  <Font name="Georgia" size="18.0" />
+                  <Font name="Georgia" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="god_name_1" alignment="CENTER" layoutX="21.0" layoutY="127.0" prefHeight="27.0" prefWidth="100.0">
+            <ImageView fx:id="drape_down_1" fitHeight="50.0" fitWidth="140.0" x="-1.0" y="112.0">
+               <image>
+                  <Image url="@../../../../resources/Cells/Ambient/drape_blue.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="name_1" alignment="CENTER" layoutX="21.0" layoutY="115.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE">
                <font>
-                  <Font name="Georgia" size="18.0" />
+                  <Font name="Georgia" size="14.0" />
                </font>
             </Label>
          </children>
@@ -257,18 +287,28 @@
          <children>
             <ImageView fx:id="card_2" fitHeight="200.0" fitWidth="142.0" layoutX="29.0">
                <image>
-                  <Image url="@../../../../resources/Texture2D/PlayerUIPanel.png" />
+                  <Image url="@../../../../resources/Cells/Ambient/card_panel.png" />
                </image>
             </ImageView>
             <ImageView fx:id="god_2" fitHeight="100.0" fitWidth="100.0" layoutX="51.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="name_2" alignment="CENTER" layoutX="50.0" layoutY="153.0" prefHeight="27.0" prefWidth="100.0">
+            <ImageView fx:id="drape_up_2" fitHeight="50.0" fitWidth="140.0" layoutX="29.0">
+               <image>
+                  <Image url="@../../../../resources/Cells/Ambient/drape_red.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="god_name_2" alignment="CENTER" layoutX="50.0" layoutY="5.0" prefHeight="27.0" prefWidth="100.0">
                <font>
-                  <Font name="Georgia" size="18.0" />
+                  <Font name="Georgia" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="god_name_2" alignment="CENTER" layoutX="50.0" layoutY="127.0" prefHeight="27.0" prefWidth="100.0">
+            <ImageView fx:id="drape_down_2" fitHeight="50.0" fitWidth="140.0" layoutX="32.0" layoutY="112.0" x="-1.0">
+               <image>
+                  <Image url="@../../../../resources/Cells/Ambient/drape_blue.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="name_2" alignment="CENTER" layoutX="50.0" layoutY="115.0" prefHeight="27.0" prefWidth="100.0" textFill="WHITE">
                <font>
-                  <Font name="Georgia" size="18.0" />
+                  <Font name="Georgia" size="14.0" />
                </font>
             </Label>
          </children>

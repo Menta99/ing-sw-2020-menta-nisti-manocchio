@@ -97,6 +97,9 @@ public class ConnectionHandler implements Runnable{
             if(client!=null) {
                 client.CloseClient();
             }
+            else{
+                gui.Communication(null, this);
+            }
         } catch (ClassNotFoundException e) {
             System.err.println("Invalid Class, not a CliCommandMsg");
         }
@@ -231,6 +234,9 @@ public class ConnectionHandler implements Runnable{
             active.set(false);
             if(client!=null) {
                 client.CloseClient();
+            }
+            else{
+                gui.Communication(null, this);
             }
         }
     }

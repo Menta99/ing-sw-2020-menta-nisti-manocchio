@@ -5,13 +5,13 @@ import CommunicationProtocol.CommandMsg;
 import CommunicationProtocol.CommandType;
 import CommunicationProtocol.ServerMsg;
 import View.Graphic.Gui;
-
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-import java.util.ArrayList;
 
 
 public class ConfirmController implements GuiController{
@@ -19,6 +19,7 @@ public class ConfirmController implements GuiController{
     private ConnectionHandler client;
     private CommandMsg command;
     private GodChoiceController controller;
+
     @FXML
     Label yes_lbl, no_lbl, text_lbl;
     @FXML
@@ -54,6 +55,7 @@ public class ConfirmController implements GuiController{
             else {
                 client.WriteMessage(new ServerMsg(controller.getIndex()));
                 controller.restore();
+                Switch();
             }
             gui.getDialog().close();
         }
@@ -63,6 +65,7 @@ public class ConfirmController implements GuiController{
             }
             else {
                 controller.reset();
+                Switch();
             }
             gui.getDialog().close();
         }
@@ -79,6 +82,19 @@ public class ConfirmController implements GuiController{
         this.command = command;
         if(command.getCommandType() == CommandType.ANS_POWER){
             text_lbl.setText("Use your Power?");
+        }
+        else{
+            Switch();
+        }
+    }
+
+    public void Switch(){
+        Node root = gui.getPrimaryStage().getScene().getRoot();
+        if(root.getEffect()==null) {
+            root.setEffect(new ColorAdjust(0, -1, 0, 0));
+        }
+        else{
+            root.setEffect(null);
         }
     }
 }

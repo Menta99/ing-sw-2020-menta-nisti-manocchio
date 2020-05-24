@@ -2,13 +2,13 @@ package View.Graphic.Controller;
 
 import Client.ConnectionHandler;
 import CommunicationProtocol.CommandMsg;
-import CommunicationProtocol.CommandType;
 import CommunicationProtocol.SantoriniInfo.PlayerInfo;
-import View.Colors;
 import View.Graphic.Gui;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +31,7 @@ public class CommunicationController implements GuiController {
 
     public void Close(MouseEvent e){
         gui.getDialog().close();
+        Switch();
         win_tr.setOpacity(0);
         lose_tr.setOpacity(0);
         if(command == null) {
@@ -55,6 +56,7 @@ public class CommunicationController implements GuiController {
     public void SetUp(CommandMsg command, ConnectionHandler client){
         this.command = command;
         this.client = client;
+        Switch();
         PlayerInfo player;
         if(command != null) {
             close_lbl.setText("Ok");
@@ -77,7 +79,7 @@ public class CommunicationController implements GuiController {
                     player = command.getInfo().getPlayers()[0];
                     if (gui.getNickname().equalsIgnoreCase(player.getName())) {
                         win_tr.setOpacity(1);
-                        greek.setImage(new Image("Texture2D/endgame_victorywin.png", true));
+                        greek.setImage(new Image("Cells/Ambient/window.png", true));
                         text_lbl.setText("You Won");
                     } else {
                         lose_tr.setOpacity(1);
@@ -92,6 +94,9 @@ public class CommunicationController implements GuiController {
                     break;
             }
         }
+        else {
+            text_lbl.setText("Server is down");
+        }
     }
 
     public void pressButton(MouseEvent e){
@@ -102,5 +107,15 @@ public class CommunicationController implements GuiController {
     public void releaseButton(MouseEvent e){
         pressed_btn.setOpacity(0);
         close_lbl.setLayoutY(213);
+    }
+
+    public void Switch(){
+        Node root = gui.getPrimaryStage().getScene().getRoot();
+        if(root.getEffect()==null) {
+            root.setEffect(new ColorAdjust(0, -1, 0, 0));
+        }
+        else{
+            root.setEffect(null);
+        }
     }
 }

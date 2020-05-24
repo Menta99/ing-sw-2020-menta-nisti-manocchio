@@ -4,7 +4,6 @@ import Client.ConnectionHandler;
 import CommunicationProtocol.CommandMsg;
 import CommunicationProtocol.CommandType;
 import CommunicationProtocol.SantoriniInfo.GodInfo;
-import CommunicationProtocol.ServerMsg;
 import View.Graphic.Gui;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

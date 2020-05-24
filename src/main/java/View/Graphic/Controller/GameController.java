@@ -21,10 +21,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
 
@@ -32,7 +28,7 @@ public class GameController implements GuiController {
     @FXML
     GridPane gridPane;
     @FXML
-    Label name_0, name_1, name_2, god_name_0, god_name_1, god_name_2, message;
+    Label name_0, name_1, name_2, god_name_0, god_name_1, god_name_2, message, turn;
     @FXML
     ImageView god_0, god_1, god_2;
     @FXML
@@ -101,6 +97,7 @@ public class GameController implements GuiController {
      * Updates the map structure based on the information in the MapInfo[]
      */
     public void UpdateMap(){
+        turn.setText("Turn count : " + gui.getTurnCount());
         BoxInfo box;
         for(Group group : cells){
             box = gui.getMap()[cells.indexOf(group)%5][cells.indexOf(group)/5];
@@ -188,18 +185,18 @@ public class GameController implements GuiController {
                 case 0:
                     name_0.setText(player.getName());
                     god_name_0.setText(gui.getGods()[player.getGod()].getName());
-                    god_0.setImage(new Image("Texture2D/podium-characters-" + god_name_0.getText().trim() + ".png", true));
+                    god_0.setImage(new Image("Cells/GodCard/" + god_name_0.getText().trim() + "_podium.png", true));
                     break;
                 case 1:
                     name_1.setText(player.getName());
                     god_name_1.setText(gui.getGods()[player.getGod()].getName());
-                    god_1.setImage(new Image("Texture2D/podium-characters-" + god_name_1.getText().trim() + ".png", true));
+                    god_1.setImage(new Image("Cells/GodCard/" + god_name_1.getText().trim() + "_podium.png", true));
                     break;
 
                 case 2:
                     name_2.setText(player.getName());
                     god_name_2.setText(gui.getGods()[player.getGod()].getName());
-                    god_2.setImage(new Image("Texture2D/podium-characters-" + god_name_2.getText().trim() + ".png", true));
+                    god_2.setImage(new Image("Cells/GodCard/" + god_name_2.getText().trim() + "_podium.png", true));
                     break;
             }
             i++;

@@ -6,11 +6,11 @@ import CommunicationProtocol.CommandType;
 import View.Graphic.Gui;
 import javafx.animation.FadeTransition;
 import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -29,28 +29,24 @@ public class WaitController implements Initializable, GuiController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setRotate(lancetPane, 3800 , 120);
+        setRotate(lancetPane);
         fadeText();
     }
 
-    private void setRotate(AnchorPane pane, int angle, int duration){
-        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(duration), pane);
-        rotateTransition.setAutoReverse(true);
-        rotateTransition.setByAngle(angle);
-        rotateTransition.setDelay(Duration.seconds(0));
-        rotateTransition.setRate(10);
-        rotateTransition.setCycleCount(10);
+    private void setRotate(AnchorPane pane){
+        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(2), pane);
+        rotateTransition.setByAngle(360);
+        rotateTransition.setCycleCount(Timeline.INDEFINITE);
         rotateTransition.play();
     }
 
     private void fadeText(){
-        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(3), text);
+        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(2), text);
         fadeTransition.setFromValue(0.2);
         fadeTransition.setToValue(1);
         fadeTransition.setAutoReverse(true);
-        fadeTransition.setCycleCount(40);
+        fadeTransition.setCycleCount(Timeline.INDEFINITE);
         fadeTransition.play();
-
     }
 
     @Override

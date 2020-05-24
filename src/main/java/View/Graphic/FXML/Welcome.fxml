@@ -9,21 +9,21 @@
    <children>
       <ImageView fitHeight="600.0" fitWidth="800.0">
          <image>
-            <Image url="@../../../../resources/Texture2D/Odyssey_UI_Backdrop.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="logo" fitHeight="120.0" fitWidth="300.0" layoutX="250.0" layoutY="52.0" onMouseClicked="#StartGame" onMouseEntered="#ColumnSetOpacity1" onMouseExited="#ColumnSetOpacity0">
-         <image>
-            <Image url="@../../../../resources/Texture2D/santorini-logo.png" />
+            <Image url="@../../../../resources/Cells/Ambient/welcome_background.png" />
          </image>
       </ImageView>
       <ImageView fx:id="columns" fitHeight="600.0" fitWidth="800.0" opacity="0.0">
          <image>
-            <Image url="@../../../../resources/Texture2D/Odyssey_UI_Backdrop_columns.png" />
+            <Image url="@../../../../resources/Cells/Ambient/columns.png" />
          </image>
          <effect>
             <Bloom />
          </effect>
+      </ImageView>
+      <ImageView fx:id="logo" fitHeight="120.0" fitWidth="300.0" layoutX="250.0" layoutY="52.0" onMouseClicked="#StartGame" onMouseEntered="#ColumnSetOpacity1" onMouseExited="#ColumnSetOpacity0">
+         <image>
+            <Image url="@../../../../resources/Cells/Ambient/logo.png" />
+         </image>
       </ImageView>
    </children>
 </AnchorPane>
