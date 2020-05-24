@@ -86,7 +86,7 @@ public class ClientHandler implements Runnable{
                 if (ReadMessage().getMsg().equalsIgnoreCase("yes")){
                     System.out.println("[S] - Game Restarted");
                     Game.getInstance().getController().setLoadedGame(new AtomicBoolean(true));
-                    Game.getInstance().loadGame();
+                    Game.getInstance().loadGame("savedGame");
                     for (Player player : Game.getInstance().getPlayer()){
                         if (player.getNickName().equals(nickName)){
                             this.player = player;

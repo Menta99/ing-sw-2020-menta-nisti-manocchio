@@ -5,7 +5,7 @@ package Model.Godcards;
  */
 public class GodFactory {
     public GodCard create(GodsEnum god){
-        GodCard toReturn;
+        GodCard toReturn = null;
         switch (god) {
             case APOLLO:
                 toReturn = new Apollo();
@@ -49,8 +49,6 @@ public class GodFactory {
             case ZEUS:
                 toReturn = new Zeus();
                 break;
-            default:
-                toReturn = null;
         }
         return toReturn;
     }

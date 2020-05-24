@@ -10,6 +10,10 @@ import Model.PawnType;
 import View.Colors;
 import View.View;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,6 +32,13 @@ public class Cli implements View {
      */
     public Cli(){
         this.scanner = new Scanner(System.in);
+    }
+
+    public Cli(String file) throws IOException {
+        File initialFile = new File(file);
+        InputStream targetStream = new FileInputStream(initialFile);
+        System.setIn(targetStream);
+        scanner = new Scanner(System.in);
     }
 
     /**

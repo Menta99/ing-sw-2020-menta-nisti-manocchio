@@ -91,7 +91,7 @@ public class Game {
             try{
                 activeCards = this.getPlayer().get(0).Draw(this.getDeck(), index);
             }
-            catch (NullPointerException e){
+            catch (IndexOutOfBoundsException e){
                 e.printStackTrace();
                 return false;
             }
@@ -158,8 +158,8 @@ public class Game {
         this.gameFinished = gameFinished;
     }
 
-    public void loadGame() {
-        ArrayList<String> gameData = getSavedGame();
+    public void loadGame(String name) {
+        ArrayList<String> gameData = getSavedGame(name);
         Game myGame = Game.getInstance();
         myGame.id = parseInt(gameData.get(0));
         myGame.actualTurn = parseInt(gameData.get(1));
@@ -193,8 +193,8 @@ public class Game {
         }
     }
 
-    public ArrayList<String> getSavedGame() {
-        String fileName = ("temp/savedGame.txt");
+    public ArrayList<String> getSavedGame(String name) {
+        String fileName = ("temp/" + name + ".txt");
         ArrayList<String> gameData = new ArrayList<>();
         String singleData;
         try {
@@ -206,9 +206,11 @@ public class Game {
                 reader.close();
             } catch (IOException e) {
                 System.out.println("Error during File read");
+                return null;
             }
         } catch (FileNotFoundException e) {
             System.out.println("Unable to find data");
+            return null;
         }
         return gameData;
     }

@@ -12,6 +12,7 @@ public class BoxTest {
 
     @Before
     public void setUp() throws Exception {
+        Game.getInstance().CleanGame();
     }
 
     @After
@@ -50,7 +51,7 @@ public class BoxTest {
         myBox.Build();
         myBox.Build();
         myBool = myBox.Playable();
-        Assert.assertEquals(false,myBool);
+        Assert.assertEquals(false, myBool);
     }
 
     @Test
@@ -127,6 +128,15 @@ public class BoxTest {
         field.getBox(0,0).Build();
         field.Clean();
         Assert.assertEquals(PawnType.GROUND_LEVEL,field.getBox(0,0).getUpperLevel());
+    }
+
+    @Test
+    public void illegalBorderBoxes() throws Exception {
+        Box box = new Box(10, 10);
+        ArrayList<Box> vuoto = new ArrayList<>();
+        Assert.assertEquals(vuoto, box.BorderBoxes());
+        Box box1 = null;
+        Assert.assertEquals(null, box1);
     }
 
 }

@@ -26,6 +26,7 @@ public class RandomMapGenerator {
 
     @Before
     public void setUp(){
+        Game.getInstance().CleanGame();
         controller = new Controller();
         match = Game.getInstance();
         field = PlayGround.getInstance();

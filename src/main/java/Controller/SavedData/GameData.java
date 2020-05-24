@@ -79,7 +79,7 @@ public class GameData {
     }
 
     public static boolean isPlayerInIt(String playerName){
-        ArrayList<String> gameInfo = Game.getInstance().getSavedGame();
+        ArrayList<String> gameInfo = Game.getInstance().getSavedGame("savedGame");
         if (gameInfo.get(0).equals("-1")){ //If there's no saved game returns false
             return false;
         }

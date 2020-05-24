@@ -97,7 +97,7 @@ public class Controller implements Runnable{
      * Resort all the Handlers
      */
     public void OldLobbyCreation(){
-        playerNum = parseInt(Game.getInstance().getSavedGame().get(2));
+        playerNum = parseInt(Game.getInstance().getSavedGame("savedGame").get(2));
         for (int i=handlers.size(); i<playerNum; i=handlers.size()){
             InitializePlayer(i);
         }

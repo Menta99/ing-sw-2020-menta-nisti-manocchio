@@ -25,18 +25,13 @@ public class GodDeck {
      * @return GodCard if the index is valid, else null
      */
     public GodCard Draw(int index){
-        try{
-            if ((index > -1) && (index < cardList.size())){
-                if(!cardList.get(index).isChosen()) {
-                    cardList.get(index).setChosen(true);
-                    return cardList.get(index);
-                }
+        if ((index > -1) && (index < cardList.size())){
+            if(!cardList.get(index).isChosen()) {
+                cardList.get(index).setChosen(true);
+                return cardList.get(index);
             }
-            return null;
         }
-        catch (NullPointerException e){
-            return null;
-        }
+        return null;
     }
 
     public ArrayList<GodCard> getCardList(){

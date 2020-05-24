@@ -39,7 +39,7 @@ public class CardController implements GuiController{
         name.setText(card.getName());
         Label power = (Label)move.getChildren().get(1);
         power.setText((card.getPower()));
-        god.setImage(new Image("Cells/GodCard/" + card.getName() + ".png", true));
+        god.setImage(new Image("Cells/GodCard/" + card.getName() + "_long.png", true));
     }
 
     /**

@@ -10,13 +10,16 @@ import org.junit.Test;
 public class GodDeckTest {
     private GodDeck myDeck;
     private GodCard myCard;
+
     @Before
     public void setUp() throws Exception {
+        Game.getInstance().CleanGame();
         myDeck = new GodDeck();
     }
 
     @After
     public void tearDown() throws Exception {
+        Game.getInstance().CleanGame();
     }
 
     @Test

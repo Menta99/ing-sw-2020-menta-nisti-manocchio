@@ -3,7 +3,7 @@ package Client;
 import View.CLI.Cli;
 import View.View;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -23,16 +23,31 @@ public class ClientCli implements Runnable{
         this.cli = new Cli();
     }
 
+    public ClientCli(String file) throws IOException{
+        this.cli = new Cli(file);
+    }
+
     /**
      * Main method, wait player's confirm, then launches the Client execution
      * @param args standard parameter for main method
      */
     public static void main(String[] args) {
-        Scanner keyboard = new Scanner(System.in);
-        System.out.println("Press enter to Connect");
-        while(!keyboard.nextLine().equals("")){
+        if (args.length!=0 && args[0].equals("1")){ //debug read from file
+            try {
+                new ClientCli(args[1]).run();
+            }
+            catch (IOException e) {
+                System.out.println("new clientcli error");
+                e.printStackTrace();
+            }
         }
-        new ClientCli().run();
+        else {
+            Scanner keyboard = new Scanner(System.in);
+            System.out.println("Press enter to Connect");
+            while (!keyboard.nextLine().equals("")) {
+            }
+            new ClientCli().run();
+        }
 
     }
 

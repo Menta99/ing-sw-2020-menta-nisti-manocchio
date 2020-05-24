@@ -34,6 +34,7 @@ public class Server {
                 synchronized (lock){
                     try{
                         lock.wait();
+                        if(args.length!=0 && args[0].equals("1")) return; //debug only
                     }catch (InterruptedException e){
                         System.out.println("[6] - Controller Update");
                     }
