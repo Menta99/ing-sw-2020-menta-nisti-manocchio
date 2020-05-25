@@ -12,7 +12,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.*;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -23,6 +25,8 @@ public class LoginController implements GuiController{
     private CommandMsg command;
     private ConnectionHandler client;
     private boolean single;
+    private Media click;
+    private MediaPlayer player;
 
     @FXML
     TextField nickField;
@@ -46,6 +50,9 @@ public class LoginController implements GuiController{
     public void SetUp(CommandMsg command, ConnectionHandler client){
         this.command = command;
         this.client = client;
+        click = new Media(new File("src/main/resources/Cells/Music/Click.wav").toURI().toString());
+        player = new MediaPlayer(click);
+        player.setRate(1.5);
         switch (command.getCommandType()){
             case NAME:
                 single = true;
@@ -91,6 +98,7 @@ public class LoginController implements GuiController{
      * @param e User interaction
      */
     public void press(MouseEvent e){
+        player.play();
         if(single) {
             confirm.setOpacity(0);
             lbl_center.setLayoutY(0);
@@ -126,6 +134,7 @@ public class LoginController implements GuiController{
                 lbl_right.setLayoutY(0);
             }
         }
+        player.stop();
     }
 
     /**

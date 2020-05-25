@@ -151,8 +151,9 @@ public class ClientHandler implements Runnable{
                 System.out.println("[W] - Message sent to player n°" + playerNum + " of type " + msg.getCommandType());
             }
         } catch (IOException e) {
-            System.err.println("Unable to send the StringMessage");
+            System.err.println("Unable to send the Message");
             Server.AnomalousGameClose(this);
+            active.set(false);
         }
     }
 
@@ -168,6 +169,7 @@ public class ClientHandler implements Runnable{
         } catch (IOException e) {
             System.err.println("Unable to read the StringMessage");
             Server.AnomalousGameClose(this);
+            active.set(false);
         } catch (ClassNotFoundException e) {
             System.err.println("It's not a StringMessage");
         }

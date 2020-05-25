@@ -5,6 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.effect.Bloom;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.File;
 
 
 /**
@@ -12,6 +16,9 @@ import javafx.scene.input.MouseEvent;
  */
 public class WelcomeController implements GuiController {
     private Gui gui;
+    private Media choir;
+    private MediaPlayer player;
+
     @FXML
     private ImageView columns;
     @FXML
@@ -19,6 +26,8 @@ public class WelcomeController implements GuiController {
 
     public void setGui(Gui gui) {
         this.gui = gui;
+        choir = new Media(new File("src/main/resources/Cells/Music/Choir.wav").toURI().toString());
+        player = new MediaPlayer(choir);
     }
 
     /**
@@ -45,6 +54,7 @@ public class WelcomeController implements GuiController {
      * @param e User Interaction
      */
     public void StartGame(MouseEvent e){
+        player.play();
         gui.Connect();
     }
 }

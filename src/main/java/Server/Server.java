@@ -35,10 +35,9 @@ public class Server {
                     try{
                         lock.wait();
                         if(args.length!=0 && args[0].equals("1")) return; //debug only
-                    }catch (InterruptedException e){
-                        System.out.println("[6] - Controller Update");
-                    }
+                    }catch (InterruptedException e){ }
                 }
+                System.out.println("[6] - Controller Update");
             }
         } catch (IOException e) {
             System.err.println("Unable to open the Server Socket");
@@ -88,10 +87,15 @@ public class Server {
      * @param disconnected ClientHandler of the Client who disconnected
      */
     public static void AnomalousGameClose(ClientHandler disconnected){
-        System.out.println("[Z] - Anomalous Disconnection of player n°" + controller.getHandlers().indexOf(disconnected));
-        Info info = new Info(new PlayerInfo(disconnected));
-        controller.getHandlers().remove(disconnected);
-        for(ClientHandler handler : controller.getHandlers()){
+        Info info = null;
+        if (controller.getHandlers().contains(disconnected)) {
+            System.out.println("[Z] - Anomalous Disconnection of player n°" + controller.getHandlers().indexOf(disconnected));
+            info = new Info(new PlayerInfo(disconnected));
+            controller.getHandlers().remove(disconnected);
+        } else {
+            System.out.println("[Z] - Anomalous Disconnection of unknown player");
+        }
+        for (ClientHandler handler : controller.getHandlers()) {
             handler.WriteMessage(new CommandMsg(CommandType.CLOSE_ANOMALOUS, info));
         }
         controller.setActive(new AtomicBoolean(false));

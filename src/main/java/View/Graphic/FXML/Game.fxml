@@ -241,6 +241,14 @@
                   <Font name="Georgia" size="14.0" />
                </font>
             </Label>
+            <ImageView fitHeight="47.0" fitWidth="55.0" layoutX="45.0" layoutY="141.0" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/Cells/Ambient/om_portrait.png" />
+               </image>
+               <effect>
+                  <ColorAdjust hue="-0.05" saturation="-0.35" />
+               </effect>
+            </ImageView>
             <ImageView fx:id="drape_down_0" fitHeight="50.0" fitWidth="140.0" layoutX="-1.0" layoutY="112.0">
                <image>
                   <Image url="@../../../../resources/Cells/Ambient/drape_blue.png" />
@@ -251,6 +259,11 @@
                   <Font name="Georgia" size="14.0" />
                </font>
             </Label>
+            <ImageView fitHeight="32.0" fitWidth="24.0" layoutX="61.0" layoutY="145.0">
+               <image>
+                  <Image url="@../../../../resources/Cells/Building/player_yellow_icon.png" />
+               </image>
+            </ImageView>
          </children>
       </Group>
       <Group fx:id="player_1" layoutX="29.0" layoutY="200.0" onMouseClicked="#Info" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus">
@@ -271,6 +284,14 @@
                   <Font name="Georgia" size="14.0" />
                </font>
             </Label>
+            <ImageView fitHeight="47.0" fitWidth="55.0" layoutX="45.0" layoutY="141.0" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/Cells/Ambient/om_portrait.png" />
+               </image>
+               <effect>
+                  <ColorAdjust hue="-0.05" saturation="-0.35" />
+               </effect>
+            </ImageView>
             <ImageView fx:id="drape_down_1" fitHeight="50.0" fitWidth="140.0" x="-1.0" y="112.0">
                <image>
                   <Image url="@../../../../resources/Cells/Ambient/drape_blue.png" />
@@ -281,6 +302,11 @@
                   <Font name="Georgia" size="14.0" />
                </font>
             </Label>
+            <ImageView fitHeight="32.0" fitWidth="24.0" layoutX="61.0" layoutY="145.0">
+               <image>
+                  <Image url="@../../../../resources/Cells/Building/player_blue_icon.png" />
+               </image>
+            </ImageView>
          </children>
       </Group>
       <Group fx:id="player_2" layoutY="400.0" onMouseClicked="#Info" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus">
@@ -301,6 +327,14 @@
                   <Font name="Georgia" size="14.0" />
                </font>
             </Label>
+            <ImageView fitHeight="47.0" fitWidth="55.0" layoutX="74.0" layoutY="141.0" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/Cells/Ambient/om_portrait.png" />
+               </image>
+               <effect>
+                  <ColorAdjust hue="-0.05" saturation="-0.35" />
+               </effect>
+            </ImageView>
             <ImageView fx:id="drape_down_2" fitHeight="50.0" fitWidth="140.0" layoutX="32.0" layoutY="112.0" x="-1.0">
                <image>
                   <Image url="@../../../../resources/Cells/Ambient/drape_blue.png" />
@@ -311,6 +345,11 @@
                   <Font name="Georgia" size="14.0" />
                </font>
             </Label>
+            <ImageView fitHeight="32.0" fitWidth="24.0" layoutX="90.0" layoutY="145.0">
+               <image>
+                  <Image url="@../../../../resources/Cells/Building/player_red_icon.png" />
+               </image>
+            </ImageView>
          </children>
       </Group>
    </children>

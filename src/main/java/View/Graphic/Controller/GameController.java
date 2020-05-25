@@ -21,7 +21,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -43,6 +46,9 @@ public class GameController implements GuiController {
     private ConnectionHandler client;
     private ArrayList<Group> cells = new ArrayList<>();
     private ArrayList<Integer> box = new ArrayList<>();
+    private Media move;
+    private Media select;
+    private Media build;
 
     private final Effect glow = new Glow();
     private final ArrayList<Effect> player_colors = new ArrayList<>();
@@ -60,6 +66,9 @@ public class GameController implements GuiController {
     public void SetUp(CommandMsg command, ConnectionHandler client) {
         this.command = command;
         this.client = client;
+        move = new Media(new File("src/main/resources/Cells/Music/Move.wav").toURI().toString());
+        build = new Media(new File("src/main/resources/Cells/Music/Build.wav").toURI().toString());
+        select = new Media(new File("src/main/resources/Cells/Music/Select.wav").toURI().toString());
         player_colors.add(new ColorAdjust(0.3, 0, 0, 0.3));
         player_colors.add(new ColorAdjust(-0.8, 0, 0, 0.3));
         player_colors.add(new ColorAdjust(0, 0, 0, 0));
@@ -90,6 +99,15 @@ public class GameController implements GuiController {
      * @param e interaction from the user
      */
     public void SendBox(MouseEvent e){
+        if(command.getCommandType() == CommandType.POS_BUILD){
+            new MediaPlayer(build).play();
+        }
+        else if(command.getCommandType() == CommandType.POS_INITIAL || command.getCommandType() == CommandType.POS_WORKER){
+            new MediaPlayer(select).play();
+        }
+        else{
+            new MediaPlayer(move).play();
+        }
         Group group = (Group) e.getSource();
         box.add(cells.indexOf(group)%5);
         box.add(cells.indexOf(group)/5);

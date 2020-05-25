@@ -11,7 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
+import java.io.File;
 
 
 /**
@@ -22,6 +25,8 @@ public class ConfirmController implements GuiController{
     private ConnectionHandler client;
     private CommandMsg command;
     private GodChoiceController controller;
+    private Media click;
+    private MediaPlayer player;
 
     @FXML
     Label yes_lbl, no_lbl, text_lbl;
@@ -34,6 +39,7 @@ public class ConfirmController implements GuiController{
      * @param e User interaction
      */
     public void press(MouseEvent e){
+        player.play();
         if(e.getSource() == yes_lbl){
             pressed_btn_yes.setOpacity(1);
             yes_lbl.setLayoutY(216);
@@ -57,6 +63,7 @@ public class ConfirmController implements GuiController{
             pressed_btn_no.setOpacity(0);
             no_lbl.setLayoutY(213);
         }
+        player.stop();
     }
 
     /**
@@ -102,6 +109,9 @@ public class ConfirmController implements GuiController{
         this.client = client;
         this.controller = controller;
         this.command = command;
+        click = new Media(new File("src/main/resources/Cells/Music/Click.wav").toURI().toString());
+        player = new MediaPlayer(click);
+        player.setRate(1.5);
         if(command.getCommandType() == CommandType.ANS_POWER){
             text_lbl.setText("Use your Power?");
         }

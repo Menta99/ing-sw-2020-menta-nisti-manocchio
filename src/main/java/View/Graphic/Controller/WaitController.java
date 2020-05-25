@@ -10,7 +10,11 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.effect.PerspectiveTransform;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -23,17 +27,27 @@ public class WaitController implements Initializable, GuiController {
     private Gui gui;
     private CommandMsg command;
     private ConnectionHandler client;
-
+    private PerspectiveTransform trs = new PerspectiveTransform();
 
     @FXML
     AnchorPane lancetPane;
     @FXML
     Label text;
+    @FXML
+    ImageView clock_face, clock_hand;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        trs.setUlx(15);
+        trs.setUly(5);
+        trs.setLlx(25);
+        trs.setLly(170);
+        trs.setUrx(190);
+        trs.setUry(0);
+        trs.setLrx(180);
+        trs.setLry(180);
+        clock_face.setEffect(trs);
         setRotate(lancetPane);
-        fadeText();
     }
 
     /**
@@ -45,18 +59,6 @@ public class WaitController implements Initializable, GuiController {
         rotateTransition.setByAngle(360);
         rotateTransition.setCycleCount(Timeline.INDEFINITE);
         rotateTransition.play();
-    }
-
-    /**
-     * Set the correct effect for the waiting
-     */
-    private void fadeText(){
-        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(2), text);
-        fadeTransition.setFromValue(0.2);
-        fadeTransition.setToValue(1);
-        fadeTransition.setAutoReverse(true);
-        fadeTransition.setCycleCount(Timeline.INDEFINITE);
-        fadeTransition.play();
     }
 
     @Override

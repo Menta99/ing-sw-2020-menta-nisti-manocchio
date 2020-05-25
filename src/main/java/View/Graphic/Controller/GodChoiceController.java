@@ -15,7 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -27,6 +30,7 @@ public class GodChoiceController implements GuiController{
     private ConnectionHandler client;
     private ArrayList<Integer> index;
     private ArrayList<ImageView> full;
+    private Media click;
 
     @FXML
     Pane main;
@@ -53,6 +57,7 @@ public class GodChoiceController implements GuiController{
     public void SetUp(CommandMsg command, ConnectionHandler client){
         this.command = command;
         this.client = client;
+        click = new Media(new File("src/main/resources/Cells/Music/Click.wav").toURI().toString());
         index = new ArrayList<>();
         full = new ArrayList<>();
         for (Node image : main.getChildren()){
@@ -109,6 +114,9 @@ public class GodChoiceController implements GuiController{
      * @param e User Interaction
      */
     public void select(MouseEvent e){
+        MediaPlayer player = new MediaPlayer(click);
+        player.setRate(1.5);
+        player.play();
         Node source = (Node)e.getSource();
         int number = grid.getChildren().indexOf(source);
         if(command.getCommandType() == CommandType.NUMBER){

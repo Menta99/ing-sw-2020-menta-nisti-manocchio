@@ -92,13 +92,10 @@ public class ConnectionHandler implements Runnable{
         try {
             command = (CommandMsg) in.readObject();
         } catch (IOException e) {
-            System.err.println("Problems with the Stream\nThe Server is probably down");
             active.set(false);
             if(client!=null) {
+                System.err.println("Problems with the Stream\nThe Server is probably down");
                 client.CloseClient();
-            }
-            else{
-                gui.Communication(null, this);
             }
         } catch (ClassNotFoundException e) {
             System.err.println("Invalid Class, not a CliCommandMsg");
@@ -230,9 +227,9 @@ public class ConnectionHandler implements Runnable{
         try {
             out.writeObject(msg);
         } catch (IOException e) {
-            System.err.println("Unable to write message\nThe Server is probably down");
             active.set(false);
             if(client!=null) {
+                System.err.println("Unable to write message\nThe Server is probably down");
                 client.CloseClient();
             }
             else{

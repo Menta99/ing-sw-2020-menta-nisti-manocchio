@@ -317,8 +317,13 @@ public class Cli implements View {
                         + " Select " + players.length + " GodCards indicating their numbers");
                 break;
             case CLOSE_ANOMALOUS:
-                PlayerInfo player = command.getInfo().getPlayers()[0];
-                System.out.println(player.getColor() + player.getName() + Colors.RESET + " disconnected\nEndGame");
+                if(command.getInfo()!=null) {
+                    PlayerInfo player = command.getInfo().getPlayers()[0];
+                    System.out.println(player.getColor() + player.getName() + Colors.RESET + " disconnected\nEndGame");
+                }
+                else{
+                    System.out.println("Unknown player disconnected\nEndgame");
+                }
                 break;
             case CLOSE_NORMAL:
                 PlayerInfo winner = command.getInfo().getPlayers()[0];

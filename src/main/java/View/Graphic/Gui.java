@@ -6,6 +6,7 @@ import CommunicationProtocol.CommandType;
 import CommunicationProtocol.SantoriniInfo.BoxInfo;
 import CommunicationProtocol.SantoriniInfo.GodInfo;
 import CommunicationProtocol.SantoriniInfo.PlayerInfo;
+import CommunicationProtocol.ServerMsg;
 import View.Graphic.Controller.*;
 import View.View;
 import javafx.application.Application;
@@ -14,10 +15,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+//import javafx.scene.media.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,6 +57,8 @@ public class Gui extends Application implements View {
     private GodChoiceController godChoiceController;
     private CardController cardController;
     private LoginController loginController;
+
+    private Media trumpet;
 
     private String nickname;
     private int turnCount = 0;
@@ -99,6 +105,16 @@ public class Gui extends Application implements View {
             communicationScene.setFill(Color.TRANSPARENT);
             communicationScene.getRoot().setStyle("-fx-background-color: rgba(255, 255, 255, 0);");
             dialog.setScene(communicationScene);
+            CommandType type = command.getCommandType();
+            if(type != CommandType.COM_INVALID_POS && type != CommandType.COM_INVALID_WORKER){
+                if(type == CommandType.CLOSE_NORMAL && command.getInfo().getPlayers()[0].getName().equalsIgnoreCase(nickname)){
+                    trumpet = new Media(new File("src/main/resources/Cells/Music/Triumph.wav").toURI().toString());
+                }
+                else{
+                    trumpet = new Media(new File("src/main/resources/Cells/Music/Fail.wav").toURI().toString());
+                }
+                new MediaPlayer(trumpet).play();
+            }
             dialog.showAndWait();
         });
     }
@@ -213,7 +229,7 @@ public class Gui extends Application implements View {
 
     /**
      * Create a new object for connection handling
-     * @param server
+     * @param server Socket of the connection with the Server
      */
     public void SetUp(Socket server){
         handler = new ConnectionHandler(server, this);

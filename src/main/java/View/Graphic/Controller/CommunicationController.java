@@ -12,6 +12,10 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.File;
 
 /**
  * Controller class for fxml Communication file
@@ -20,6 +24,8 @@ public class CommunicationController implements GuiController {
     private Gui gui;
     private CommandMsg command;
     private ConnectionHandler client;
+    private Media click;
+    private MediaPlayer player;
 
     @FXML
     Label close_lbl, text_lbl;
@@ -68,6 +74,9 @@ public class CommunicationController implements GuiController {
     public void SetUp(CommandMsg command, ConnectionHandler client){
         this.command = command;
         this.client = client;
+        click = new Media(new File("src/main/resources/Cells/Music/Click.wav").toURI().toString());
+        player = new MediaPlayer(click);
+        player.setRate(1.5);
         Switch();
         PlayerInfo player;
         if(command != null) {
@@ -84,8 +93,13 @@ public class CommunicationController implements GuiController {
                     text_lbl.setText("You Lost!");
                     break;
                 case CLOSE_ANOMALOUS:
-                    player = command.getInfo().getPlayers()[0];
-                    text_lbl.setText(player.getName() + " disconnected");
+                    if(command.getInfo()!=null) {
+                        player = command.getInfo().getPlayers()[0];
+                        text_lbl.setText(player.getName() + " disconnected");
+                    }
+                    else{
+                        text_lbl.setText("Unknown player disconnected");
+                    }
                     break;
                 case CLOSE_NORMAL:
                     player = command.getInfo().getPlayers()[0];
@@ -116,6 +130,7 @@ public class CommunicationController implements GuiController {
      * @param e User interaction
      */
     public void pressButton(MouseEvent e){
+        player.play();
         pressed_btn.setOpacity(1);
         close_lbl.setLayoutY(216);
     }
@@ -127,6 +142,7 @@ public class CommunicationController implements GuiController {
     public void releaseButton(MouseEvent e){
         pressed_btn.setOpacity(0);
         close_lbl.setLayoutY(213);
+        player.stop();
     }
 
     public void Switch(){

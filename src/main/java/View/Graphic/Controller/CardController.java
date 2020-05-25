@@ -9,7 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+
+import java.io.File;
 
 /**
  * Controller class for fxml Card file
@@ -17,6 +21,10 @@ import javafx.util.Duration;
 
 public class CardController implements GuiController{
     private Gui gui;
+    private Media click;
+    private Media info;
+    private MediaPlayer clickPlayer;
+    private MediaPlayer cardPlayer;
 
     @FXML
     ImageView god, btn;
@@ -32,10 +40,15 @@ public class CardController implements GuiController{
 
     /**
      * Display the correct image with his name and a description of his power
-     * @param player number of player which belongs the card
+     * @param playerNumber number of player which belongs the card
      */
-    public void SetUp(int player){
-        GodInfo card = gui.getGods()[gui.getPlayers()[player].getGod()];
+    public void SetUp(int playerNumber){
+        click = new Media(new File("src/main/resources/Cells/Music/Click.wav").toURI().toString());
+        info = new Media(new File("src/main/resources/Cells/Music/Info.wav").toURI().toString());
+        clickPlayer = new MediaPlayer(click);
+        clickPlayer.setRate(1.5);
+        cardPlayer = new MediaPlayer(info);
+        GodInfo card = gui.getGods()[gui.getPlayers()[playerNumber].getGod()];
         name.setText(card.getName());
         Label power = (Label)move.getChildren().get(1);
         power.setText((card.getPower()));
@@ -47,6 +60,10 @@ public class CardController implements GuiController{
      * @param e User Interaction
      */
     public void ChangeFocus(MouseEvent e){
+        if(!cardPlayer.isMute()){
+            cardPlayer = new MediaPlayer(info);
+            cardPlayer.play();
+        }
         TranslateTransition trans = new TranslateTransition();
         trans.setDuration(Duration.seconds(1.5));
         if(e.getEventType().equals(MouseEvent.MOUSE_ENTERED)) {
@@ -64,6 +81,7 @@ public class CardController implements GuiController{
      * @param e User interaction
      */
     public void pressBtn(MouseEvent e){
+        clickPlayer.play();
         btn.setOpacity(0);
         close.setLayoutY(243);
     }
@@ -75,6 +93,7 @@ public class CardController implements GuiController{
     public void releaseBtn(MouseEvent e){
         btn.setOpacity(1);
         close.setLayoutY(240);
+        clickPlayer.stop();
     }
 
     /**
@@ -82,6 +101,7 @@ public class CardController implements GuiController{
      * @param e User interaction
      */
     public void Close(MouseEvent e){
+        cardPlayer.setMute(true);
         gui.getDialog().close();
     }
 }
