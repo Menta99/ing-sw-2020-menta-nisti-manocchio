@@ -12,7 +12,7 @@
    <children>
       <ImageView fitHeight="600.0" fitWidth="800.0">
          <image>
-            <Image url="@../../../../resources/Cells/Ambient/wait_background.png" />
+            <Image url="@../Cells/Ambient/wait_background.png" />
          </image>
          <effect>
             <ColorAdjust brightness="-0.6" contrast="0.6" hue="0.25" saturation="-0.45" />
@@ -20,12 +20,12 @@
       </ImageView>
       <ImageView fx:id="clock_face" fitHeight="200.0" fitWidth="200.0" layoutX="541.0" layoutY="83.0" rotate="20.0">
          <image>
-            <Image url="@../../../../resources/Cells/Ambient/clock_face.png" />
+            <Image url="@../Cells/Ambient/clock_face.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="82.0" fitWidth="463.0" layoutX="102.0" layoutY="13.0">
          <image>
-            <Image url="@../../../../resources/Cells/Ambient/drape_blue.png" />
+            <Image url="@../Cells/Ambient/drape_blue.png" />
          </image>
          <effect>
             <ColorAdjust brightness="-0.1" hue="0.08" />
@@ -40,7 +40,7 @@
          <children>
             <ImageView fx:id="clock_hand" fitHeight="40.0" fitWidth="25.0" layoutX="103.0" layoutY="74.0" rotate="20.0" AnchorPane.bottomAnchor="106.0" AnchorPane.leftAnchor="103.0" AnchorPane.rightAnchor="92.0" AnchorPane.topAnchor="74.0">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/clock_hand.png" />
+                  <Image url="@../Cells/Ambient/clock_hand.png" />
                </image>
             </ImageView>
          </children>

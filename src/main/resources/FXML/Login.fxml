@@ -13,12 +13,12 @@
    <children>
       <ImageView fx:id="background" fitHeight="600.0" fitWidth="801.0" layoutY="-1.0">
          <image>
-            <Image url="@../../../../resources/Cells/Ambient/login_background.png" />
+            <Image url="@../Cells/Ambient/login_background.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="238.0" fitWidth="300.0" layoutX="251.0" layoutY="173.0">
          <image>
-            <Image url="@../../../../resources/Cells/Ambient/window.png" />
+            <Image url="@../Cells/Ambient/window.png" />
          </image>
       </ImageView>
       <Group fx:id="left_right" layoutX="307.0" layoutY="327.0">
@@ -33,12 +33,12 @@
             </Label>
             <ImageView fx:id="prs_btn_left" fitHeight="40.0" fitWidth="90.0" layoutY="4.0">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/btn_blue_pressed.png" />
+                  <Image url="@../Cells/Ambient/btn_blue_pressed.png" />
                </image>
             </ImageView>
             <ImageView fx:id="btn_left" fitHeight="40.0" fitWidth="90.0" layoutY="4.0">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/btn_blue.png" />
+                  <Image url="@../Cells/Ambient/btn_blue.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
@@ -51,7 +51,7 @@
             </Label>
             <ImageView fx:id="prs_btn_right" fitHeight="40.0" fitWidth="90.0" layoutX="94.0" layoutY="4.0">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/btn_blue_pressed.png" />
+                  <Image url="@../Cells/Ambient/btn_blue_pressed.png" />
                </image>
             </ImageView>
             <ImageView fx:id="btn_right" fitHeight="40.0" fitWidth="90.0" layoutX="94.0" layoutY="4.0">
@@ -59,7 +59,7 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/btn_blue.png" />
+                  <Image url="@../Cells/Ambient/btn_blue.png" />
                </image>
             </ImageView>
             <Label fx:id="lbl_right" alignment="CENTER" contentDisplay="TOP" layoutX="94.0" onMouseClicked="#select" onMousePressed="#press" onMouseReleased="#release" prefHeight="40.0" prefWidth="90.0" text="3" textAlignment="CENTER" textFill="WHITE">
@@ -81,7 +81,7 @@
             </TextField>
             <ImageView fx:id="prs_confirm" fitHeight="40.0" fitWidth="186.0">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/btn_blue_pressed.png" />
+                  <Image url="@../Cells/Ambient/btn_blue_pressed.png" />
                </image>
             </ImageView>
             <ImageView fx:id="confirm" fitHeight="40.0" fitWidth="186.0">
@@ -89,7 +89,7 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/btn_blue.png" />
+                  <Image url="@../Cells/Ambient/btn_blue.png" />
                </image>
             </ImageView>
             <Label fx:id="lbl_center" alignment="CENTER" contentDisplay="TOP" layoutY="-3.0" onMouseClicked="#select" onMousePressed="#press" onMouseReleased="#release" prefHeight="40.0" prefWidth="186.0" text="Confirm" textAlignment="CENTER" textFill="WHITE">

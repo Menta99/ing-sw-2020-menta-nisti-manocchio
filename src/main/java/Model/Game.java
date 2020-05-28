@@ -10,10 +10,10 @@ import Model.Godcards.GodDeck;
 import Model.Godcards.GodFactory;
 import Model.Godcards.GodsEnum;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
@@ -194,24 +194,39 @@ public class Game {
     }
 
     public ArrayList<String> getSavedGame(String name) {
-        String fileName = ("temp/" + name + ".txt");
+        String stream = (System.getProperty("user.dir") + "/temp/" + name + ".txt");
         ArrayList<String> gameData = new ArrayList<>();
         String singleData;
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            BufferedReader reader = new BufferedReader(new FileReader(stream));
             try {
                 while ((singleData = reader.readLine()) != null) {
                     gameData.add(singleData);
                 }
                 reader.close();
+                return gameData;
             } catch (IOException e) {
                 System.out.println("Error during File read");
                 return null;
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to find data");
+            System.out.println("File not found");
             return null;
         }
-        return gameData;
     }
 }
+
+/*InputStream stream = getClass().getResourceAsStream("/temp/" + name + ".txt");
+        ArrayList<String> gameData = new ArrayList<>();
+        String singleData;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+            try {
+                while ((singleData = reader.readLine()) != null) {
+                    gameData.add(singleData);
+                }
+                reader.close();
+                return gameData;
+            } catch (IOException e) {
+                System.out.println("Error during File read");
+                return null;
+            }*/

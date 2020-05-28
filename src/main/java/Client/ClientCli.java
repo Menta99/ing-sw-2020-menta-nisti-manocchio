@@ -12,9 +12,10 @@ import java.util.Scanner;
  */
 public class ClientCli implements Runnable{
     private static final int PORT_NUM = 5555;
-    private static final String IP = "127.0.0.1";
+    private static String IP = "127.0.0.1";
     private Socket server;
     private final Cli cli;
+    private static final Scanner keyboard = new Scanner(System.in);
 
     /**
      * Constructor of the class, creates the instance of the Command Line Interface
@@ -42,8 +43,7 @@ public class ClientCli implements Runnable{
             }
         }
         else {
-            Scanner keyboard = new Scanner(System.in);
-            System.out.println("Press enter to Connect");
+            System.out.println("Press enter to Start");
             while (!keyboard.nextLine().equals("")) {
             }
             new ClientCli().run();
@@ -60,6 +60,8 @@ public class ClientCli implements Runnable{
     @Override
     public void run() {
         try {
+            System.out.println("Insert server IP");
+            IP = keyboard.nextLine().trim();
             System.out.println("[1] - Trying to connect to the server on port n° " + PORT_NUM);
             server = new Socket(IP, PORT_NUM);
             if(server.isConnected()) {
@@ -70,9 +72,6 @@ public class ClientCli implements Runnable{
             }
         } catch (IOException e) {
             System.err.println("Problems connecting to the Server");
-        }
-        finally {
-            CloseClient();
         }
     }
 
@@ -90,6 +89,11 @@ public class ClientCli implements Runnable{
     public void CloseClient(){
         try {
             server.close();
+            System.out.println("Do you want to play another game?");
+            Scanner keyboard = new Scanner(System.in);
+            if(keyboard.nextLine().equalsIgnoreCase("yes")){
+                new ClientCli().run();
+            }
         } catch (IOException e) {
             System.err.println("Unable to close the Client Socket");
         }

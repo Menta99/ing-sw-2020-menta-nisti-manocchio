@@ -43,16 +43,18 @@ public class CardController implements GuiController{
      * @param playerNumber number of player which belongs the card
      */
     public void SetUp(int playerNumber){
-        click = new Media(new File("src/main/resources/Cells/Music/Click.wav").toURI().toString());
-        info = new Media(new File("src/main/resources/Cells/Music/Info.wav").toURI().toString());
+        click = new Media(getClass().getResource("/Cells/Music/Click.wav").toString());
+        info = new Media(getClass().getResource("/Cells/Music/Info.wav").toString());
         clickPlayer = new MediaPlayer(click);
         clickPlayer.setRate(1.5);
+        clickPlayer.setVolume(gui.getVolume());
         cardPlayer = new MediaPlayer(info);
+        cardPlayer.setVolume(gui.getVolume());
         GodInfo card = gui.getGods()[gui.getPlayers()[playerNumber].getGod()];
         name.setText(card.getName());
         Label power = (Label)move.getChildren().get(1);
         power.setText((card.getPower()));
-        god.setImage(new Image("Cells/GodCard/" + card.getName() + "_long.png", true));
+        god.setImage(new Image(getClass().getResource("/Cells/GodCard/" + card.getName() + "_long.png").toString(), true));
     }
 
     /**
@@ -62,6 +64,7 @@ public class CardController implements GuiController{
     public void ChangeFocus(MouseEvent e){
         if(!cardPlayer.isMute()){
             cardPlayer = new MediaPlayer(info);
+            cardPlayer.setVolume(gui.getVolume());
             cardPlayer.play();
         }
         TranslateTransition trans = new TranslateTransition();

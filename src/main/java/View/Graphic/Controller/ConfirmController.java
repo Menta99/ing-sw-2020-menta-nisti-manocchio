@@ -109,9 +109,10 @@ public class ConfirmController implements GuiController{
         this.client = client;
         this.controller = controller;
         this.command = command;
-        click = new Media(new File("src/main/resources/Cells/Music/Click.wav").toURI().toString());
+        click = new Media(getClass().getResource("/Cells/Music/Click.wav").toString());
         player = new MediaPlayer(click);
         player.setRate(1.5);
+        player.setVolume(gui.getVolume());
         if(command.getCommandType() == CommandType.ANS_POWER){
             text_lbl.setText("Use your Power?");
         }
@@ -120,6 +121,9 @@ public class ConfirmController implements GuiController{
         }
     }
 
+    /**
+     * Gray-out effect to the primaryStage
+     */
     public void Switch(){
         Node root = gui.getPrimaryStage().getScene().getRoot();
         if(root.getEffect()==null) {

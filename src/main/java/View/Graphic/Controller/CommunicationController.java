@@ -57,10 +57,12 @@ public class CommunicationController implements GuiController {
                 case COM_LOSE:
                     break;
                 case CLOSE_ANOMALOUS:
-                case CLOSE_NORMAL:
                 case CLOSE_RESTART:
                 case CLOSE_SERVER:
                     gui.getPrimaryStage().close();
+                    break;
+                case CLOSE_NORMAL:
+                    gui.Restart();
                     break;
             }
         }
@@ -74,9 +76,10 @@ public class CommunicationController implements GuiController {
     public void SetUp(CommandMsg command, ConnectionHandler client){
         this.command = command;
         this.client = client;
-        click = new Media(new File("src/main/resources/Cells/Music/Click.wav").toURI().toString());
+        click = new Media(getClass().getResource("/Cells/Music/Click.wav").toString());
         player = new MediaPlayer(click);
         player.setRate(1.5);
+        player.setVolume(gui.getVolume());
         Switch();
         PlayerInfo player;
         if(command != null) {
@@ -105,7 +108,7 @@ public class CommunicationController implements GuiController {
                     player = command.getInfo().getPlayers()[0];
                     if (gui.getNickname().equalsIgnoreCase(player.getName())) {
                         win_tr.setOpacity(1);
-                        greek.setImage(new Image("Cells/Ambient/window.png", true));
+                        greek.setImage(new Image(getClass().getResource("/Cells/Ambient/window.png").toString(), true));
                         text_lbl.setText("You Won");
                     } else {
                         lose_tr.setOpacity(1);
@@ -145,6 +148,9 @@ public class CommunicationController implements GuiController {
         player.stop();
     }
 
+    /**
+     * Gray-out effect to the primaryStage
+     */
     public void Switch(){
         Node root = gui.getPrimaryStage().getScene().getRoot();
         if(root.getEffect()==null) {

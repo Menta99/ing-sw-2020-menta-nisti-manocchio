@@ -49,6 +49,7 @@ public class GameController implements GuiController {
     private Media move;
     private Media select;
     private Media build;
+    private MediaPlayer player;
 
     private final Effect glow = new Glow();
     private final ArrayList<Effect> player_colors = new ArrayList<>();
@@ -66,9 +67,9 @@ public class GameController implements GuiController {
     public void SetUp(CommandMsg command, ConnectionHandler client) {
         this.command = command;
         this.client = client;
-        move = new Media(new File("src/main/resources/Cells/Music/Move.wav").toURI().toString());
-        build = new Media(new File("src/main/resources/Cells/Music/Build.wav").toURI().toString());
-        select = new Media(new File("src/main/resources/Cells/Music/Select.wav").toURI().toString());
+        move = new Media(getClass().getResource("/Cells/Music/Move.wav").toString());
+        build = new Media(getClass().getResource("/Cells/Music/Build.wav").toString());
+        select = new Media(getClass().getResource("/Cells/Music/Select.wav").toString());
         player_colors.add(new ColorAdjust(0.3, 0, 0, 0.3));
         player_colors.add(new ColorAdjust(-0.8, 0, 0, 0.3));
         player_colors.add(new ColorAdjust(0, 0, 0, 0));
@@ -98,16 +99,19 @@ public class GameController implements GuiController {
      * Sends the box coordinates
      * @param e interaction from the user
      */
+
     public void SendBox(MouseEvent e){
         if(command.getCommandType() == CommandType.POS_BUILD){
-            new MediaPlayer(build).play();
+            player = new MediaPlayer(build);
         }
         else if(command.getCommandType() == CommandType.POS_INITIAL || command.getCommandType() == CommandType.POS_WORKER){
-            new MediaPlayer(select).play();
+            player = new MediaPlayer(select);
         }
         else{
-            new MediaPlayer(move).play();
+            player = new MediaPlayer(move);
         }
+        player.setVolume(gui.getVolume());
+        player.play();
         Group group = (Group) e.getSource();
         box.add(cells.indexOf(group)%5);
         box.add(cells.indexOf(group)/5);
@@ -207,18 +211,18 @@ public class GameController implements GuiController {
                 case 0:
                     name_0.setText(player.getName());
                     god_name_0.setText(gui.getGods()[player.getGod()].getName());
-                    god_0.setImage(new Image("Cells/GodCard/" + god_name_0.getText().trim() + "_podium.png", true));
+                    god_0.setImage(new Image(getClass().getResource("/Cells/GodCard/" + god_name_0.getText().trim() + "_podium.png").toString(), true));
                     break;
                 case 1:
                     name_1.setText(player.getName());
                     god_name_1.setText(gui.getGods()[player.getGod()].getName());
-                    god_1.setImage(new Image("Cells/GodCard/" + god_name_1.getText().trim() + "_podium.png", true));
+                    god_1.setImage(new Image(getClass().getResource("/Cells/GodCard/" + god_name_1.getText().trim() + "_podium.png").toString(), true));
                     break;
 
                 case 2:
                     name_2.setText(player.getName());
                     god_name_2.setText(gui.getGods()[player.getGod()].getName());
-                    god_2.setImage(new Image("Cells/GodCard/" + god_name_2.getText().trim() + "_podium.png", true));
+                    god_2.setImage(new Image(getClass().getResource("/Cells/GodCard/" + god_name_2.getText().trim() + "_podium.png").toString(), true));
                     break;
             }
             i++;
@@ -250,10 +254,10 @@ public class GameController implements GuiController {
         }
         if(type == CellType.DOME){
             tower.setImage(null);
-            worker.setImage(new Image(type.toString(), true));
+            worker.setImage(new Image(getClass().getResource(type.toString()).toString(), true));
         }
         else {
-            tower.setImage(new Image(type.toString(), true));
+            tower.setImage(new Image(getClass().getResource(type.toString()).toString(), true));
             worker.setImage(null);
         }
     }
@@ -303,7 +307,7 @@ public class GameController implements GuiController {
             tower.setImage(null);
         }
         else {
-            tower.setImage(new Image(type.toString(), true));
+            tower.setImage(new Image(getClass().getResource(type.toString()).toString(), true));
         }
         worker.setImage(null);
     }
@@ -365,13 +369,13 @@ public class GameController implements GuiController {
             tower.setImage(null);
         }
         else {
-            tower.setImage(new Image(towerType.toString(), true));
+            tower.setImage(new Image(getClass().getResource(towerType.toString()).toString(), true));
         }
         if(workerType == CellType.VOID){
             worker.setImage(null);
         }
         else {
-            worker.setImage(new Image(workerType.toString(), true));
+            worker.setImage(new Image(getClass().getResource(workerType.toString()).toString(), true));
         }
     }
 
@@ -402,7 +406,7 @@ public class GameController implements GuiController {
             tower.setImage(null);
         }
         else {
-            tower.setImage(new Image(towerType.toString(), true));
+            tower.setImage(new Image(getClass().getResource(towerType.toString()).toString(), true));
         }
     }
 

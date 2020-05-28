@@ -50,8 +50,9 @@ public class LoginController implements GuiController{
     public void SetUp(CommandMsg command, ConnectionHandler client){
         this.command = command;
         this.client = client;
-        click = new Media(new File("src/main/resources/Cells/Music/Click.wav").toURI().toString());
+        click = new Media(getClass().getResource("/Cells/Music/Click.wav").toString());
         player = new MediaPlayer(click);
+        player.setVolume(gui.getVolume());
         player.setRate(1.5);
         switch (command.getCommandType()){
             case NAME:

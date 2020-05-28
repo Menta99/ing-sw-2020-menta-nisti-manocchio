@@ -366,8 +366,9 @@ public class Cli implements View {
         String line = "";
         ArrayList<String> output = new ArrayList<>();
         output.add("          X: ⇉     Y: ⇊     \n");
+        output.add("     0     1     2     3     4   ");
         output.add("  ╔═════════════════════════════╗");
-        for(int i = 4; i >= 0; i--){
+        for(int i = 0; i <= 4; i++){
             line = line.concat(i + " ║");
             for(int j = 0; j <= 4; j++){
                 if (map[j][i].getLastBuilding() == PawnType.DOME) {
@@ -385,12 +386,11 @@ public class Cli implements View {
             line = line.concat("║");
             output.add(line);
             line = "";
-            if (i != 0) {
+            if (i != 4) {
                 output.add("  ║     ┼     ┼     ┼     ┼     ║");
             }
         }
         output.add("  ╚═════════════════════════════╝");
-        output.add("     0     1     2     3     4   ");
         for(String string : output){
             System.out.println(string);
         }

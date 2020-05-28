@@ -12,14 +12,14 @@
       <ImageView fx:id="god" fitHeight="337.0" fitWidth="228.0" layoutX="20.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="panel_fix" fitHeight="400.0" fitWidth="267.0">
          <image>
-            <Image url="@../../../../resources/Cells/Ambient/panel_void.png" />
+            <Image url="@../Cells/Ambient/panel_void.png" />
          </image>
       </ImageView>
       <Group fx:id="move" layoutX="25.0" layoutY="363.0">
          <children>
             <ImageView fx:id="panel_move" fitHeight="251.0" fitWidth="217.0">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/move_panel.png" />
+                  <Image url="@../Cells/Ambient/move_panel.png" />
                </image>
             </ImageView>
             <Label fx:id="power" alignment="CENTER" layoutY="36.0" prefHeight="215.0" prefWidth="217.0" textAlignment="CENTER" wrapText="true">
@@ -29,12 +29,12 @@
             </Label>
             <ImageView fitHeight="36.0" fitWidth="217.0" layoutY="244.0">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/btn_blue_pressed.png" />
+                  <Image url="@../Cells/Ambient/btn_blue_pressed.png" />
                </image>
             </ImageView>
             <ImageView fx:id="btn" fitHeight="36.0" fitWidth="217.0" layoutY="244.0">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/btn_blue.png" />
+                  <Image url="@../Cells/Ambient/btn_blue.png" />
                </image>
             </ImageView>
             <Label fx:id="close" alignment="CENTER" layoutY="240.0" onMouseClicked="#Close" onMousePressed="#pressBtn" onMouseReleased="#releaseBtn" prefHeight="36.0" prefWidth="217.0" text="Close" textFill="WHITE" wrapText="true">
@@ -46,7 +46,7 @@
       </Group>
       <ImageView fitHeight="66.0" fitWidth="228.0" layoutX="20.0" layoutY="24.0">
          <image>
-            <Image url="@../../../../resources/Cells/Ambient/drape_blue.png" />
+            <Image url="@../Cells/Ambient/drape_blue.png" />
          </image>
       </ImageView>
       <Label fx:id="name" alignment="CENTER" layoutX="46.0" layoutY="37.0" prefHeight="25.0" prefWidth="187.0" textFill="WHITE" wrapText="true">

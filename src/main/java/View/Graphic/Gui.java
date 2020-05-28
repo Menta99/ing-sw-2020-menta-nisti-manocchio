@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -33,9 +34,9 @@ import java.util.ArrayList;
  */
 public class Gui extends Application implements View {
     private final int PORT_NUM = 5555;
-    private final String IP = "127.0.0.1";
+    private String IP = "127.0.0.1";
     private Socket server;
-    ConnectionHandler handler;
+    private ConnectionHandler handler;
 
     private Stage primaryStage;
     private Stage dialog;
@@ -48,6 +49,7 @@ public class Gui extends Application implements View {
     private Scene godChoiceScene;
     private Scene cardScene;
     private Scene loginScene;
+    private Scene setUpScene;
 
     private WelcomeController welcomeController;
     private CommunicationController communicationController;
@@ -57,6 +59,7 @@ public class Gui extends Application implements View {
     private GodChoiceController godChoiceController;
     private CardController cardController;
     private LoginController loginController;
+    private SetUpController setUpController;
 
     private Media trumpet;
 
@@ -65,6 +68,7 @@ public class Gui extends Application implements View {
     private BoxInfo[][] map;
     private GodInfo[] gods;
     private PlayerInfo[] players;
+    private double volume = 1;
 
     public static void main(String[] args) {
         launch(args);
@@ -105,15 +109,18 @@ public class Gui extends Application implements View {
             communicationScene.setFill(Color.TRANSPARENT);
             communicationScene.getRoot().setStyle("-fx-background-color: rgba(255, 255, 255, 0);");
             dialog.setScene(communicationScene);
-            CommandType type = command.getCommandType();
-            if(type != CommandType.COM_INVALID_POS && type != CommandType.COM_INVALID_WORKER){
-                if(type == CommandType.CLOSE_NORMAL && command.getInfo().getPlayers()[0].getName().equalsIgnoreCase(nickname)){
-                    trumpet = new Media(new File("src/main/resources/Cells/Music/Triumph.wav").toURI().toString());
+            if (command!=null) {
+                CommandType type = command.getCommandType();
+                if (type != CommandType.COM_INVALID_POS && type != CommandType.COM_INVALID_WORKER) {
+                    if (type == CommandType.CLOSE_NORMAL && command.getInfo().getPlayers()[0].getName().equalsIgnoreCase(nickname)) {
+                        trumpet = new Media(getClass().getResource("/Cells/Music/Triumph.wav").toString());
+                    } else {
+                        trumpet = new Media(getClass().getResource("/Cells/Music/Fail.wav").toString());
+                    }
+                    MediaPlayer player = new MediaPlayer(trumpet);
+                    player.setVolume(volume);
+                    player.play();
                 }
-                else{
-                    trumpet = new Media(new File("src/main/resources/Cells/Music/Fail.wav").toURI().toString());
-                }
-                new MediaPlayer(trumpet).play();
             }
             dialog.showAndWait();
         });
@@ -154,42 +161,61 @@ public class Gui extends Application implements View {
     }
 
     /**
+     * SetUp the pop up window with the settings
+     */
+    public void Option(){
+        Platform.runLater(() -> {
+            dialog = new Stage();
+            dialog.initStyle(StageStyle.TRANSPARENT);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            setUpScene.setFill(Color.TRANSPARENT);
+            setUpScene.getRoot().setStyle("-fx-background-color: rgba(255, 255, 255, 0);");
+            dialog.setScene(setUpScene);
+            dialog.showAndWait();
+        });
+    }
+
+    /**
      * Load the correct fxml file to show
      */
     public void initScenes(){
         try{
-            FXMLLoader loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Welcome.fxml").toURI().toURL());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/Welcome.fxml"));
             welcomeScene = new Scene(loader.load(), 800, 600);
             welcomeController = loader.getController();
-            welcomeScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Communication.fxml").toURI().toURL());
+            welcomeScene.setCursor(new ImageCursor(new Image(getClass().getResource("/Cells/Ambient/cursor.png").toString(), true)));
+            loader = new FXMLLoader(getClass().getResource("/FXML/Communication.fxml"));
             communicationScene = new Scene(loader.load(), 250, 278);
             communicationController = loader.getController();
-            communicationScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Login.fxml").toURI().toURL());
+            communicationScene.setCursor(new ImageCursor(new Image(getClass().getResource("/Cells/Ambient/cursor.png").toString(), true)));
+            loader = new FXMLLoader(getClass().getResource("/FXML/Login.fxml"));
             loginScene = new Scene(loader.load(), 800, 600);
             loginController = loader.getController();
-            loginScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Wait.fxml").toURI().toURL());
+            loginScene.setCursor(new ImageCursor(new Image(getClass().getResource("/Cells/Ambient/cursor.png").toString(), true)));
+            loader = new FXMLLoader(getClass().getResource("/FXML/Wait.fxml"));
             waitScene = new Scene(loader.load(), 800, 600);
             waitController = loader.getController();
-            waitScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Confirm.fxml").toURI().toURL());
+            waitScene.setCursor(new ImageCursor(new Image(getClass().getResource("/Cells/Ambient/cursor.png").toString(), true)));
+            loader = new FXMLLoader(getClass().getResource("/FXML/Confirm.fxml"));
             confirmScene = new Scene(loader.load(), 250, 278);
             confirmController = loader.getController();
-            confirmScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Game.fxml").toURI().toURL());
+            confirmScene.setCursor(new ImageCursor(new Image(getClass().getResource("/Cells/Ambient/cursor.png").toString(), true)));
+            loader = new FXMLLoader(getClass().getResource("/FXML/Game.fxml"));
             gameScene = new Scene(loader.load(), 800, 600);
             gameController = loader.getController();
-            gameScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/GodChoice.fxml").toURI().toURL());
+            gameScene.setCursor(new ImageCursor(new Image(getClass().getResource("/Cells/Ambient/cursor.png").toString(), true)));
+            loader = new FXMLLoader(getClass().getResource("/FXML/GodChoice.fxml"));
             godChoiceScene = new Scene(loader.load(), 800, 600);
             godChoiceController = loader.getController();
-            godChoiceScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
-            loader = new FXMLLoader(new File("src/main/java/View/Graphic/FXML/Card.fxml").toURI().toURL());
+            godChoiceScene.setCursor(new ImageCursor(new Image(getClass().getResource("/Cells/Ambient/cursor.png").toString(), true)));
+            loader = new FXMLLoader(getClass().getResource("/FXML/Card.fxml"));
             cardScene = new Scene(loader.load(), 267, 400);
             cardController = loader.getController();
-            cardScene.setCursor(new ImageCursor(new Image("Cells/Ambient/cursor.png", true)));
+            cardScene.setCursor(new ImageCursor(new Image(getClass().getResource("/Cells/Ambient/cursor.png").toString(), true)));
+            loader = new FXMLLoader(getClass().getResource("/FXML/SetUp.fxml"));
+            setUpScene = new Scene(loader.load(), 340, 348);
+            setUpController = loader.getController();
+            setUpScene.setCursor(new ImageCursor(new Image(getClass().getResource("/Cells/Ambient/cursor.png").toString(), true)));
         }
         catch (IOException e){
             System.err.println("problems initScenes");
@@ -208,6 +234,7 @@ public class Gui extends Application implements View {
         gameController.setGui(this);
         godChoiceController.setGui(this);
         cardController.setGui(this);
+        setUpController.setGui(this);
     }
 
     /**
@@ -424,6 +451,14 @@ public class Gui extends Application implements View {
         players = update;
     }
 
+
+    /**
+     * Brings the player to the welcomeScene in order to start a new game
+     */
+    public void Restart(){
+        Platform.runLater(() -> SwitchScene(welcomeScene));
+    }
+
     public Stage getPrimaryStage() {
         return primaryStage;
     }
@@ -454,5 +489,17 @@ public class Gui extends Application implements View {
 
     public BoxInfo[][] getMap() {
         return map;
+    }
+
+    public double getVolume() {
+        return volume;
+    }
+
+    public void setVolume(double volume) {
+        this.volume = volume;
+    }
+
+    public void setIP(String IP) {
+        this.IP = IP;
     }
 }

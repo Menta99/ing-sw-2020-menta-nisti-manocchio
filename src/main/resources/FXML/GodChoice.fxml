@@ -14,92 +14,92 @@
    <children>
       <ImageView fx:id="apollofull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Apollo_long.png" />
+            <Image url="@../Cells/GodCard/Apollo_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="artemisfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Artemis_long.png" />
+            <Image url="@../Cells/GodCard/Artemis_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="athenafull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Athena_long.png" />
+            <Image url="@../Cells/GodCard/Athena_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="atlasfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Atlas_long.png" />
+            <Image url="@../Cells/GodCard/Atlas_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="chronusfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Chronus_long.png" />
+            <Image url="@../Cells/GodCard/Chronus_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="demeterfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Demeter_long.png" />
+            <Image url="@../Cells/GodCard/Demeter_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="hephaestusfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Hephaestus_long.png" />
+            <Image url="@../Cells/GodCard/Hephaestus_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="herafull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Hera_long.png" />
+            <Image url="@../Cells/GodCard/Hera_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="hestiafull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Hestia_long.png" />
+            <Image url="@../Cells/GodCard/Hestia_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="minotaurfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Minotaur_long.png" />
+            <Image url="@../Cells/GodCard/Minotaur_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="panfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Pan_long.png" />
+            <Image url="@../Cells/GodCard/Pan_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="prometeofull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Prometeo_long.png" />
+            <Image url="@../Cells/GodCard/Prometeo_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="tritonfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Triton_long.png" />
+            <Image url="@../Cells/GodCard/Triton_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="zeusfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Zeus_long.png" />
+            <Image url="@../Cells/GodCard/Zeus_long.png" />
          </image>
       </ImageView>
       <ImageView fx:id="anonymousfull" fitHeight="530.0" fitWidth="220.0" layoutX="290.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/GodCard/Human_long.png" />
+            <Image url="@../Cells/GodCard/Human_long.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="800.0" fitWidth="300.0" layoutX="500.0" layoutY="-100.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/Ambient/bg_right.png" />
+            <Image url="@../Cells/Ambient/bg_right.png" />
          </image>
       </ImageView>
       <ImageView fx:id="lftbanner" fitHeight="800.0" fitWidth="300.0" layoutY="-100.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/Ambient/bg_left.png" />
+            <Image url="@../Cells/Ambient/bg_left.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="800.0" fitWidth="250.0" layoutX="275.0" layoutY="-100.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/Ambient/card_info_panel.png" />
+            <Image url="@../Cells/Ambient/card_info_panel.png" />
          </image>
       </ImageView>
       <GridPane fx:id="grid" layoutX="525.0" layoutY="52.0" prefHeight="420.0" prefWidth="237.0" translateY="60.0">
@@ -118,7 +118,7 @@
          <children>
             <ImageView fx:id="apolloicon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Apollo.png" />
+                  <Image url="@../Cells/GodCard/Apollo.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -126,7 +126,7 @@
             </ImageView>
             <ImageView fx:id="artemisicon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="1">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Artemis.png" />
+                  <Image url="@../Cells/GodCard/Artemis.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -134,7 +134,7 @@
             </ImageView>
             <ImageView fx:id="athenaicon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="2">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Athena.png" />
+                  <Image url="@../Cells/GodCard/Athena.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -142,7 +142,7 @@
             </ImageView>
             <ImageView fx:id="atlasicon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="3">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Atlas.png" />
+                  <Image url="@../Cells/GodCard/Atlas.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -150,7 +150,7 @@
             </ImageView>
             <ImageView fx:id="chronusicon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Chronus.png" />
+                  <Image url="@../Cells/GodCard/Chronus.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -158,7 +158,7 @@
             </ImageView>
             <ImageView fx:id="demetericon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Demeter.png" />
+                  <Image url="@../Cells/GodCard/Demeter.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -166,7 +166,7 @@
             </ImageView>
             <ImageView fx:id="hephaestusicon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Hephaestus.png" />
+                  <Image url="@../Cells/GodCard/Hephaestus.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -174,7 +174,7 @@
             </ImageView>
             <ImageView fx:id="heraicon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Hera.png" />
+                  <Image url="@../Cells/GodCard/Hera.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -182,7 +182,7 @@
             </ImageView>
             <ImageView fx:id="hestiaicon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Hestia.png" />
+                  <Image url="@../Cells/GodCard/Hestia.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -190,7 +190,7 @@
             </ImageView>
             <ImageView fx:id="minotauricon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Minotaur.png" />
+                  <Image url="@../Cells/GodCard/Minotaur.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -198,7 +198,7 @@
             </ImageView>
             <ImageView fx:id="panicon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Pan.png" />
+                  <Image url="@../Cells/GodCard/Pan.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -206,7 +206,7 @@
             </ImageView>
             <ImageView fx:id="prometeoicon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Prometeo.png" />
+                  <Image url="@../Cells/GodCard/Prometeo.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -214,7 +214,7 @@
             </ImageView>
             <ImageView fx:id="tritonicon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Triton.png" />
+                  <Image url="@../Cells/GodCard/Triton.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -222,7 +222,7 @@
             </ImageView>
             <ImageView fx:id="zeusicon" disable="true" fitHeight="105.0" fitWidth="58.75" onMouseClicked="#select" onMouseEntered="#ChangeBoxFocus" onMouseExited="#ChangeBoxFocus" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../../resources/Cells/GodCard/Zeus.png" />
+                  <Image url="@../Cells/GodCard/Zeus.png" />
                </image>
                <effect>
                   <ColorAdjust saturation="-1.0" />
@@ -230,79 +230,79 @@
             </ImageView>
             <ImageView fx:id="cornice_apollo" disable="true" fitHeight="105.0" fitWidth="58.75">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
             <ImageView fx:id="cornice_artemis" disable="true" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="1">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
             <ImageView fx:id="cornice_athena" disable="true" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="2">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
             <ImageView fx:id="cornice_atlas" disable="true" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="3">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
             <ImageView fx:id="cornice_chronus" disable="true" fitHeight="105.0" fitWidth="58.75" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
             <ImageView fx:id="cornice_demeter" disable="true" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
             <ImageView fx:id="cornice_hephaestus" disable="true" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
             <ImageView fx:id="cornice_hera" disable="true" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
             <ImageView fx:id="cornice_hestia" disable="true" fitHeight="105.0" fitWidth="58.75" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
             <ImageView fx:id="cornice_minotaur" disable="true" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
             <ImageView fx:id="cornice_pan" disable="true" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
             <ImageView fx:id="cornice_prometeo" disable="true" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
             <ImageView fx:id="cornice_triton" disable="true" fitHeight="105.0" fitWidth="58.75" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
             <ImageView fx:id="cornice_zeus" disable="true" fitHeight="105.0" fitWidth="58.75" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../../resources/Cells/Ambient/frame_white_cut.png" />
+                  <Image url="@../Cells/Ambient/frame_white_cut.png" />
                </image>
             </ImageView>
          </children>
       </GridPane>
       <ImageView fx:id="drape" fitHeight="80.0" fitWidth="230.0" layoutX="35.0" layoutY="58.0" opacity="0.0" translateY="60.0">
          <image>
-            <Image url="@../../../../resources/Cells/Ambient/drape_blue.png" />
+            <Image url="@../Cells/Ambient/drape_blue.png" />
          </image>
       </ImageView>
       <Label fx:id="godname" alignment="CENTER" layoutX="76.0" layoutY="66.0" prefHeight="43.0" prefWidth="157.0" textAlignment="CENTER" textFill="WHITE" translateY="60.0">
