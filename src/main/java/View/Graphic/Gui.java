@@ -457,6 +457,7 @@ public class Gui extends Application implements View {
      */
     public void Restart(){
         Platform.runLater(() -> SwitchScene(welcomeScene));
+        turnCount=0;
     }
 
     public Stage getPrimaryStage() {

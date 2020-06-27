@@ -1,0 +1,14 @@
+module:it.polimi.ingsw.PSP49
+Client
+CommunicationProtocol
+CommunicationProtocol.SantoriniInfo
+Controller
+Controller.SavedData
+Model
+Model.Godcards
+Server
+View
+View.CLI
+View.Graphic
+View.Graphic.Controller
+VirtualView
