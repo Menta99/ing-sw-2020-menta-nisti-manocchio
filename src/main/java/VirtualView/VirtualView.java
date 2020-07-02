@@ -209,7 +209,9 @@ public class VirtualView {
      * @param player ClientHandler of the Player who lost
      */
     public void Lose(ClientHandler player){
-        player.WriteMessage(new CommandMsg(CommandType.COM_LOSE, null));
+        if (myGame.getController().getPlayerNum()==3) {
+            player.WriteMessage(new CommandMsg(CommandType.COM_LOSE, null));
+        }
     }
 
     /**

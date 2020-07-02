@@ -7,13 +7,12 @@ import Controller.SavedData.PlayerData;
 import Controller.SavedData.WorkerData;
 import Model.Godcards.GodCard;
 import Model.Godcards.GodDeck;
-import Model.Godcards.GodFactory;
 import Model.Godcards.GodsEnum;
 
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;

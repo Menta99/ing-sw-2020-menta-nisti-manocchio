@@ -6,7 +6,6 @@ import CommunicationProtocol.CommandType;
 import CommunicationProtocol.SantoriniInfo.BoxInfo;
 import CommunicationProtocol.SantoriniInfo.GodInfo;
 import CommunicationProtocol.SantoriniInfo.PlayerInfo;
-import CommunicationProtocol.ServerMsg;
 import View.Graphic.Controller.*;
 import View.View;
 import javafx.application.Application;
@@ -15,19 +14,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-//import javafx.scene.media.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+
+//import javafx.scene.media.*;
 
 /**
  * Class representing graphic user interface
@@ -264,12 +262,13 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * Shut down the server
+     * Shut down the Client
      */
     public void CloseClient() {
         try {
             if(server!=null){
                 handler.setActive(false);
+                //CloseHandler(null, handler);
                 server.close();
             }
         } catch (IOException e) {

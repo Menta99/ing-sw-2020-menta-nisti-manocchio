@@ -4,7 +4,6 @@ import Model.Box;
 import Model.Game;
 import Model.Player;
 import Model.Worker;
-import View.Colors;
 
 public class WorkerData {
     private String owner;

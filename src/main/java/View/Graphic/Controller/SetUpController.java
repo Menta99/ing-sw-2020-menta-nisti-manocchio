@@ -9,10 +9,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
 //import javafx.scene.media.Media;
 //import javafx.scene.media.MediaPlayer;
-
-import java.io.File;
 
 public class SetUpController implements GuiController{
     private Gui gui;

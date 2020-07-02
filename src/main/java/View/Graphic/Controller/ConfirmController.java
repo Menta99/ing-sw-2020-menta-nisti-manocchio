@@ -14,8 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-import java.io.File;
-
 
 /**
  * Controller class for fxml Confirm file
@@ -117,6 +115,7 @@ public class ConfirmController implements GuiController{
             text_lbl.setText("Use your Power?");
         }
         else{
+            text_lbl.setText("Are you sure?");
             Switch();
         }
     }

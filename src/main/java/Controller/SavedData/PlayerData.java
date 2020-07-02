@@ -1,12 +1,7 @@
 package Controller.SavedData;
 
 import Model.Game;
-import Model.Godcards.GodsEnum;
 import Model.Player;
-import Model.Worker;
-import View.Colors;
-
-import java.util.ArrayList;
 
 public class PlayerData {
 

@@ -10,5 +10,8 @@
         <module name="ing-sw-2020-menta-nisti-manocchio" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ing-sw-2020-menta-nisti-manocchio" target="14" />
+    </bytecodeTargetLevel>
   </component>
 </project>

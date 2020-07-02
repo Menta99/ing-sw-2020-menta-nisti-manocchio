@@ -97,6 +97,9 @@ public class ConnectionHandler implements Runnable{
                 System.err.println("Problems with the Stream\nThe Server is probably down");
                 client.CloseClient();
             }
+            else if(gui.getPrimaryStage().isShowing()){
+                gui.CloseHandler(null, this);
+            }
         } catch (ClassNotFoundException e) {
             System.err.println("Invalid Class, not a CliCommandMsg");
         }
@@ -232,13 +235,15 @@ public class ConnectionHandler implements Runnable{
                 System.err.println("Unable to write message\nThe Server is probably down");
                 client.CloseClient();
             }
-            else{
+            /*else{
                 gui.Communication(null, this);
-            }
+            }*/
         }
     }
 
     public void setActive(boolean active) {
         this.active.set(active);
     }
+
+    public boolean getActive(){return this.active.get();}
 }

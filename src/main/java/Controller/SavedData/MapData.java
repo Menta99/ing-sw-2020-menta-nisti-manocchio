@@ -1,8 +1,6 @@
 package Controller.SavedData;
 
-import Model.Box;
 import Model.Pawn;
-import Model.PawnType;
 import Model.PlayGround;
 
 import java.util.ArrayList;
