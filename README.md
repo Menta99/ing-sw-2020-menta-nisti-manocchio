@@ -1,4 +1,5 @@
 # Prova Finale Ingegneria del Software - Anno Accademico 2019/20
+![Santorini](src/main/resources/Assets/SantoriniSplashPage.png)
 Il progetto consiste nello sviluppo di una versione software del gioco da tavolo **Santorini**.
 ## Documentazione
 All'interno della cartella relativa alle [final deliveries](/deliveries/final/) sono presenti:
@@ -10,7 +11,7 @@ All'interno della cartella relativa alle [final deliveries](/deliveries/final/) 
 ## Funzionalità Sviluppate
 | Funzionalità | Stato |
 |:-----------------------|:------------------------------------:|
-| Regole Semplificate | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
+| Regole Semplificate | [<img src="src/main/resources/Assets/checked.png" valign="middle" width="25">](#) |
 | Regole Complete | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
 | Socket |[![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
 | CLI | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
