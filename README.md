@@ -12,12 +12,12 @@ All'interno della cartella relativa alle [final deliveries](/deliveries/final/) 
 | Funzionalità | Stato |
 |:-----------------------|:------------------------------------:|
 | Regole Semplificate | [<img src="src/main/resources/Assets/checked.png" valign="middle" width="25">](#) |
-| Regole Complete | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
-| Socket |[![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
-| CLI | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
-| GUI |[![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
-| Persistenza | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)|
-| Divinità Avanzate | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)|
+| Regole Complete | [<img src="src/main/resources/Assets/checked.png" valign="middle" width="25">](#) |
+| Socket |[<img src="src/main/resources/Assets/checked.png" valign="middle" width="25">](#) |
+| CLI | [<img src="src/main/resources/Assets/checked.png" valign="middle" width="25">](#) |
+| GUI |[<img src="src/main/resources/Assets/checked.png" valign="middle" width="25">](#) |
+| Persistenza | [<img src="src/main/resources/Assets/checked.png" valign="middle" width="25">](#)|
+| Divinità Avanzate | [<img src="src/main/resources/Assets/checked.png" valign="middle" width="25">](#)|
 ## Jar
 Per avviare uno qualsiasi degli applicativi è necessario avere installato sul proprio dispositivo Java 14 o superiore (anche il compiler deve soddisfare questo requisito minimo).
 
